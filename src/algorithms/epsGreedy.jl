@@ -37,11 +37,20 @@ function getArmIndex( agent::epsGreedy )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::epsGreedy, r::Float64 )
+function updateReward( agent::epsGreedy, r::Real )
     agent.cummReward[agent.lastPlayedArm] += r
     agent.count[agent.lastPlayedArm] += 1
     agent.noOfSteps += 1
 
-    agent.avgValue[agent.lastPlayedArm] = agent.cummReward[agent.lastPlayedArm]/
+    agent.avgValue[agent.lastPlayedArm] = agent.cummReward[agent.lastPlayedArm] ./
                                             agent.count[agent.lastPlayedArm]
+end
+
+function reset( agent::epsGreedy )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.cummReward    = zeros( Float64, agent.noOfArms )
+    agent.count         = zeros( Int64, agent.noOfArms )
+    agent.avgValue      = zeros( Float64, agent.noOfArms )
 end

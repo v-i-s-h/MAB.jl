@@ -28,10 +28,12 @@ function getArmIndex( agent::UCB1 )
     else
         agent.lastPlayedArm = findmax(agent.ucbIndices)[2]
     end
+
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::UCB1, r::Float64 )
+function updateReward( agent::UCB1, r::Real )
+
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
 
@@ -46,8 +48,13 @@ function updateReward( agent::UCB1, r::Float64 )
                         √(2*log(agent.noOfSteps)./agent.count)
 end
 
-function whoami( agent::UCB1 )
-    return "UCB1"
+function reset( agent::UCB1 )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.cummReward    = zeros( Float64, agent.noOfArms )
+    agent.count         = zeros( Int64, agent.noOfArms )
+    agent.ucbIndices    = zeros( Float64, agent.noOfArms )
 end
 
 """
