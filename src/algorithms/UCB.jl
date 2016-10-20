@@ -57,6 +57,10 @@ function reset( agent::UCB1 )
     agent.ucbIndices    = zeros( Float64, agent.noOfArms )
 end
 
+function info_str( agent::UCB1 )
+    return @sprintf( "UCB1" )
+end
+
 """
     UCB2 Implementation
 """

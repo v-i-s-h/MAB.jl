@@ -54,3 +54,7 @@ function reset( agent::epsGreedy )
     agent.count         = zeros( Int64, agent.noOfArms )
     agent.avgValue      = zeros( Float64, agent.noOfArms )
 end
+
+function info_str( agent::epsGreedy )
+    return @sprintf( "ϵ-Greedy (ϵ = %4.3f)", agent.ϵ )
+end
