@@ -12,7 +12,7 @@ type epsGreedy <: BanditAlgorithmBase
     count::Vector{Int64}
     avgValue::Vector{Float64}
 
-    function epsGreedy( noOfArms::Int64, ϵ )
+    function epsGreedy( noOfArms::Int64, ϵ::Float64 )
         new( noOfArms,
              0,
              0,
