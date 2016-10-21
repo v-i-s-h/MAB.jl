@@ -3,7 +3,7 @@
 type Bernoulli <: BanditArmBase
     armDist::Distributions.Bernoulli
 
-    function Bernoulli( p::Float64 )
+    function Bernoulli( p::Real )
         new( Distributions.Bernoulli(p) )
     end
 end

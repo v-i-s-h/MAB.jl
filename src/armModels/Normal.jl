@@ -3,7 +3,7 @@
 type Normal <: BanditArmBase
     armDist::Distributions.Normal
 
-    function Normal( μ::Float64, σ::Float64 )
+    function Normal( μ::Real, σ::Real )
         new(
             Distributions.Normal( μ, σ )
         )

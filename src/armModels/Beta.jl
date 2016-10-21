@@ -3,7 +3,7 @@
 type Beta <: BanditArmBase
     armDist::Distributions.Beta
 
-    function Beta( α::Float64, β::Float64 )
+    function Beta( α::Real, β::Real )
         new(
             Distributions.Beta( α, β )
         )
