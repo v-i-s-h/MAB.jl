@@ -1,12 +1,15 @@
 # Example for using Experiments
 
 using Bandits
+import PyPlot
 
 bandit  = [
     Arms.Bernoulli( 0.12 ),
-    Arms.Bernoulli( 0.15 ),
-    Arms.Bernoulli( 0.21 ),
-    Arms.Bernoulli( 0.53 )
+    Arms.Bernoulli( 0.90 ),
+    Arms.Normal( 0.36, 1.00 ),
+    Arms.Normal( 0.20, 1.00 )
+    # Arms.Beta( 0.60, 0.40 ),
+    # Arms.Beta( 0.70, 0.20 )
 ]
 
 noOfArms = size( bandit, 1 )
@@ -17,4 +20,20 @@ testAlgs = [
     Algorithms.UCB1( noOfArms )
 ]
 
-exp1 = Experiments.Compare( bandit )
+exp1 = Experiments.Compare( bandit, testAlgs )
+# run
+noOfRounds      = 200
+noOfTimeSteps   = 2500
+result = Experiments.run( exp1, noOfTimeSteps, noOfRounds )
+
+fig = PyPlot.figure()
+## Plot avg rewards
+for alg in keys(result)
+    PyPlot.plot( 1:noOfTimeSteps, result[alg], label = alg )
+end
+
+PyPlot.xlabel( "Timesteps" )
+PyPlot.ylabel( "Avg. Reward" )
+ax = PyPlot.gca()
+ax[:set_ylim]( [0.00,1.00] )
+PyPlot.legend()

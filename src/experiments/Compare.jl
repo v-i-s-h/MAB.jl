@@ -1,28 +1,34 @@
-"""
-    compare.jl : Basic comaprison experiment for mulitple bandit algorithms
-"""
+# Experiment compare mulitple algorithms
 
 type Compare <: BanditExpBase
-    bandit::Vector{BanditArmBase}
-    algorithms::Vector{BanditAlgorithmBase}
+    bandit::Vector{Arms.BanditArmBase}
+    algorithms::Vector{Algorithms.BanditAlgorithmBase}
 
-    function Compare( _bandit::Vector{BanditArmBase} )
+    function Compare( _b,   # ::Vector{Arms.BanditArmBase}
+                      _a)   # ::Vector{Algorithms.BanditAlgorithmBase}
         new(
-            _bandit
+            _b,
+            _a
         )
     end
 end
 
-function run( _exp::Compare, _n::Integer, _r::Integer )
-    print( "[Compare]: Running Experiment ", typeof(_exp), "\n" )
-    print( "Arms: \n" )
-    for _a ∈ _exp.bandit
-        print( "    ", _a, "    ::[", typeof(_a), "]\n")
+function run( experiment::Compare, noOfTimeSteps::Integer, noOfRounds::Integer )
+
+    result = Dict{String,Array{Float64,2}}()
+    for alg ∈ experiment.algorithms
+        observations = zeros( noOfTimeSteps, noOfRounds )
+        for _round = 1:noOfRounds
+            Algorithms.reset( alg )
+            for _n = 1:noOfTimeSteps
+                armToPull   = Algorithms.getArmIndex( alg )
+                reward      = Arms.pull( experiment.bandit[armToPull] )
+                Algorithms.updateReward( alg, reward )
+                observations[_n,_round] = reward
+            end
+        end
+        avgReward = mean( observations, 2 )
+        result[Algorithms.info_str(alg)] = avgReward
     end
-    print( "Algorithms: \n" )
-    for _alg ∈ _exp.algorithms
-        print( "    ",info_str(_alg), "    ::[", typeof(_alg), "]\n" )
-    end
-    print( "Timesteps: ", _n, "\n" )
-    print( "Rounds: ", _r, "\n" )
+    return result
 end

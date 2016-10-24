@@ -18,8 +18,10 @@ end
 
 module Experiments
     using Distributions
-    include( "algorithms/BanditAlgorithmBase.jl" )
-    include( "armModels/BanditArmBase.jl" )
+    import Bandits.Arms
+    import Bandits.Algorithms
+    # include( "algorithms/BanditAlgorithmBase.jl" )
+    # include( "armModels/BanditArmBase.jl" )
     include( "experiments/BanditExpBase.jl" )
     include( "experiments/Compare.jl" )
 end
