@@ -6,6 +6,7 @@ module Algorithms
     include( "algorithms/BanditAlgorithmBase.jl" )
     include( "algorithms/UCB.jl" )
     include( "algorithms/epsGreedy.jl" )
+    include( "algorithms/EXP.jl" )
 end
 
 module Arms
