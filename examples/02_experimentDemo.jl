@@ -15,16 +15,16 @@ bandit  = [
 noOfArms = size( bandit, 1 )
 
 testAlgs = [
+    Algorithms.epsGreedy( noOfArms, 0.05 ),
+    Algorithms.epsGreedy( noOfArms, 0.10 ),
     Algorithms.EXP3( noOfArms, 0.05 ),
     Algorithms.EXP3( noOfArms, 0.10 ),
-    # Algorithms.EXP3( noOfArms, 0.15 ),
-    # Algorithms.EXP3( noOfArms, 0.20 ),
-    # Algorithms.EXP3( noOfArms, 0.25 ),
+    Algorithms.UCB1( noOfArms )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
 # run
-noOfRounds      = 200
+noOfRounds      = 2000
 noOfTimeSteps   = 2500
 result = Experiments.run( exp1, noOfTimeSteps, noOfRounds )
 
@@ -36,6 +36,7 @@ end
 
 PyPlot.xlabel( "Timesteps" )
 PyPlot.ylabel( "Avg. Reward" )
+PyPlot.title( "Average Reward (Normalized for $noOfRounds rounds)")
 ax = PyPlot.gca()
 ax[:set_ylim]( [0.00,1.00] )
 PyPlot.legend()

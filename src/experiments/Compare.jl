@@ -4,12 +4,11 @@ type Compare <: BanditExpBase
     bandit::Vector{Arms.BanditArmBase}
     algorithms::Vector{Algorithms.BanditAlgorithmBase}
 
-    function Compare( _b,   # ::Vector{Arms.BanditArmBase}
-                      _a)   # ::Vector{Algorithms.BanditAlgorithmBase}
-        new(
-            _b,
-            _a
+    function Compare{T1<:Arms.BanditArmBase,T2<:Algorithms.BanditAlgorithmBase}(
+        _bandit::Vector{T1},
+        _algo::Vector{T2}
         )
+        new( _bandit, _algo )
     end
 end
 
