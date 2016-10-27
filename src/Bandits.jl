@@ -15,6 +15,7 @@ module Arms
     include( "armModels/BanditArmBase.jl" )
     include( "armModels/Bernoulli.jl" )
     include( "armModels/Normal.jl" )
+    include( "armModels/Beta.jl" )
 end
 
 module Experiments
