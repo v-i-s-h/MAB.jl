@@ -6,20 +6,23 @@ import PyPlot
 bandit  = [
     Arms.Bernoulli( 0.12 ),
     Arms.Bernoulli( 0.90 ),
-    Arms.Normal( 0.36, 1.00 ),
-    Arms.Normal( 0.20, 1.00 ),
-    Arms.Beta( 0.60, 0.40 ),
-    Arms.Beta( 0.70, 0.20 )
+    Arms.Bernoulli( 0.45 ),
+    Arms.Bernoulli( 0.63 )
+    # Arms.Normal( 0.36, 1.00 ),
+    # Arms.Normal( 0.20, 1.00 ),
+    # Arms.Beta( 0.60, 0.40 ),
+    # Arms.Beta( 0.70, 0.20 )
 ]
 
 noOfArms = size( bandit, 1 )
 
 testAlgs = [
     Algorithms.epsGreedy( noOfArms, 0.05 ),
-    Algorithms.epsGreedy( noOfArms, 0.10 ),
-    Algorithms.EXP3( noOfArms, 0.05 ),
+    # Algorithms.epsGreedy( noOfArms, 0.10 ),
+    # Algorithms.EXP3( noOfArms, 0.05 ),
     Algorithms.EXP3( noOfArms, 0.10 ),
-    Algorithms.UCB1( noOfArms )
+    Algorithms.UCB1( noOfArms ),
+    Algorithms.TS( noOfArms )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
