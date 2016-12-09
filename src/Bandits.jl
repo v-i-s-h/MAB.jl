@@ -8,6 +8,7 @@ module Algorithms
     include( "algorithms/epsGreedy.jl" )
     include( "algorithms/EXP.jl" )
     include( "algorithms/TS.jl" )
+    include( "algorithms/KLMANB.jl" )
 end
 
 module Arms
