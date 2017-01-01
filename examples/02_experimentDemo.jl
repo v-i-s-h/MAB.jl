@@ -20,20 +20,21 @@ noOfArms = size( bandit, 1 )
 
 testAlgs = [
     Algorithms.epsGreedy( noOfArms, 0.05 ),
-    Algorithms.epsGreedy( noOfArms, 1.00 ),
+    # Algorithms.epsGreedy( noOfArms, 1.00 ),
     Algorithms.epsNGreedy( noOfArms, 5, 0.05 ),
-    Algorithms.epsNGreedy( noOfArms, 1/noOfArms, 1.0 ),
-    Algorithms.epsNGreedy( noOfArms )
+    # Algorithms.epsNGreedy( noOfArms, 1/noOfArms, 1.0 ),
+    # Algorithms.epsNGreedy( noOfArms )
     # Algorithms.EXP3( noOfArms, 0.05 ),
     # Algorithms.EXP3( noOfArms, 0.10 ),
     # Algorithms.UCB1( noOfArms ),
-    # Algorithms.TS( noOfArms )
+    Algorithms.TS( noOfArms ),
+    Algorithms.DynamicTS( noOfArms, 50 )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
 # run
 noOfRounds      = 2000
-noOfTimeSteps   = 2500
+noOfTimeSteps   = 500
 result = Experiments.run( exp1, noOfTimeSteps, noOfRounds )
 
 fig = PyPlot.figure()
