@@ -18,9 +18,10 @@ bandit  = [
     # Arms.Beta( 0.15, 0.76 )
 ]
 
-noOfArms = size( bandit, 1 )
+noOfArms = length( bandit )
 
 testAlgs = [
+    Algorithms.UniformStrategy( noOfArms ),
     Algorithms.epsGreedy( noOfArms, 0.05 ),
     # Algorithms.epsGreedy( noOfArms, 1.00 ),
     # Algorithms.epsNGreedy( noOfArms, 5, 0.05 ),
@@ -31,7 +32,7 @@ testAlgs = [
     Algorithms.UCB1( noOfArms ),
     # Algorithms.TS( noOfArms ),
     # Algorithms.DynamicTS( noOfArms, 50 )
-    Algorithms.UCBNormal( noOfArms )
+    # Algorithms.UCBNormal( noOfArms )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )

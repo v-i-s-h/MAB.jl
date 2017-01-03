@@ -4,6 +4,7 @@ module Algorithms
     using Distributions
     #--------------------------- Import Algorithms Here ---------------------------#
     include( "algorithms/BanditAlgorithmBase.jl" )
+    include( "algorithms/UniformStrategy.jl" )
     include( "algorithms/UCB.jl" )
     include( "algorithms/epsGreedy.jl" )
     include( "algorithms/EXP.jl" )
