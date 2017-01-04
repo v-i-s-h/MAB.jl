@@ -27,7 +27,7 @@ function run( experiment::Compare, noOfTimeSteps::Integer, noOfRounds::Integer )
             end
         end
         avgReward = mean( observations, 2 )
-        result[Algorithms.info_str(alg)] = avgReward
+        result[Algorithms.info_str(alg,true)] = avgReward
     end
     return result
 end

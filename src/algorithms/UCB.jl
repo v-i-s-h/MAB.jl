@@ -58,7 +58,7 @@ function reset( agent::UCB1 )
     agent.ucbIndices    = zeros( Float64, agent.noOfArms )
 end
 
-function info_str( agent::UCB1 )
+function info_str( agent::UCB1, latex::Bool )
     return @sprintf( "UCB1" )
 end
 
@@ -159,6 +159,6 @@ function reset( agent::UCBNormal )
     agent.ucbIndices    = zeros( Float64, agent.noOfArms )
 end
 
-function info_str( agent::UCBNormal )
+function info_str( agent::UCBNormal, latex::Bool )
     return @sprintf( "UCB Normal" )
 end

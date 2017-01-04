@@ -55,8 +55,12 @@ function reset( agent::epsGreedy )
     agent.avgValue      = zeros( Float64, agent.noOfArms )
 end
 
-function info_str( agent::epsGreedy )
-    return @sprintf( "ϵ-Greedy (ϵ = %4.3f)", agent.ϵ )
+function info_str( agent::epsGreedy, latex::Bool )
+    if latex
+        return @sprintf( "\$\\epsilon\$-Greedy (\$\\epsilon = %4.3f\$)", agent.ϵ )
+    else
+        return @sprintf( "ϵ-Greedy (ϵ = %4.3f)", agent.ϵ )
+    end
 end
 
 
@@ -142,6 +146,10 @@ function reset( agent::epsNGreedy )
     agent.avgValue      = zeros( Float64, agent.noOfArms )
 end
 
-function info_str( agent::epsNGreedy )
-    return @sprintf( "ϵ_N - Greedy (c = %4.3f, d = %4.3f)", agent.param_c, agent.param_d )
+function info_str( agent::epsNGreedy, latex::Bool )
+    if latex
+        return @sprintf( "\$\\epsilon_N\$ - Greedy (\$c = %4.3f, d = %4.3f\$)", agent.param_c, agent.param_d )
+    else
+        return @sprintf( "ϵ_N - Greedy (c = %4.3f, d = %4.3f)", agent.param_c, agent.param_d )
+    end
 end

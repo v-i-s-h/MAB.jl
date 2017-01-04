@@ -57,7 +57,7 @@ function reset( agent::TS )
     agent.samplingDist  = fill( Distributions.Beta(1,1), agent.noOfArms )
 end
 
-function info_str( agent::TS )
+function info_str( agent::TS, latex::Bool )
     return @sprintf( "Thompson Sampling" )
 end
 
@@ -124,6 +124,10 @@ function reset( agent::DynamicTS )
     agent.samplingDist  = fill( Distributions.Beta(2,2), agent.noOfArms )
 end
 
-function info_str( agent::DynamicTS )
-    return @sprintf( "Dynamic Thompson Sampling (C = %4.3f)", agent.C )
+function info_str( agent::DynamicTS, latex::Bool )
+    if latex
+        return @sprintf( "Dynamic Thompson Sampling (\$C = %4.3f\$)", agent.C )
+    else
+        return @sprintf( "Dynamic Thompson Sampling (C = %4.3f)", agent.C )
+    end
 end

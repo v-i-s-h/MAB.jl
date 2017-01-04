@@ -27,6 +27,6 @@ function reset( agent::UniformStrategy )
     # Do nothing
 end
 
-function info_str( agent::UniformStrategy )
-    return @sprintf( "Uniform Strategy")
+function info_str( agent::UniformStrategy, latex::Bool )
+    return @sprintf( "Uniform Strategy" )
 end
