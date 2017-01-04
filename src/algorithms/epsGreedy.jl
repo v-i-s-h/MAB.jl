@@ -26,7 +26,7 @@ end
 
 function getArmIndex( agent::epsGreedy )
     if any(agent.count.==0)
-        agent.lastPlayedArm = find(agent.count.==0)[1]
+        agent.lastPlayedArm = rand( find(agent.count.==0) )
     else
         if rand() > agent.ϵ
             agent.lastPlayedArm = findmax(agent.avgValue)[2]
