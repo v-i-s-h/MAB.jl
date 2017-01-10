@@ -25,7 +25,7 @@ end
 
 function getArmIndex( agent::UCB1 )
     if any(agent.count.==0)
-        agent.lastPlayedArm =  find(agent.count.==0)[1]
+        agent.lastPlayedArm =  rand( find(agent.count.==0) )
     else
         agent.lastPlayedArm = findmax(agent.ucbIndices)[2]
     end
