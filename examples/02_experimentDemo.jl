@@ -13,9 +13,6 @@ bandit  = [
     # Arms.Normal( 0.81, 1.00 ),
     # Arms.Normal( 0.56, 1.00 ),
     # Arms.Beta( 0.60, 0.40 ),
-    # Arms.Beta( 0.70, 0.20 ),
-    # Arms.Beta( 0.25, 0.30 ),
-    # Arms.Beta( 0.15, 0.76 )
 ]
 
 noOfArms = length( bandit )
@@ -51,5 +48,5 @@ PyPlot.xlabel( "Timesteps" )
 PyPlot.ylabel( "Avg. Reward" )
 PyPlot.title( "Average Reward (Normalized for $noOfRounds rounds)")
 ax = PyPlot.gca()
-ax[:set_ylim]( [0.00,1.00] )
+ax[:set_ylim]( [0.00,250.00] )
 PyPlot.legend()
