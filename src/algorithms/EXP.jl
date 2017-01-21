@@ -48,6 +48,10 @@ function reset( agent::EXP3 )
     agent.pDist         = Categorical( 1/agent.noOfArms*ones(agent.noOfArms) )
 end
 
-function info_str( agent::EXP3 )
-    return @sprintf( "EXP3 γ = %4.3f", agent.γ )
+function info_str( agent::EXP3, latex::Bool )
+    if latex
+        return @sprintf( "EXP3 (\$\\gamma = %4.3f\$)", agent.γ )
+    else
+        return @sprintf( "EXP3 (γ = %4.3f)", agent.γ )
+    end
 end
