@@ -7,18 +7,36 @@ type TS <: BanditAlgorithmBase
     noOfSteps::Int64
     lastPlayedArm::Int64
 
+    α0::Vector{Int64}
+    β0::Vector{Int64}
     cummSuccess::Vector{Int64}
     cummFailure::Vector{Int64}
 
     samplingDist::Vector{Distributions.Beta}
 
-    function TS( noOfArms )
+    function TS( noOfArms::Integer )
         new( noOfArms,
              0,
              0,
+             ones(Int64,noOfArms),
+             ones(Int64,noOfArms),
              zeros(Float64,noOfArms),
              zeros(Float64,noOfArms),
              fill(Distributions.Beta(1,1),noOfArms)
+        )
+    end
+
+    function TS( armParams::Array{Tuple{Int64,Int64},1} )
+        _noOfArms   = length( armParams )
+        _priorDist  = [ Distributions.Beta(armParams[idx][1],armParams[idx][2]) for idx=1:_noOfArms ]
+        new( _noOfArms,
+             0,
+             0,
+             [ armParams[idx][1] for idx=1:_noOfArms ],
+             [ armParams[idx][2] for idx=1:_noOfArms ],
+             zeros(Float64,_noOfArms),
+             zeros(Float64,_noOfArms),
+             _priorDist
         )
     end
 end
@@ -35,8 +53,8 @@ function updateReward( agent::TS, r::Int64 )
 
     # Update Distributions
     agent.samplingDist[agent.lastPlayedArm] = Distributions.Beta(
-                                                agent.cummSuccess[agent.lastPlayedArm]+1,
-                                                agent.cummFailure[agent.lastPlayedArm]+1
+                                                agent.cummSuccess[agent.lastPlayedArm]+agent.α0[agent.lastPlayedArm],
+                                                agent.cummFailure[agent.lastPlayedArm]+agent.β0[agent.lastPlayedArm]
                                             )
 
     # Update time steps
