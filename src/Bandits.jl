@@ -27,11 +27,10 @@ module Experiments
     import Bandits.Algorithms
     # include( "algorithms/BanditAlgorithmBase.jl" )
     # include( "armModels/BanditArmBase.jl" )
+    #--------------------------- Import Experiments Here --------------------------#
     include( "experiments/BanditExpBase.jl" )
     include( "experiments/Compare.jl" )
 end
-
-#--------------------------- Import Experiments Here --------------------------#
 
 export
     # Export algorithms
