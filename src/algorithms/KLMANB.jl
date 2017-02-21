@@ -56,5 +56,5 @@ function reset( agent::KLMANB )
 end
 
 function info_str( agent::KLMANB )
-    return @sprintf( "KLMANB" )
+    return @sprintf( "KL-MANB" )
 end
