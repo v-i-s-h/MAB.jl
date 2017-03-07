@@ -1,5 +1,6 @@
 """
     Implements KLMANB
+    Works only for 0 transition variance.
 """
 
 type KLMANB <: BanditAlgorithmBase
@@ -55,6 +56,10 @@ function reset( agent::KLMANB )
     agent.samplingDist  = fill( Distributions.Normal(0,10000), agent.noOfArms )
 end
 
-function info_str( agent::KLMANB )
-    return @sprintf( "KL-MANB" )
+function info_str( agent::KLMANB, latex::Bool )
+  if latex
+      return @sprintf( "KLMANB" )
+  else
+      return @sprintf( "KLMANB" )
+  end
 end
