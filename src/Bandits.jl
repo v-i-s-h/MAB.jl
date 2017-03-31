@@ -19,6 +19,7 @@ module Arms
     include( "armModels/Bernoulli.jl" )
     include( "armModels/Normal.jl" )
     include( "armModels/Beta.jl" )
+    include( "armModels/Sinusoidal.jl" )
 end
 
 module Experiments
@@ -39,5 +40,4 @@ export
     Arms,
     # Export Experiments
     Experiments
-
 end # module
