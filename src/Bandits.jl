@@ -20,6 +20,8 @@ module Arms
     include( "armModels/Normal.jl" )
     include( "armModels/Beta.jl" )
     include( "armModels/Sinusoidal.jl" )
+    include( "armModels/Pulse.jl" )
+
 end
 
 module Experiments

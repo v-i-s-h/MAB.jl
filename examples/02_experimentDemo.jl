@@ -13,10 +13,13 @@ bandit  = [
     # Arms.Normal( 0.81, 1.00 ),
     # Arms.Normal( 0.56, 1.00 ),
     # Arms.Beta( 0.60, 0.40 ),
-    Arms.Sinusoidal( 800, 0 ),
-    Arms.Sinusoidal( 800, π/4 ),
-    Arms.Sinusoidal( 800, π/2 ),
-    Arms.Sinusoidal( 800, 3*π/4 )
+    # Arms.Sinusoidal( 800, 0 ),
+    # Arms.Sinusoidal( 800, π/4 ),
+    # Arms.Sinusoidal( 800, π/2 ),
+    # Arms.Sinusoidal( 800, 3*π/4 )
+    Arms.Pulse( 1000, 820, 100 ),
+    Arms.Pulse( 1000, 700, 100 ),
+    Arms.Pulse( 1000, 520, 100 )
 ]
 
 noOfArms = length( bandit )
@@ -32,7 +35,7 @@ testAlgs = [
     # Algorithms.EXP3( noOfArms, 0.10 ),
     Algorithms.UCB1( noOfArms ),
     Algorithms.TS( noOfArms ),
-    # Algorithms.DynamicTS( noOfArms, 50 ),
+    Algorithms.DynamicTS( noOfArms, 50 ),
     # Algorithms.UCBNormal( noOfArms )
     # Algorithms.EXP31( noOfArms )
 ]
