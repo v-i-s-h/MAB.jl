@@ -19,3 +19,5 @@ This package provide a framework for developing and comparing various Bandit alg
 1. Bernoulli
 2. Beta
 3. Normal
+4. Sinusoidal (without noise)
+5. Pulse (without noise)
