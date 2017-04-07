@@ -11,6 +11,7 @@ This package provide a framework for developing and comparing various Bandit alg
 3. Thompson Sampling
    1. Thompson Sampling
    2. Dynamic Thompson Sampling
+   3. Optimistic Thompson Sampling
 4. EXP3
    1. EXP3
    2. EXP3.1
