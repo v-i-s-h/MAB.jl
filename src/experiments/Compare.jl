@@ -19,6 +19,10 @@ function run( experiment::Compare, noOfTimeSteps::Integer, noOfRounds::Integer )
         observations = zeros( noOfTimeSteps, noOfRounds )
         for _round = 1:noOfRounds
             Algorithms.reset( alg )
+            # Reset arms of the bandit
+            for arm ∈ experiment.bandit
+                Arms.reset( arm )
+            end
             for _n = 1:noOfTimeSteps
                 armToPull   = Algorithms.getArmIndex( alg )
                 reward      = Arms.pull( experiment.bandit[armToPull] )
