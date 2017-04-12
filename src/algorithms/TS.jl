@@ -48,7 +48,7 @@ end
 
 function updateReward( agent::TS, r::Int64 )
     # Update S and F
-    agent.cummSuccess[agent.lastPlayedArm] += (r==1?1:0)
+    agent.cummSuccess[agent.lastPlayedArm] += (r==0?0:1)
     agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
 
     # Update Distributions
@@ -113,14 +113,14 @@ function getArmIndex( agent::DynamicTS )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::DynamicTS, r::Real )
+function updateReward( agent::DynamicTS, r::Integer )
     # Update reward to arm played
     if agent.α[agent.lastPlayedArm]+agent.β[agent.lastPlayedArm] < agent.C
-        agent.α[agent.lastPlayedArm]    += r
-        agent.β[agent.lastPlayedArm]    += (1-r)
+        agent.α[agent.lastPlayedArm]    += (r==0?0:1)
+        agent.β[agent.lastPlayedArm]    += (r==0?1:0)
     else
-        agent.α[agent.lastPlayedArm]    = (agent.α[agent.lastPlayedArm]+r) * agent.C/(agent.C+1)
-        agent.β[agent.lastPlayedArm]    = (agent.β[agent.lastPlayedArm]+(1-r)) * agent.C/(agent.C+1)
+        agent.α[agent.lastPlayedArm]    = (agent.α[agent.lastPlayedArm]+(r==0?0:1)) * agent.C/(agent.C+1)
+        agent.β[agent.lastPlayedArm]    = (agent.β[agent.lastPlayedArm]+(r==0?1:0)) * agent.C/(agent.C+1)
     end
 
     # Update arm's distribution
@@ -131,6 +131,10 @@ function updateReward( agent::DynamicTS, r::Real )
 
     # Update time steps
     agent.noOfSteps += 1
+end
+
+function updateReward( agent::DynamicTS, r::AbstractFloat )
+    updateReward( agent, rand(Distributions.Bernoulli(r)) )   # Do a Bernoulli Trial to update the posterior
 end
 
 function reset( agent::DynamicTS )

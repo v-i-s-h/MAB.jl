@@ -4,10 +4,10 @@ using Bandits
 import PyPlot
 
 bandit  = [
-    Arms.Bernoulli( 0.20 ),
-    Arms.Bernoulli( 0.90 ),
-    Arms.Bernoulli( 0.10 ),
-    Arms.Bernoulli( 0.15 )
+    # Arms.Bernoulli( 0.20 ),
+    # Arms.Bernoulli( 0.90 ),
+    # Arms.Bernoulli( 0.10 ),
+    # Arms.Bernoulli( 0.15 )
     # Arms.Normal( 0.36, 1.00 ),
     # Arms.Normal( 0.20, 1.00 ),
     # Arms.Normal( 0.81, 1.00 ),
@@ -17,9 +17,9 @@ bandit  = [
     # Arms.Sinusoidal( 800, π/4 ),
     # Arms.Sinusoidal( 800, π/2 ),
     # Arms.Sinusoidal( 800, 3*π/4 )
-    # Arms.Pulse( 1000, 820, 100 ),
-    # Arms.Pulse( 1000, 700, 100 ),
-    # Arms.Pulse( 1000, 520, 100 )
+    Arms.Pulse( 1000, 820, 100 ),
+    Arms.Pulse( 1000, 700, 100 ),
+    Arms.Pulse( 1000, 520, 100 )
 ]
 
 noOfArms = length( bandit )
@@ -35,8 +35,8 @@ testAlgs = [
     # Algorithms.EXP3( noOfArms, 0.10 ),
     # Algorithms.UCB1( noOfArms ),
     Algorithms.TS( noOfArms ),
-    Algorithms.OTS( noOfArms )
-    # Algorithms.DynamicTS( noOfArms, 50 ),
+    # Algorithms.OTS( noOfArms )
+    Algorithms.DynamicTS( noOfArms, 10 ),
     # Algorithms.UCBNormal( noOfArms )
     # Algorithms.EXP31( noOfArms )
 ]
@@ -44,7 +44,7 @@ testAlgs = [
 exp1 = Experiments.Compare( bandit, testAlgs )
 # run
 noOfRounds      = 2000
-noOfTimeSteps   = 500
+noOfTimeSteps   = 2000
 result = Experiments.run( exp1, noOfTimeSteps, noOfRounds )
 
 fig = PyPlot.figure()
