@@ -2,17 +2,17 @@
 abstract BanditAlgorithmBase
 
 function getArmIndex( agent::BanditAlgorithmBase )
-    error( "[BanditAlgorithmBase]: No implementation of getArmIndex() for ", typeof(agent) );
+    error( "No implementation of getArmIndex() for ", typeof(agent) );
 end
 
 function updateReward( agent::BanditAlgorithmBase, r::Real )
-    error( "[BanditAlgorithmBase]: No implementation of updateReward() for ", typeof(agent) );
+    error( "No implementation of updateReward() for ", typeof(agent) );
 end
 
 function reset( agent::BanditAlgorithmBase )
-    error( "[BanditAlgorithmBase]: No implementation of reset() for ", typeof(agent) );
+    error( "No implementation of reset() for ", typeof(agent) );
 end
 
-function info_str( agent::BanditAlgorithmBase, latex::Bool )
-    error( "[BanditAlgorithmBase]: No Implementation of info_str() for ", typeof(agent) );
+function info_str( agent::BanditAlgorithmBase, latex::Bool = false )
+    error( "No Implementation of info_str() for ", typeof(agent) );
 end

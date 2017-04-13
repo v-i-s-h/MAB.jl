@@ -10,6 +10,7 @@ module Algorithms
     include( "algorithms/EXP.jl" )
     include( "algorithms/TS.jl" )
     include( "algorithms/KLMANB.jl" )
+    include( "algorithms/SoftMax.jl" )
 end
 
 module Arms
@@ -19,6 +20,9 @@ module Arms
     include( "armModels/Bernoulli.jl" )
     include( "armModels/Normal.jl" )
     include( "armModels/Beta.jl" )
+    include( "armModels/Sinusoidal.jl" )
+    include( "armModels/Pulse.jl" )
+
 end
 
 module Experiments
@@ -27,11 +31,10 @@ module Experiments
     import Bandits.Algorithms
     # include( "algorithms/BanditAlgorithmBase.jl" )
     # include( "armModels/BanditArmBase.jl" )
+    #--------------------------- Import Experiments Here --------------------------#
     include( "experiments/BanditExpBase.jl" )
     include( "experiments/Compare.jl" )
 end
-
-#--------------------------- Import Experiments Here --------------------------#
 
 export
     # Export algorithms
@@ -40,5 +43,4 @@ export
     Arms,
     # Export Experiments
     Experiments
-
 end # module

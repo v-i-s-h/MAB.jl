@@ -4,22 +4,30 @@ using Bandits
 import PyPlot
 
 bandit  = [
-    # Arms.Bernoulli( 0.12 ),
+
+    # Arms.Bernoulli( 0.20 ),
     # Arms.Bernoulli( 0.90 ),
-    # Arms.Bernoulli( 0.45 ),
-    # Arms.Bernoulli( 0.63 )
-    Arms.Normal( 0.50, 1.00 ),
-    Arms.Normal( 1.00, 1.00 ),
-    Arms.Normal( 1.50, 1.00 ),
-    Arms.Normal( 2.00, 1.00 ),
+    # Arms.Bernoulli( 0.10 ),
+    # Arms.Bernoulli( 0.15 )
+    # Arms.Normal( 0.36, 1.00 ),
+    # Arms.Normal( 0.20, 1.00 ),
+    # Arms.Normal( 0.81, 1.00 ),
+    # Arms.Normal( 0.56, 1.00 ),
     # Arms.Beta( 0.60, 0.40 ),
+    # Arms.Sinusoidal( 800, 0 ),
+    # Arms.Sinusoidal( 800, π )
+    # Arms.Sinusoidal( 800, π/2 ),
+    # Arms.Sinusoidal( 800, 3*π/4 )
+    Arms.Pulse( 1000, 820, 100 ),
+    Arms.Pulse( 1000, 700, 100 ),
+    Arms.Pulse( 1000, 520, 100 )
 ]
 
 noOfArms = length( bandit )
 
 testAlgs = [
-    Algorithms.UniformStrategy( noOfArms ),
-    Algorithms.epsGreedy( noOfArms, 0.05 ),
+    # Algorithms.UniformStrategy( noOfArms ),
+    # Algorithms.epsGreedy( noOfArms, 0.05 ),
     # Algorithms.epsGreedy( noOfArms, 1.00 ),
     # Algorithms.epsNGreedy( noOfArms, 5, 0.05 ),
     # Algorithms.epsNGreedy( noOfArms, 1/noOfArms, 1.0 ),
@@ -31,12 +39,23 @@ testAlgs = [
     # Algorithms.DynamicTS( noOfArms, 50 ),
     # Algorithms.UCBNormal( noOfArms )
     Algorithms.KLMANB(noOfArms,5.00,0.00)
+    # Algorithms.OTS( noOfArms )
+    # Algorithms.DynamicTS( noOfArms, 10 ),
+    # Algorithms.UCBNormal( noOfArms ),
+    # Algorithms.EXP31( noOfArms ),
+    Algorithms.SoftMax( noOfArms, 0.008 ),
+    Algorithms.SoftMax( noOfArms, 0.009 ),
+    Algorithms.SoftMax( noOfArms, 0.010 ),
+    Algorithms.UniformStrategy( noOfArms ),
+    Algorithms.epsGreedy( noOfArms, 0.01 ),
+    Algorithms.epsGreedy( noOfArms, 0.05 )
+
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
 # run
 noOfRounds      = 2000
-noOfTimeSteps   = 2500
+noOfTimeSteps   = 2000
 result = Experiments.run( exp1, noOfTimeSteps, noOfRounds )
 
 fig = PyPlot.figure()
@@ -49,5 +68,5 @@ PyPlot.xlabel( "Timesteps" )
 PyPlot.ylabel( "Avg. Reward" )
 PyPlot.title( "Average Reward (Normalized for $noOfRounds rounds)")
 ax = PyPlot.gca()
-ax[:set_ylim]( [0.00,2.00] )
+ax[:set_ylim]( [0.00,1.00] )
 PyPlot.legend()

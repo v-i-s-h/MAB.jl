@@ -19,11 +19,23 @@ function run( experiment::Compare, noOfTimeSteps::Integer, noOfRounds::Integer )
         observations = zeros( noOfTimeSteps, noOfRounds )
         for _round = 1:noOfRounds
             Algorithms.reset( alg )
+            # Reset arms of the bandit
+            for arm ∈ experiment.bandit
+                Arms.reset( arm )
+            end
             for _n = 1:noOfTimeSteps
                 armToPull   = Algorithms.getArmIndex( alg )
                 reward      = Arms.pull( experiment.bandit[armToPull] )
                 Algorithms.updateReward( alg, reward )
                 observations[_n,_round] = reward
+                # Process tick() for all arms except the pulled arm
+                for arm in experiment.bandit
+                    if arm == experiment.bandit[armToPull]
+                        continue
+                    else
+                        Arms.tick( arm )
+                    end
+                end
             end
         end
         avgReward = mean( observations, 2 )
