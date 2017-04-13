@@ -10,6 +10,7 @@ module Algorithms
     include( "algorithms/EXP.jl" )
     include( "algorithms/TS.jl" )
     include( "algorithms/KLMANB.jl" )
+    include( "algorithms/SoftMax.jl" )
 end
 
 module Arms

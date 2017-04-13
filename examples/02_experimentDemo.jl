@@ -14,7 +14,7 @@ bandit  = [
     # Arms.Normal( 0.56, 1.00 ),
     # Arms.Beta( 0.60, 0.40 ),
     # Arms.Sinusoidal( 800, 0 ),
-    # Arms.Sinusoidal( 800, π/4 ),
+    # Arms.Sinusoidal( 800, π )
     # Arms.Sinusoidal( 800, π/2 ),
     # Arms.Sinusoidal( 800, 3*π/4 )
     Arms.Pulse( 1000, 820, 100 ),
@@ -34,11 +34,18 @@ testAlgs = [
     # Algorithms.EXP3( noOfArms, 0.05 ),
     # Algorithms.EXP3( noOfArms, 0.10 ),
     # Algorithms.UCB1( noOfArms ),
-    Algorithms.TS( noOfArms ),
+    # Algorithms.TS( noOfArms ),
     # Algorithms.OTS( noOfArms )
-    Algorithms.DynamicTS( noOfArms, 10 ),
-    # Algorithms.UCBNormal( noOfArms )
-    # Algorithms.EXP31( noOfArms )
+    # Algorithms.DynamicTS( noOfArms, 10 ),
+    # Algorithms.UCBNormal( noOfArms ),
+    # Algorithms.EXP31( noOfArms ),
+    Algorithms.SoftMax( noOfArms, 0.008 ),
+    Algorithms.SoftMax( noOfArms, 0.009 ),
+    Algorithms.SoftMax( noOfArms, 0.010 ),
+    Algorithms.UniformStrategy( noOfArms ),
+    Algorithms.epsGreedy( noOfArms, 0.01 ),
+    Algorithms.epsGreedy( noOfArms, 0.05 )
+
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
