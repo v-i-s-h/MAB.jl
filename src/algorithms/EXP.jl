@@ -28,6 +28,7 @@ function getArmIndex( agent::EXP3 )
 end
 
 function updateReward( agent::EXP3, r::Real )
+    agent.noOfSteps     = agent.noOfSteps + 1;
     # Calculate estimated reward
     r_est = r/agent.pDist.p[agent.lastPlayedArm]
 
@@ -110,5 +111,59 @@ function reset( agent::EXP31 )
 end
 
 function info_str( agent::EXP31, latex::Bool )
-    return @sprintf( "EXP31" )
+    if latex
+        return @sprintf( "EXP31 (\$\\gamma = %4.3f\$)", agent._EXP3.γ )
+    else
+        return @sprintf( "EXP31 (γ = %4.3f)", agent._EXP3.γ )
+    end
+end
+
+"""
+    REXP3 Implementation
+    Based on Besbes, O., Gur, Y., & Zeevi, A. (2014). Stochastic Multi-Armed-Bandit Problem with Non-stationary Rewards. Advances in Neural Information Processing Systems, 2, 1–9.
+"""
+
+type REXP3 <: BanditAlgorithmBase
+    noOfSteps::Int64    # Timesteps passed
+    j::Int64            # Batch index
+    Δ::Int64            # Batch size
+
+    _EXP3::EXP3
+
+    function REXP3( noOfArms::Integer, γ::Real, Δ::Integer )
+        new( 0,
+             1,
+             Δ,
+             EXP3(noOfArms,γ)
+        )
+    end
+end
+
+function getArmIndex( agent::REXP3 )
+    getArmIndex( agent._EXP3 )
+end
+
+function updateReward( agent::REXP3, r::Real )
+    agent.noOfSteps = agent.noOfSteps + 1;
+    updateReward( agent._EXP3, r );
+    # Reset if necessary
+    if agent._EXP3.noOfSteps >= agent.Δ
+        reset( agent._EXP3 );
+        agent.j = agent.j + 1;
+    end
+
+end
+
+function reset( agent::REXP3 )
+    reset( agent._EXP3 )
+    agent.noOfSteps     = 0;
+    agent.j             = 1;
+end
+
+function info_str( agent::REXP3, latex::Bool )
+    if latex
+        return @sprintf( "REXP3 (\$\\gamma = %4.3f, \\Delta = %d\$)", agent._EXP3.γ, agent.Δ )
+    else
+        return @sprintf( "REXP3 (γ = %4.3f)", agent.γ )
+    end
 end
