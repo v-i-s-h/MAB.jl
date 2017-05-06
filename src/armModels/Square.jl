@@ -21,14 +21,14 @@ function pull( arm::Square )
     if arm.step > arm.period
         arm.step = 1
     end
-    lastCpIndex = 0;
+    lastCpIndex = 0.0;
     for timeIdx in keys(arm.changePoints)
         if timeIdx <= arm.step && timeIdx > lastCpIndex
             lastCpIndex = timeIdx
         end
     end
     if lastCpIndex == 0 # No change occured
-        return 0
+        return 0.0
     else
         return arm.changePoints[lastCpIndex]
     end
