@@ -21,15 +21,18 @@ end
 function pull( arm::Pulse )
     arm.step    = arm.step + 1
     if arm.step > arm.period
-        arm.step = 0
+        arm.step = 1
     end
 
-    return ((arm.step>=arm.changePoint)&&(arm.step<arm.changePoint+arm.highDuration))?1:0;
+    return ((arm.step>=arm.changePoint)&&(arm.step<=arm.changePoint+arm.highDuration))?1:0;
 end
 
 function tick( arm::Pulse )
     if arm.isRestless
         arm.step = arm.step + 1
+        if arm.step > arm.period
+            arm.step = 1
+        end
     end
 end
 
