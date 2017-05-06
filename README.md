@@ -24,3 +24,4 @@ This package provide a framework for developing and comparing various Bandit alg
 3. Normal
 4. Sinusoidal (without noise)
 5. Pulse (without noise)
+6. Square
