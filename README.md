@@ -8,6 +8,7 @@ This package provide a framework for developing and comparing various Bandit alg
 2. Upper Confidence Bound Policies
    1. UCB1
    2. UCB-Normal
+   3. Discounted-UCB
 3. Thompson Sampling
    1. Thompson Sampling
    2. Dynamic Thompson Sampling

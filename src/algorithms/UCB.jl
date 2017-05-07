@@ -162,3 +162,83 @@ end
 function info_str( agent::UCBNormal, latex::Bool )
     return @sprintf( "UCB Normal" )
 end
+
+"""
+    Discounted UCB
+    Based on: Moulines, E., & Paristech, T. (2008). On Upper-Confidence Bound Policies for Non-Stationary Bandit Problems. arXiv Preprint, (2008), 1–24.
+"""
+
+type DUCB <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    γ::Float64                      # Discouting factor
+    ξ::Float64                      # Confidence Scale Parameter
+    cummReward::Vector{Float64}     # Cummulattive Reward from each arm
+    discCumReward::Vector{Float64}  # Discounted reward
+    count::Vector{Int64}            # Count of how many time an arm is pulled
+    discCount::Vector{Float64}      # Discounted Count
+    indices::Vector{Float64}        # Calculated Indices
+
+    function DUCB( noOfArms::Int, γ::Float64, ξ::Float64 = 0.5 )
+        new( noOfArms,
+             0,
+             0,
+             γ,
+             ξ,
+             zeros(Float64,noOfArms),
+             zeros(Float64,noOfArms),
+             zeros(Int64,noOfArms),
+             zeros(Float64,noOfArms),
+             zeros(Float64,noOfArms)
+        )
+    end
+end
+
+function getArmIndex( agent::DUCB )
+    if any(agent.count.==0)
+        agent.lastPlayedArm =  rand( find(agent.count.==0) )
+    else
+        agent.lastPlayedArm = findmax(agent.indices)[2]
+    end
+
+    return agent.lastPlayedArm
+end
+
+function updateReward( agent::DUCB, r::Real )
+    # Update cummulative reward
+    agent.cummReward[agent.lastPlayedArm] += r
+    # Update play count for arm
+    agent.count[agent.lastPlayedArm] += 1
+    # Update number of steps played
+    agent.noOfSteps += 1
+    # Update discounted cummulative reward
+    agent.discCumReward *= agent.γ                  # Discount for all arms
+    agent.discCumReward[agent.lastPlayedArm] += r   # Update reward to last played arm
+    # Update discounted count
+    agent.discCount *= agent.γ
+    agent.discCount[agent.lastPlayedArm] += 1
+    # Update UCB indices
+    agent.indices   = agent.discCumReward./agent.discCount +
+                        2*√(agent.ξ*log(sum(agent.discCount))./agent.discCount)
+end
+
+function reset( agent::DUCB )
+    agent.noOfSteps     = 0;
+    agent.lastPlayedArm = 0;
+
+    agent.cummReward    = zeros( Float64, agent.noOfArms );
+    agent.discCumReward = zeros( Float64, agent.noOfArms );
+    agent.count         = zeros( Int64, agent.noOfArms );
+    agent.discCount     = zeros( Float64, agent.noOfArms );
+    agent.indices       = zeros( Float64, agent.noOfArms );
+end
+
+function info_str( agent::DUCB, latex::Bool )
+    if latex
+        return @sprintf( "\$Discounted-UCB(\\gamma = %3.2f,\\xi = %3.2f)\$", agent.γ, agent.ξ );
+    else
+        return @sprintf( "Discounted-UCB(γ = %3.2f, ξ = %3.2f)", agent.γ, agent.ξ );
+    end
+end
