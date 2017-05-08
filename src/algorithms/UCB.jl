@@ -237,7 +237,7 @@ end
 
 function info_str( agent::DUCB, latex::Bool )
     if latex
-        return @sprintf( "\$Discounted-UCB(\\gamma = %3.2f,\\xi = %3.2f)\$", agent.γ, agent.ξ );
+        return @sprintf( "Discounted-UCB\$(\\gamma = %3.2f,\\xi = %3.2f)\$", agent.γ, agent.ξ );
     else
         return @sprintf( "Discounted-UCB(γ = %3.2f, ξ = %3.2f)", agent.γ, agent.ξ );
     end
@@ -330,7 +330,7 @@ end
 
 function info_str( agent::SWUCB, latex::Bool )
     if latex
-        return @sprintf( "\$SW-UCB(\\tau = %3.2f,\\xi = %3.2f)\$", agent.τ, agent.ξ );
+        return @sprintf( "SW-UCB\$(\\tau = %3.2f,\\xi = %3.2f)\$", agent.τ, agent.ξ );
     else
         return @sprintf( "SW-UCB(τ = %3.2f, ξ = %3.2f)", agent.τ, agent.ξ );
     end
