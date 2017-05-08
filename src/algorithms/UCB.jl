@@ -242,3 +242,96 @@ function info_str( agent::DUCB, latex::Bool )
         return @sprintf( "Discounted-UCB(γ = %3.2f, ξ = %3.2f)", agent.γ, agent.ξ );
     end
 end
+
+"""
+    Sliding Window UCB
+    Based on: Moulines, E., & Paristech, T. (2008). On Upper-Confidence Bound Policies for Non-Stationary Bandit Problems. arXiv Preprint, (2008), 1–24.
+"""
+
+type SWUCB <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    τ::Int64                        # Window Length
+    ξ::Float64                      # Confidence Scale Parameter
+    cummReward::Vector{Float64}     # Cummulative Reward from each arm
+    count::Vector{Int64}            # Count of how many time an arm is pulled
+    swCount::Vector{Int64}          # Count of how many times an arm is picked in this sliding Window
+    armsInWindow::Vector{Int64}     # Vector of Arms picked in window
+    rewardsInWindow::Vector{Float64}# Vector of Rewards corresponding to arms picked in this window
+    swCumRew::Vector{Float64}       # Cummulative reward of arms in this window
+    indices::Vector{Float64}        # Calculated Indices
+
+    function SWUCB( noOfArms::Int, τ::Int64, ξ::Float64 = 0.5 )
+        new( noOfArms,
+             0,
+             0,
+             τ,
+             ξ,
+             zeros(Float64,noOfArms),
+             zeros(Int64,noOfArms),
+             zeros(Int64,noOfArms),
+             Vector{Int64}(),
+             Vector{Float64}(),
+             zeros(Float64,noOfArms),
+             zeros(Float64,noOfArms)
+        )
+    end
+end
+
+function getArmIndex( agent::SWUCB )
+    if any(agent.swCount.==0)
+        agent.lastPlayedArm =  rand( find(agent.swCount.==0) )
+    else
+        agent.lastPlayedArm = findmax(agent.indices)[2]
+    end
+    return agent.lastPlayedArm
+end
+
+function updateReward( agent::SWUCB, r::Real )
+    # Update cummulative reward
+    agent.cummReward[agent.lastPlayedArm] += r
+    # Update play count for arm
+    agent.count[agent.lastPlayedArm] += 1
+    # Update number of steps played
+    agent.noOfSteps += 1
+
+    # For sliding window
+    push!( agent.armsInWindow, agent.lastPlayedArm )
+    push!( agent.rewardsInWindow, r )
+    agent.swCount[agent.lastPlayedArm]  += 1
+    agent.swCumRew[agent.lastPlayedArm] += r
+    if length(agent.armsInWindow) > agent.τ
+        _arm    = shift!( agent.armsInWindow )
+        _r      = shift!( agent.rewardsInWindow )
+        agent.swCount[_arm]     -= 1
+        agent.swCumRew[_arm]    -= _r
+    end
+
+    # Sanity check
+    assert( length(agent.armsInWindow) == length(agent.rewardsInWindow) <= agent.τ )
+
+    # Update UCB indices
+    agent.indices = agent.swCumRew./agent.swCount +
+                        √(2*log(min(agent.noOfSteps,agent.τ))./agent.swCount)
+end
+
+function reset( agent::SWUCB )
+    agent.noOfSteps         = 0
+    agent.lastPlayedArm     = 0
+    agent.cummReward        = zeros(Float64,agent.noOfArms)
+    agent.count             = zeros(Int64,agent.noOfArms)
+    agent.swCount           = zeros(Int64,agent.noOfArms)
+    agent.armsInWindow      = Vector{Int64}()
+    agent.rewardsInWindow   = Vector{Int64}()
+    agent.indices           = zeros(Float64,agent.noOfArms)
+end
+
+function info_str( agent::SWUCB, latex::Bool )
+    if latex
+        return @sprintf( "\$SW-UCB(\\tau = %3.2f,\\xi = %3.2f)\$", agent.τ, agent.ξ );
+    else
+        return @sprintf( "SW-UCB(τ = %3.2f, ξ = %3.2f)", agent.τ, agent.ξ );
+    end
+end

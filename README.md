@@ -9,6 +9,7 @@ This package provide a framework for developing and comparing various Bandit alg
    1. UCB1
    2. UCB-Normal
    3. Discounted-UCB
+   4. Sliding Window UCB
 3. Thompson Sampling
    1. Thompson Sampling
    2. Dynamic Thompson Sampling
