@@ -23,6 +23,7 @@ module Arms
     include( "armModels/Sinusoidal.jl" )
     include( "armModels/Pulse.jl" )
     include( "armModels/Square.jl" )
+    include( "armModels/Variational.jl" )
 end
 
 module Experiments
