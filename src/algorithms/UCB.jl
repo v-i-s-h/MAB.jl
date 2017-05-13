@@ -263,7 +263,7 @@ type SWUCB <: BanditAlgorithmBase
     swCumRew::Vector{Float64}       # Cummulative reward of arms in this window
     indices::Vector{Float64}        # Calculated Indices
 
-    function SWUCB( noOfArms::Int, τ::Int64, ξ::Float64 = 0.5 )
+    function SWUCB( noOfArms::Int, τ::Int64, ξ::Float64 = 2.0 )
         new( noOfArms,
              0,
              0,
