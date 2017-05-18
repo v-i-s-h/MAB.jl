@@ -4,19 +4,19 @@ using Bandits
 import PyPlot
 
 bandit  = [
-    Arms.Bernoulli( 0.20 ),
-    Arms.Bernoulli( 0.90 ),
-    Arms.Bernoulli( 0.10 ),
-    Arms.Bernoulli( 0.15 )
+    # Arms.Bernoulli( 0.20 ),
+    # Arms.Bernoulli( 0.90 ),
+    # Arms.Bernoulli( 0.10 ),
+    # Arms.Bernoulli( 0.15 )
     # Arms.Normal( 0.36, 1.00 ),
     # Arms.Normal( 0.20, 1.00 ),
     # Arms.Normal( 0.81, 1.00 ),
     # Arms.Normal( 0.56, 1.00 ),
     # Arms.Beta( 0.60, 0.40 ),
-    # Arms.Sinusoidal( 800, 0 ),
-    # Arms.Sinusoidal( 800, π )
-    # Arms.Sinusoidal( 800, π/2 ),
-    # Arms.Sinusoidal( 800, 3*π/4 )
+    Arms.Sinusoidal( 800, 0 ),
+    Arms.Sinusoidal( 800, π ),
+    Arms.Sinusoidal( 800, π/2 ),
+    Arms.Sinusoidal( 800, 3*π/4 )
     # Arms.Pulse( 1000, 820, 100 ),
     # Arms.Pulse( 1000, 700, 100 ),
     # Arms.Pulse( 1000, 520, 100 )
@@ -49,10 +49,12 @@ testAlgs = [
     # Algorithms.epsGreedy( noOfArms, 0.05 )
     # Algorithms.EXP3( noOfArms, 0.10 );
     # Algorithms.REXP3( noOfArms, 0.10, 100 )
-    Algorithms.UCB1( noOfArms ),
-    Algorithms.DUCB( noOfArms, 1.00, 0.5 ),
-    Algorithms.DUCB( noOfArms, 0.99 ),
-    Algorithms.DUCB( noOfArms, 0.99, 5.0 )
+    # Algorithms.UCB1( noOfArms ),
+    # Algorithms.DUCB( noOfArms, 1.00, 0.5 ),
+    # Algorithms.DUCB( noOfArms, 0.99 ),
+    # Algorithms.DUCB( noOfArms, 0.99, 5.0 )
+    Algorithms.EXP3( noOfArms, 0.90 ),
+    Algorithms.EXP3IX( noOfArms, 0.90, 0.60 )
 
 ]
 

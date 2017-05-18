@@ -17,6 +17,7 @@ This package provide a framework for developing and comparing various Bandit alg
 4. EXP3
    1. EXP3
    2. EXP3.1
+   3. EXP3-IX
 5. SoftMax
 6. REXP3
 

@@ -167,3 +167,69 @@ function info_str( agent::REXP3, latex::Bool )
         return @sprintf( "REXP3 (γ = %4.3f)", agent.γ )
     end
 end
+
+"""
+    EXP3-IX Implementation
+    Based on Neu, G. (2015). Explore no more: improved high-probability regret bounds for non-stochastic bandits. In Advances in Neural Information Processing Systems (pp. 1–9).
+"""
+
+type EXP3IX <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    η::Float64
+    γ::Float64
+    wVec::Vector
+    pDist::Categorical
+
+    function EXP3IX( noOfArms::Integer, η::Real, γ::Real )
+        new( noOfArms,
+             0,
+             0,
+             η,
+             γ,
+             ones(noOfArms),
+             Categorical(1/noOfArms*ones(noOfArms))
+        )
+    end
+end
+
+function getArmIndex( agent::EXP3IX )
+    agent.lastPlayedArm = rand( agent.pDist )
+    return agent.lastPlayedArm
+end
+
+function updateReward( agent::EXP3IX, r::Real )
+    agent.noOfSteps     = agent.noOfSteps + 1;
+
+    # Calculate loss
+    l   = 1 - r
+
+    # Calculate estimated reward
+    l_est = l/(agent.pDist.p[agent.lastPlayedArm]+agent.γ)
+
+    # Update weight of arm
+    agent.wVec[agent.lastPlayedArm] = agent.wVec[agent.lastPlayedArm] * exp(-agent.η*l_est/agent.noOfArms)
+
+    # Calculate new probabilties
+    p = agent.wVec/sum(agent.wVec)
+
+    # Make it a distrubution
+    agent.pDist = Categorical( p )
+end
+
+function reset( agent::EXP3IX )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+    agent.wVec          = ones( agent.noOfArms )
+    agent.pDist         = Categorical( 1/agent.noOfArms*ones(agent.noOfArms) )
+end
+
+function info_str( agent::EXP3IX, latex::Bool )
+    if latex
+        return @sprintf( "EXP3-IX (\$\\eta = %4.3f, \\gamma = %4.3f\$)", agent.η, agent.γ )
+    else
+        return @sprintf( "EXP3-IX (η = %4.3f, γ = %4.3f)", agent.η, gent.γ )
+    end
+end
