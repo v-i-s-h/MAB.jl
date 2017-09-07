@@ -27,7 +27,7 @@ function getArmIndex( agent::EXP3 )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::EXP3, r::Real )
+function updateReward!( agent::EXP3, r::Real )
     agent.noOfSteps     = agent.noOfSteps + 1;
     # Calculate estimated reward
     r_est = r/agent.pDist.p[agent.lastPlayedArm]
@@ -42,7 +42,7 @@ function updateReward( agent::EXP3, r::Real )
     agent.pDist = Categorical( p )
 end
 
-function reset( agent::EXP3 )
+function reset!( agent::EXP3 )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
     agent.wVec          = ones( agent.noOfArms )
@@ -82,7 +82,7 @@ function getArmIndex( agent::EXP31 )
     getArmIndex( agent._EXP3 )
 end
 
-function updateReward( agent::EXP31, r::Real )
+function updateReward!( agent::EXP31, r::Real )
     # Update G_hat for pulled arm
     agent.G_hat[agent._EXP3.lastPlayedArm] += r/agent._EXP3.pDist.p[agent._EXP3.lastPlayedArm]
     # println( "    G_hat = ", maximum(agent.G_hat), "    LHS = ", (agent.g_r - agent._EXP3.noOfArms/agent._EXP3.γ) )
@@ -100,12 +100,12 @@ function updateReward( agent::EXP31, r::Real )
                         )
     else
         # Update reward to EXP3
-        updateReward( agent._EXP3, r )
+        updateReward!( agent._EXP3, r )
     end
 end
 
-function reset( agent::EXP31 )
-    reset( agent._EXP3 )
+function reset!( agent::EXP31 )
+    reset!( agent._EXP3 )
     agent.G_hat = zeros( agent._EXP3.noOfArms)
     agent.r     = 0
 end
@@ -143,19 +143,19 @@ function getArmIndex( agent::REXP3 )
     getArmIndex( agent._EXP3 )
 end
 
-function updateReward( agent::REXP3, r::Real )
+function updateReward!( agent::REXP3, r::Real )
     agent.noOfSteps = agent.noOfSteps + 1;
-    updateReward( agent._EXP3, r );
+    updateReward!( agent._EXP3, r );
     # Reset if necessary
     if agent._EXP3.noOfSteps >= agent.Δ
-        reset( agent._EXP3 );
+        reset!( agent._EXP3 );
         agent.j = agent.j + 1;
     end
 
 end
 
-function reset( agent::REXP3 )
-    reset( agent._EXP3 )
+function reset!( agent::REXP3 )
+    reset!( agent._EXP3 )
     agent.noOfSteps     = 0;
     agent.j             = 1;
 end
@@ -200,7 +200,7 @@ function getArmIndex( agent::EXP3IX )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::EXP3IX, r::Real )
+function updateReward!( agent::EXP3IX, r::Real )
     agent.noOfSteps     = agent.noOfSteps + 1;
 
     # Calculate loss
@@ -219,7 +219,7 @@ function updateReward( agent::EXP3IX, r::Real )
     agent.pDist = Categorical( p )
 end
 
-function reset( agent::EXP3IX )
+function reset!( agent::EXP3IX )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
     agent.wVec          = ones( agent.noOfArms )

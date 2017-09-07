@@ -18,7 +18,7 @@ type Pulse <: BanditArmBase
     end
 end
 
-function pull( arm::Pulse )
+function pull!( arm::Pulse )
     arm.step    = arm.step + 1
     if arm.step > arm.period
         arm.step = 1
@@ -27,7 +27,7 @@ function pull( arm::Pulse )
     return ((arm.step>=arm.changePoint)&&(arm.step<=arm.changePoint+arm.highDuration))?1:0;
 end
 
-function tick( arm::Pulse )
+function tick!( arm::Pulse )
     if arm.isRestless
         arm.step = arm.step + 1
         if arm.step > arm.period
@@ -36,6 +36,6 @@ function tick( arm::Pulse )
     end
 end
 
-function reset( arm::Pulse )
+function reset!( arm::Pulse )
     arm.step    = 0
 end

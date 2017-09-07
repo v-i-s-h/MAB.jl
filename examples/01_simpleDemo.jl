@@ -20,6 +20,7 @@ alg2 = Algorithms.UCB1( noOfArms )
 
 algorithms = [ alg11 alg12 alg13 alg14 alg2 ]
 
+
 # Number Runs
 noOfRounds      = 1000
 noOfTimeSteps   = 2000
@@ -29,11 +30,11 @@ fig = PyPlot.figure()
 for _alg ∈ algorithms
     observations    = zeros( noOfTimeSteps, noOfRounds )
     for _round = 1:noOfRounds
-        Algorithms.reset( _alg )    # Start by resetting the memory
+        Algorithms.reset!( _alg )    # Start by resetting the memory
         for _time = 1:noOfTimeSteps
             armToPull = Algorithms.getArmIndex( _alg )
-            reward    = Arms.pull( arms[armToPull] )
-            Algorithms.updateReward( _alg, reward )
+            reward    = Arms.pull!( arms[armToPull] )
+            Algorithms.updateReward!( _alg, reward )
 
             # print( @sprintf("    [%03d:%03d]: arm = %2d, reward = %3.2f ",_round,_time,armToPull,reward) )
             # print( @sprintf( "    Arm Values: [") )

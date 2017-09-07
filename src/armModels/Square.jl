@@ -16,7 +16,7 @@ type Square <: BanditArmBase
     end
 end
 
-function pull( arm::Square )
+function pull!( arm::Square )
     arm.step    = arm.step + 1
     if arm.step > arm.period
         arm.step = 1
@@ -34,7 +34,7 @@ function pull( arm::Square )
     end
 end
 
-function tick( arm::Square )
+function tick!( arm::Square )
     if arm.isRestless
         arm.step = arm.step + 1
         if arm.step > arm.period
@@ -43,6 +43,6 @@ function tick( arm::Square )
     end
 end
 
-function reset( arm::Square )
+function reset!( arm::Square )
     arm.step    = 0
 end

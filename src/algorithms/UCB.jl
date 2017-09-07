@@ -33,7 +33,7 @@ function getArmIndex( agent::UCB1 )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::UCB1, r::Real )
+function updateReward!( agent::UCB1, r::Real )
 
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
@@ -46,10 +46,10 @@ function updateReward( agent::UCB1, r::Real )
 
     # Update UCB indices
     agent.ucbIndices = agent.cummReward./agent.count +
-                        √(2*log(agent.noOfSteps)./agent.count)
+                        sqrt.(2*log(agent.noOfSteps)./agent.count)
 end
 
-function reset( agent::UCB1 )
+function reset!( agent::UCB1 )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
@@ -133,7 +133,7 @@ function getArmIndex( agent::UCBNormal )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::UCBNormal, r::Real )
+function updateReward!( agent::UCBNormal, r::Real )
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
     # Update squared cummulative reward
@@ -144,12 +144,12 @@ function updateReward( agent::UCBNormal, r::Real )
     agent.noOfSteps += 1
     # Update UCB indices
     agent.ucbIndices    = agent.cummReward ./ agent.count +
-                            √(16 *
+                            sqrt.(16 *
                                 (agent.cummSqReward-((agent.cummReward).^2)./agent.count) ./ (agent.count-1) *
                                 log(agent.noOfSteps-1)./agent.count )
 end
 
-function reset( agent::UCBNormal )
+function reset!( agent::UCBNormal )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
@@ -206,7 +206,7 @@ function getArmIndex( agent::DUCB )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::DUCB, r::Real )
+function updateReward!( agent::DUCB, r::Real )
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
     # Update play count for arm
@@ -221,10 +221,10 @@ function updateReward( agent::DUCB, r::Real )
     agent.discCount[agent.lastPlayedArm] += 1
     # Update UCB indices
     agent.indices   = agent.discCumReward./agent.discCount +
-                        2*√(agent.ξ*log(sum(agent.discCount))./agent.discCount)
+                        2*sqrt.(agent.ξ*log(sum(agent.discCount))./agent.discCount)
 end
 
-function reset( agent::DUCB )
+function reset!( agent::DUCB )
     agent.noOfSteps     = 0;
     agent.lastPlayedArm = 0;
 
@@ -289,7 +289,7 @@ function getArmIndex( agent::SWUCB )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::SWUCB, r::Real )
+function updateReward!( agent::SWUCB, r::Real )
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
     # Update play count for arm
@@ -317,7 +317,7 @@ function updateReward( agent::SWUCB, r::Real )
                         √(agent.ξ*log(min(agent.noOfSteps,agent.τ))./agent.swCount)
 end
 
-function reset( agent::SWUCB )
+function reset!( agent::SWUCB )
     agent.noOfSteps         = 0
     agent.lastPlayedArm     = 0
     agent.cummReward        = zeros(Float64,agent.noOfArms)

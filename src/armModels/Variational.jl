@@ -49,17 +49,17 @@ type Variational <: BanditArmBase
     end
 end
 
-function pull( arm::Variational )
+function pull!( arm::Variational )
     arm.step = arm.step + 1
     return 1/2 + 1/2 * sin( arm.variation * π * (arm.step-1)/arm.period + arm.offset )  # To limit rewards between 0 and 1
 end
 
-function tick( arm::Variational )
+function tick!( arm::Variational )
     if arm.isRestless
         arm.step = arm.step + 1
     end
 end
 
-function reset( arm::Variational )
+function reset!( arm::Variational )
     arm.step = 0
 end

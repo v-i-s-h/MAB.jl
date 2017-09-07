@@ -37,7 +37,7 @@ function getArmIndex( agent::epsGreedy )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::epsGreedy, r::Real )
+function updateReward!( agent::epsGreedy, r::Real )
     agent.cummReward[agent.lastPlayedArm] += r
     agent.count[agent.lastPlayedArm] += 1
     agent.noOfSteps += 1
@@ -46,7 +46,7 @@ function updateReward( agent::epsGreedy, r::Real )
                                             agent.count[agent.lastPlayedArm]
 end
 
-function reset( agent::epsGreedy )
+function reset!( agent::epsGreedy )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
@@ -122,7 +122,7 @@ function getArmIndex( agent::epsNGreedy )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::epsNGreedy, r::Real )
+function updateReward!( agent::epsNGreedy, r::Real )
     # Book keeping
     agent.cummReward[agent.lastPlayedArm] += r
     agent.count[agent.lastPlayedArm] += 1
@@ -136,7 +136,7 @@ function updateReward( agent::epsNGreedy, r::Real )
     agent.ϵ     = min( 1, (agent.param_c*agent.noOfArms)/(agent.param_d*agent.noOfSteps) )
 end
 
-function reset( agent::epsNGreedy )
+function reset!( agent::epsNGreedy )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
     agent.ϵ             = 1

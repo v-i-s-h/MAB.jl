@@ -27,32 +27,32 @@ bandit  = [
 noOfArms = length( bandit )
 
 testAlgs = [
-    # Algorithms.UniformStrategy( noOfArms ),
-    # Algorithms.epsGreedy( noOfArms, 0.05 ),
-    # Algorithms.epsGreedy( noOfArms, 1.00 ),
-    # Algorithms.epsNGreedy( noOfArms, 5, 0.05 ),
-    # Algorithms.epsNGreedy( noOfArms, 1/noOfArms, 1.0 ),
-    # Algorithms.epsNGreedy( noOfArms )
-    # Algorithms.EXP3( noOfArms, 0.05 ),
-    # Algorithms.EXP3( noOfArms, 0.10 ),
-    # Algorithms.UCB1( noOfArms ),
-    # Algorithms.TS( noOfArms ),
-    # Algorithms.OTS( noOfArms )
-    # Algorithms.DynamicTS( noOfArms, 10 ),
-    # Algorithms.UCBNormal( noOfArms ),
-    # Algorithms.EXP31( noOfArms ),
-    # Algorithms.SoftMax( noOfArms, 0.008 ),
-    # Algorithms.SoftMax( noOfArms, 0.009 ),
-    # Algorithms.SoftMax( noOfArms, 0.010 ),
-    # Algorithms.UniformStrategy( noOfArms ),
-    # Algorithms.epsGreedy( noOfArms, 0.01 ),
-    # Algorithms.epsGreedy( noOfArms, 0.05 )
-    # Algorithms.EXP3( noOfArms, 0.10 );
-    # Algorithms.REXP3( noOfArms, 0.10, 100 )
-    # Algorithms.UCB1( noOfArms ),
-    # Algorithms.DUCB( noOfArms, 1.00, 0.5 ),
-    # Algorithms.DUCB( noOfArms, 0.99 ),
-    # Algorithms.DUCB( noOfArms, 0.99, 5.0 )
+    Algorithms.UniformStrategy( noOfArms ),
+    Algorithms.epsGreedy( noOfArms, 0.05 ),
+    Algorithms.epsGreedy( noOfArms, 1.00 ),
+    Algorithms.epsNGreedy( noOfArms, 5, 0.05 ),
+    Algorithms.epsNGreedy( noOfArms, 1/noOfArms, 1.0 ),
+    Algorithms.epsNGreedy( noOfArms ),
+    Algorithms.EXP3( noOfArms, 0.05 ),
+    Algorithms.EXP3( noOfArms, 0.10 ),
+    Algorithms.UCB1( noOfArms ),
+    Algorithms.TS( noOfArms ),
+    Algorithms.OTS( noOfArms ),
+    Algorithms.DynamicTS( noOfArms, 10 ),
+    Algorithms.UCBNormal( noOfArms ),
+    Algorithms.EXP31( noOfArms ),
+    Algorithms.SoftMax( noOfArms, 0.008 ),
+    Algorithms.SoftMax( noOfArms, 0.009 ),
+    Algorithms.SoftMax( noOfArms, 0.010 ),
+    Algorithms.UniformStrategy( noOfArms ),
+    Algorithms.epsGreedy( noOfArms, 0.01 ),
+    Algorithms.epsGreedy( noOfArms, 0.05 ),
+    Algorithms.EXP3( noOfArms, 0.10 ),
+    Algorithms.REXP3( noOfArms, 0.10, 100 ),
+    Algorithms.UCB1( noOfArms ),
+    Algorithms.DUCB( noOfArms, 1.00, 0.5 ),
+    Algorithms.DUCB( noOfArms, 0.99 ),
+    Algorithms.DUCB( noOfArms, 0.99, 5.0 ),
     Algorithms.EXP3( noOfArms, 0.90 ),
     Algorithms.EXP3IX( noOfArms, 0.90, 0.60 )
 
@@ -60,8 +60,8 @@ testAlgs = [
 
 exp1 = Experiments.Compare( bandit, testAlgs )
 # run
-noOfRounds      = 2000
-noOfTimeSteps   = 1000
+noOfRounds      = 100
+noOfTimeSteps   = 100
 result = Experiments.run( exp1, noOfTimeSteps, noOfRounds )
 
 fig = PyPlot.figure()

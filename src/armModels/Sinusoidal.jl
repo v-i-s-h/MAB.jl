@@ -43,17 +43,17 @@ type Sinusoidal <: BanditArmBase
     end
 end
 
-function pull( arm::Sinusoidal )
+function pull!( arm::Sinusoidal )
     arm.step = arm.step + 1
     return 1/2 + 1/2 * sin( 2 * π * (arm.step-1)/arm.period + arm.offset )  # To limit rewards between 0 and 1
 end
 
-function tick( arm::Sinusoidal )
+function tick!( arm::Sinusoidal )
     if arm.isRestless
         arm.step = arm.step + 1
     end
 end
 
-function reset( arm::Sinusoidal )
+function reset!( arm::Sinusoidal )
     arm.step = 0
 end

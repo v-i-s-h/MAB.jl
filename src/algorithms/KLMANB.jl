@@ -32,7 +32,7 @@ function getArmIndex( agent::KLMANB )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::KLMANB, r::Real )
+function updateReward!( agent::KLMANB, r::Real )
     # Update mean and variance
     agent.μ[agent.lastPlayedArm] = (((agent.σ_sq[agent.lastPlayedArm] + agent.TrVar)*r) + (agent.ObsVar * agent.μ[agent.lastPlayedArm])) / (agent.σ_sq[agent.lastPlayedArm] + agent.TrVar + agent.ObsVar)
     agent.σ_sq[agent.lastPlayedArm] = ((agent.σ_sq[agent.lastPlayedArm] + agent.TrVar)* agent.ObsVar) / (agent.σ_sq[agent.lastPlayedArm] + agent.TrVar + agent.ObsVar)
@@ -46,7 +46,7 @@ function updateReward( agent::KLMANB, r::Real )
     agent.noOfSteps += 1
 end
 
-function reset( agent::KLMANB )
+function reset!( agent::KLMANB )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 

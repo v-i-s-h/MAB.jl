@@ -10,10 +10,10 @@ type Normal <: BanditArmBase
     end
 end
 
-function pull( arm::Normal )
+function pull!( arm::Normal )
     return rand( arm.armDist )
 end
 
-function reset( arm::Normal )
+function reset!( arm::Normal )
     # Do nothing
 end

@@ -8,10 +8,10 @@ type Bernoulli <: BanditArmBase
     end
 end
 
-function pull( arm::Bernoulli )
+function pull!( arm::Bernoulli )
     return Distributions.rand(arm.armDist)
 end
 
-function reset( arm::Bernoulli )
+function reset!( arm::Bernoulli )
     # Do nothing
 end

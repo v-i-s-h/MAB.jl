@@ -8,10 +8,10 @@ type Beta <: BanditArmBase
     end
 end
 
-function pull( arm::Beta )
+function pull!( arm::Beta )
     return Distributions.rand( arm.armDist )
 end
 
-function reset( arm::Beta )
+function reset!( arm::Beta )
     # Do nothing
 end

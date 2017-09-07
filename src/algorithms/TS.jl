@@ -46,7 +46,7 @@ function getArmIndex( agent::TS )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::TS, r::Int64 )
+function updateReward!( agent::TS, r::Int64 )
     # Update S and F
     agent.cummSuccess[agent.lastPlayedArm] += (r==0?0:1)
     agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
@@ -61,12 +61,12 @@ function updateReward( agent::TS, r::Int64 )
     agent.noOfSteps += 1
 end
 
-function updateReward( agent::TS, r::Float64 )
+function updateReward!( agent::TS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
-    updateReward( agent, rTilde )
+    updateReward!( agent, rTilde )
 end
 
-function reset( agent::TS )
+function reset!( agent::TS )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
@@ -113,7 +113,7 @@ function getArmIndex( agent::DynamicTS )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::DynamicTS, r::Integer )
+function updateReward!( agent::DynamicTS, r::Integer )
     # Update reward to arm played
     if agent.α[agent.lastPlayedArm]+agent.β[agent.lastPlayedArm] < agent.C
         agent.α[agent.lastPlayedArm]    += (r==0?0:1)
@@ -133,11 +133,11 @@ function updateReward( agent::DynamicTS, r::Integer )
     agent.noOfSteps += 1
 end
 
-function updateReward( agent::DynamicTS, r::AbstractFloat )
-    updateReward( agent, rand(Distributions.Bernoulli(r)) )   # Do a Bernoulli Trial to update the posterior
+function updateReward!( agent::DynamicTS, r::AbstractFloat )
+    updateReward!( agent, rand(Distributions.Bernoulli(r)) )   # Do a Bernoulli Trial to update the posterior
 end
 
-function reset( agent::DynamicTS )
+function reset!( agent::DynamicTS )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
@@ -203,7 +203,7 @@ function getArmIndex( agent::OTS )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::OTS, r::Int64 )
+function updateReward!( agent::OTS, r::Int64 )
     # Update S and F
     agent.cummSuccess[agent.lastPlayedArm] += (r==1?1:0)
     agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
@@ -217,12 +217,12 @@ function updateReward( agent::OTS, r::Int64 )
     agent.noOfSteps += 1
 end
 
-function updateReward( agent::OTS, r::Float64 )
+function updateReward!( agent::OTS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
-    updateReward( agent, rTilde )
+    updateReward!( agent, rTilde )
 end
 
-function reset( agent::OTS )
+function reset!( agent::OTS )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 

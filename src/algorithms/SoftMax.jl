@@ -24,18 +24,18 @@ type SoftMax <: BanditAlgorithmBase
 end
 
 function getArmIndex( agent::SoftMax )
-    pVec    = exp(agent.avgValue/agent.τ) / sum(exp(agent.avgValue/agent.τ))
+    pVec    = exp.(agent.avgValue/agent.τ) / sum(exp.(agent.avgValue/agent.τ))
     agent.lastPlayedArm = rand( Categorical(pVec) )
     return agent.lastPlayedArm
 end
 
-function updateReward( agent::SoftMax, r::Real )
+function updateReward!( agent::SoftMax, r::Real )
     agent.avgValue[agent.lastPlayedArm] = (agent.count[agent.lastPlayedArm]*agent.avgValue[agent.lastPlayedArm] + r) / (agent.count[agent.lastPlayedArm]+1)
     agent.count[agent.lastPlayedArm] += 1
     agent.noOfSteps += 1
 end
 
-function reset( agent::SoftMax )
+function reset!( agent::SoftMax )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 

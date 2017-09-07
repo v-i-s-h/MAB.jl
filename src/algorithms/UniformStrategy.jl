@@ -19,11 +19,11 @@ function getArmIndex( agent::UniformStrategy )
     return rand( 1:agent.noOfArms )
 end
 
-function updateReward( agent::UniformStrategy, r::Real )
+function updateReward!( agent::UniformStrategy, r::Real )
     # Do nothing
 end
 
-function reset( agent::UniformStrategy )
+function reset!( agent::UniformStrategy )
     # Do nothing
 end
 

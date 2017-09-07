@@ -1,6 +1,6 @@
 # Base type for all experiments
 
-abstract BanditExpBase
+abstract type BanditExpBase end
 
 function run( experiment::BanditExpBase,
               noOfTimeSteps::Integer,
