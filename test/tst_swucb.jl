@@ -6,7 +6,7 @@ println( Algorithms.info_str(alg,false) )
 for i = 1:10
     idx = Algorithms.getArmIndex( alg )
     r   = rand()
-    Algorithms.updateReward( alg, r )
+    Algorithms.updateReward!( alg, r )
     println( "i = $i" )
     println( "\tnoOfSteps       : ", alg.noOfSteps )
     println( "\tlastPlayedArm   : ", alg.lastPlayedArm )
@@ -17,12 +17,12 @@ for i = 1:10
     println( "\trewardsInWindow : ", alg.rewardsInWindow )
     println( "\tindices         : ", alg.indices)
 end
-Algorithms.reset( alg )
+Algorithms.reset!( alg )
 println( Algorithms.info_str(alg,false) )
 for i = 1:10
     idx = Algorithms.getArmIndex( alg )
     r   = rand()
-    Algorithms.updateReward( alg, r )
+    Algorithms.updateReward!( alg, r )
     println( "i = $i" )
     println( "\tnoOfSteps       : ", alg.noOfSteps )
     println( "\tlastPlayedArm   : ", alg.lastPlayedArm )
@@ -33,4 +33,4 @@ for i = 1:10
     println( "\trewardsInWindow : ", alg.rewardsInWindow )
     println( "\tindices         : ", alg.indices)
 end
-Algorithms.reset( alg )
+Algorithms.reset!( alg )

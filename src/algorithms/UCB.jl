@@ -314,7 +314,7 @@ function updateReward!( agent::SWUCB, r::Real )
 
     # Update UCB indices
     agent.indices = agent.swCumRew./agent.swCount +
-                        √(agent.ξ*log(min(agent.noOfSteps,agent.τ))./agent.swCount)
+                        sqrt.(agent.ξ*log(min(agent.noOfSteps,agent.τ))./agent.swCount)
 end
 
 function reset!( agent::SWUCB )

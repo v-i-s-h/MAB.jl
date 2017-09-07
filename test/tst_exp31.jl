@@ -8,12 +8,12 @@ for i = 1:10
     print( "Playing Arm#$idx .... " )
     r = rand()
     print( "Reward: $r\n" )
-    Algorithms.updateReward( alg, r )
+    Algorithms.updateReward!( alg, r )
     println( alg )
 end
 
 println( "Resetting the algorithm..." )
-Algorithms.reset( alg )
+Algorithms.reset!( alg )
 
 # For [0,1] Arms
 for i = 1:10
@@ -21,6 +21,6 @@ for i = 1:10
     print( "Playing Arm#$idx .... " )
     r = rand()
     print( "Reward: $r\n" )
-    Algorithms.updateReward( alg, r )
+    Algorithms.updateReward!( alg, r )
     println( alg )
 end

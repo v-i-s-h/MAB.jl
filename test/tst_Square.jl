@@ -14,10 +14,10 @@ noOfIterations  = 1000
 rAvg1   = zeros( Float64, noOfTimeSteps )
 rAvg2   = zeros( Float64, noOfTimeSteps )
 for i ∈ 1:noOfIterations
-    rAvg1   = rAvg1 + [ rand(Distributions.Bernoulli(Arms.pull(a1))) for i=1:noOfTimeSteps ];
-    rAvg2   = rAvg2 + [ rand(Distributions.Bernoulli(Arms.pull(a2))) for i=1:noOfTimeSteps ];
-    Arms.reset( a1 );
-    Arms.reset( a2 );
+    rAvg1   = rAvg1 + [ rand(Distributions.Bernoulli(Arms.pull!(a1))) for i=1:noOfTimeSteps ];
+    rAvg2   = rAvg2 + [ rand(Distributions.Bernoulli(Arms.pull!(a2))) for i=1:noOfTimeSteps ];
+    Arms.reset!( a1 );
+    Arms.reset!( a2 );
 end
 rAvg1 = rAvg1/noOfIterations;
 rAvg2 = rAvg2/noOfIterations;

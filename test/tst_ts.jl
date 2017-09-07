@@ -12,11 +12,11 @@ for i = 1:10
     print( "Playing Arm#$idx .... " )
     r = rand( Distributions.Bernoulli(0.5) )
     print( "Reward: $r\n" )
-    Algorithms.updateReward( ts1, r )
+    Algorithms.updateReward!( ts1, r )
     println( ts1 )
 end
 
-Algorithms.reset( ts1 )
+Algorithms.reset!( ts1 )
 
 # For [0,1] Arms
 for i = 1:10
@@ -24,6 +24,6 @@ for i = 1:10
     print( "Playing Arm#$idx .... " )
     r = rand()
     print( "Reward: $r\n" )
-    Algorithms.updateReward( ts1, r )
+    Algorithms.updateReward!( ts1, r )
     println( ts1 )
 end
