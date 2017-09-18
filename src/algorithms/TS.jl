@@ -234,3 +234,83 @@ end
 function info_str( agent::OTS, latex::Bool )
     return @sprintf( "Optimistic Thompson Sampling" )
 end
+
+
+"""-----------------------------------------------------------------------------
+    Thompson Sampling for Normal Rewards
+    Based on: Sec 6.3, Russo, D., & Van Roy, B. (2014). Learning to Optimize Via Posterior Sampling. Mathematics of Operations Research. http://doi.org/10.1287/xxxx.0000.0000
+"""
+
+type TSNormal <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    η::Float64
+    μ::Vector{Float64}
+    σ::Vector{Float64}
+
+    samplingDist::Vector{Distributions.Normal}
+
+    function TSNormal( noOfArms::Int64, η::Real = 1 )
+        new(
+            noOfArms,
+            0,
+            0,
+            η,
+            zeros(Float64,noOfArms),
+            100*ones(Float64,noOfArms),    # σ - Some high value
+            fill(Distributions.Normal(0,100),noOfArms)
+        )
+    end
+
+    function TSNormal( armParams::Array{Tuple{Real,Real},1}, η::Real = 1 )
+        _K = length(armParams)
+        new(
+            _K,
+            0,
+            0,
+            η,
+            [ armParams[idx][1] for i = 1:_K ],
+            [ armParams[idx][2] for i = 1:_K ],
+            [ Distributions.Normal(armParams[idx][1],armParams[idx][2]) for i = 1:_K ]
+        )
+    end
+end
+
+function getArmIndex( agent::TSNormal )
+    agent.lastPlayedArm = findmax( [ max(mean(armSample),rand(armSample)) for armSample in agent.samplingDist] )[2]
+    return agent.lastPlayedArm
+end
+
+function updateReward!( agent::TSNormal, r::Float64 )
+
+    agent.μ[agent.lastPlayedArm] = ( agent.μ[agent.lastPlayedArm]/agent.σ[agent.lastPlayedArm]^2 + r/agent.η^2 ) /
+                                        ( 1/agent.σ[agent.lastPlayedArm]^2 + 1/agent.η^2 )
+    agent.σ[agent.lastPlayedArm] = ( 1/agent.σ[agent.lastPlayedArm]^2 + 1/agent.η^2 )^(-1/2)
+
+    # Update Distributions
+    agent.samplingDist[agent.lastPlayedArm] = Distributions.Normal(
+                                                agent.μ[agent.lastPlayedArm],
+                                                agent.σ[agent.lastPlayedArm]
+                                            )
+
+    agent.noOfSteps += 1
+end
+
+function reset!( agent::TSNormal )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.μ   = zeros( Float64, agent.noOfArms )
+    agent.σ   = 100*ones(Float64,agent.noOfArms)
+    agent.samplingDist  = [ Distributions.Normal(agent.μ[i],agent.σ[i]) for i = 1:agent.noOfArms ]
+end
+
+function info_str( agent::TSNormal, latex::Bool )
+    if latex
+        return @sprintf( "TS-Normal(\$\\eta=%3.2f\$)", agent.η )
+    else
+        return @sprintf( "TS-Normal(η=%3.2f)", agent.η )
+    end
+end
