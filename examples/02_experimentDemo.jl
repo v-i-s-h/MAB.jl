@@ -8,10 +8,14 @@ bandit  = [
     # Arms.Bernoulli( 0.90 ),
     # Arms.Bernoulli( 0.10 ),
     # Arms.Bernoulli( 0.15 )
-    Arms.Normal( 0.36, 1.00 ),
-    Arms.Normal( 0.20, 1.00 ),
-    Arms.Normal( 0.81, 1.00 ),
-    Arms.Normal( 0.56, 1.00 ),
+    # Arms.Normal( 0.36, 1.00 ),
+    # Arms.Normal( 0.20, 1.00 ),
+    # Arms.Normal( 0.81, 1.00 ),
+    # Arms.Normal( 0.56, 1.00 ),
+    Arms.Exponential( 1.2 ),
+    Arms.Exponential( 2.3 ),
+    Arms.Exponential( 3.4 ),
+    Arms.Exponential( 4.5 )
     # Arms.Beta( 0.60, 0.40 ),
     # Arms.Sinusoidal( 800, 0 ),
     # Arms.Sinusoidal( 800, π ),
@@ -28,18 +32,18 @@ noOfArms = length( bandit )
 
 testAlgs = [
     # Algorithms.UniformStrategy( noOfArms ),
-    # Algorithms.epsGreedy( noOfArms, 0.05 ),
+    Algorithms.epsGreedy( noOfArms, 0.05 ),
     # Algorithms.epsGreedy( noOfArms, 1.00 ),
-    # Algorithms.epsNGreedy( noOfArms, 5, 0.05 ),
+    Algorithms.epsNGreedy( noOfArms, 5, 0.05 ),
     # Algorithms.epsNGreedy( noOfArms, 1/noOfArms, 1.0 ),
-    # Algorithms.epsNGreedy( noOfArms ),
+    Algorithms.epsNGreedy( noOfArms ),
     # Algorithms.EXP3( noOfArms, 0.05 ),
     # Algorithms.EXP3( noOfArms, 0.10 ),
-    # Algorithms.UCB1( noOfArms ),
+    Algorithms.UCB1( noOfArms ),
     # Algorithms.TS( noOfArms ),
     # Algorithms.OTS( noOfArms ),
     # Algorithms.DynamicTS( noOfArms, 10 ),
-    Algorithms.UCBNormal( noOfArms ),
+    # Algorithms.UCBNormal( noOfArms ),
     # Algorithms.EXP31( noOfArms ),
     # Algorithms.SoftMax( noOfArms, 0.008 ),
     # Algorithms.SoftMax( noOfArms, 0.009 ),
@@ -55,9 +59,9 @@ testAlgs = [
     # Algorithms.DUCB( noOfArms, 0.99, 5.0 ),
     # Algorithms.EXP3( noOfArms, 0.90 ),
     # Algorithms.EXP3IX( noOfArms, 0.90, 0.60 )
-    Algorithms.TSNormal( noOfArms, 1 ),
-    Algorithms.TSNormal( noOfArms, 10 ),
-    Algorithms.TSNormal( noOfArms, 100 )
+    # Algorithms.TSNormal( noOfArms, 1 ),
+    # Algorithms.TSNormal( noOfArms, 10 ),
+    # Algorithms.TSNormal( noOfArms, 100 )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
@@ -75,7 +79,7 @@ end
 PyPlot.xlabel( "Timesteps" )
 PyPlot.ylabel( "Avg. Reward" )
 PyPlot.title( "Average Reward (Normalized for $noOfRounds rounds)")
-ax = PyPlot.gca()
-ax[:set_ylim]( [0.00,1.00] )
+# ax = PyPlot.gca()
+# ax[:set_ylim]( [0.00,1.00] )
 PyPlot.legend()
 PyPlot.grid()

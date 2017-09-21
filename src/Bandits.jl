@@ -18,6 +18,7 @@ module Arms
     #--------------------------- Import Arm Models Here ---------------------------#
     include( "armModels/BanditArmBase.jl" )
     include( "armModels/Bernoulli.jl" )
+    include( "armModels/Exponential.jl" )
     include( "armModels/Normal.jl" )
     include( "armModels/Beta.jl" )
     include( "armModels/Sinusoidal.jl" )
