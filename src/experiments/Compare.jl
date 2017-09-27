@@ -16,6 +16,7 @@ function run( experiment::Compare, noOfTimeSteps::Integer, noOfRounds::Integer )
 
     result = Dict{String,Array{Float64,2}}()
     for alg ∈ experiment.algorithms
+        srand( 1729 );  # "Magic" Seed initialization for RNG - across all algorithms
         observations = zeros( noOfTimeSteps, noOfRounds )
         for _round = 1:noOfRounds
             Algorithms.reset!( alg )
