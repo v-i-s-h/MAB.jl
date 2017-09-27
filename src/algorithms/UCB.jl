@@ -335,3 +335,83 @@ function info_str( agent::SWUCB, latex::Bool )
         return @sprintf( "SW-UCB(τ = %3.2f, ξ = %3.2f)", agent.τ, agent.ξ );
     end
 end
+
+
+"""
+    UCB-V: Variance Aware UCB Implementation
+    Based on: Audibert, J. Y., Munos, R., & Szepesvári, C. (2009). Exploration-exploitation tradeoff using variance estimates in multi-armed bandits. Theoretical Computer Science, 410(19), 1876–1902. http://doi.org/10.1016/j.tcs.2009.01.016
+"""
+
+type UCBV <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    empiricalMean::Vector{Float64}
+    empiricalVariance::Vector{Float64}
+    count::Vector{Int64}
+    ucbIndices::Vector{Float64}
+
+    function UCBV( noOfArms::Int )
+        new( noOfArms,
+             0,
+             0,
+             zeros(Float64,noOfArms),
+             zeros(Float64,noOfArms),
+             zeros(Int64,noOfArms),
+             zeros(Float64,noOfArms)
+        )
+    end
+end
+
+function getArmIndex( agent::UCBV )
+    if any(agent.count.==0)
+        agent.lastPlayedArm =  rand( find(agent.count.==0) )
+    else
+        agent.lastPlayedArm = findmax(agent.ucbIndices)[2]
+    end
+
+    return agent.lastPlayedArm
+end
+
+function updateReward!( agent::UCBV, r::Real )
+
+    # Save old mean
+    μ = agent.empiricalMean[agent.lastPlayedArm]
+
+    # Update cummulative reward
+    agent.empiricalMean[agent.lastPlayedArm] = (agent.empiricalMean[agent.lastPlayedArm]*agent.count[agent.lastPlayedArm]+r) /
+                                                    (agent.count[agent.lastPlayedArm]+1)
+    # Update empirical Variance : Based on (30) in http://mathworld.wolfram.com/SampleVarianceComputation.html
+    if agent.count[agent.lastPlayedArm] != 0
+        agent.empiricalVariance[agent.lastPlayedArm] = (agent.count[agent.lastPlayedArm]-1)/agent.count[agent.lastPlayedArm] *
+                                                            agent.empiricalVariance[agent.lastPlayedArm] +
+                                                        1/(agent.count[agent.lastPlayedArm]+1) * (r-μ)^2 
+    end
+
+    # Update play count for arm
+    agent.count[agent.lastPlayedArm] += 1
+
+    # Update number of steps played
+    agent.noOfSteps += 1
+
+    # Update UCB indices
+    agent.ucbIndices = agent.empiricalMean +
+                        sqrt.(2*log(agent.noOfSteps)*agent.empiricalVariance./agent.count) +
+                            log(agent.noOfSteps)./agent.count
+    nothing
+end
+
+function reset!( agent::UCBV )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.empiricalMean     = zeros( Float64, agent.noOfArms )
+    agent.empiricalVariance = zeros( Float64, agent.noOfArms )
+    agent.count             = zeros( Int64, agent.noOfArms )
+    agent.ucbIndices        = zeros( Float64, agent.noOfArms )
+end
+
+function info_str( agent::UCBV, latex::Bool )
+    return @sprintf( "UCB-V" )
+end
