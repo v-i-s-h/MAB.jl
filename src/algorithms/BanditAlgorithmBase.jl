@@ -16,3 +16,11 @@ end
 function info_str( agent::BanditAlgorithmBase, latex::Bool = false )
     error( "No Implementation of info_str() for ", typeof(agent) );
 end
+
+# import Base.show
+function Base.show( io::IO, ::MIME"text/plain", agent::BanditAlgorithmBase )
+    print( io, @sprintf("Algorithm: %s",info_str(agent)) )
+    for param in fieldnames(agent)
+        print( @sprintf("\n    %-16s: ",param), getfield(agent,param) )
+    end
+end
