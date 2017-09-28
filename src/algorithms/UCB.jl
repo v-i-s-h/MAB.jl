@@ -347,15 +347,23 @@ type UCBV <: BanditAlgorithmBase
     noOfSteps::Int64
     lastPlayedArm::Int64
 
+    # Parameters
+    ζ::Float64
+    c::Float64
+    b::Float64
+
     empiricalMean::Vector{Float64}
     empiricalVariance::Vector{Float64}
     count::Vector{Int64}
     ucbIndices::Vector{Float64}
 
-    function UCBV( noOfArms::Int )
+    function UCBV( noOfArms::Int; ζ::Real = 1.0, c::Real = 1/3, b::Real = 1.0 )
         new( noOfArms,
              0,
              0,
+             ζ,
+             c,
+             b,
              zeros(Float64,noOfArms),
              zeros(Float64,noOfArms),
              zeros(Int64,noOfArms),
@@ -386,7 +394,7 @@ function updateReward!( agent::UCBV, r::Real )
     if agent.count[agent.lastPlayedArm] != 0
         agent.empiricalVariance[agent.lastPlayedArm] = (agent.count[agent.lastPlayedArm]-1)/agent.count[agent.lastPlayedArm] *
                                                             agent.empiricalVariance[agent.lastPlayedArm] +
-                                                        1/(agent.count[agent.lastPlayedArm]+1) * (r-μ)^2 
+                                                        1/(agent.count[agent.lastPlayedArm]+1) * (r-μ)^2
     end
 
     # Update play count for arm
@@ -397,8 +405,8 @@ function updateReward!( agent::UCBV, r::Real )
 
     # Update UCB indices
     agent.ucbIndices = agent.empiricalMean +
-                        sqrt.(2*log(agent.noOfSteps)*agent.empiricalVariance./agent.count) +
-                            log(agent.noOfSteps)./agent.count
+                        sqrt.(2*agent.ζ*log(agent.noOfSteps)*agent.empiricalVariance./agent.count) +
+                            3*agent.c*agent.b*log(agent.noOfSteps)./agent.count
     nothing
 end
 
@@ -413,5 +421,9 @@ function reset!( agent::UCBV )
 end
 
 function info_str( agent::UCBV, latex::Bool )
-    return @sprintf( "UCB-V" )
+    if latex
+        return @sprintf( "UCB-V(\$\\zeta=%3.2f,c=%3.2f,b=%3.2f\$)", agent.ζ, agent.c, agent.b )
+    else
+        return @sprintf( "UCB-V(ζ=%3.2f,c=%3.2f,b=%3.2f)", agent.ζ, agent.c, agent.b )
+    end
 end

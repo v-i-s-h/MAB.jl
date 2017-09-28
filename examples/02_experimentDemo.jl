@@ -62,7 +62,9 @@ testAlgs = [
     # Algorithms.TSNormal( noOfArms, 1 ),
     # Algorithms.TSNormal( noOfArms, 10 ),
     # Algorithms.TSNormal( noOfArms, 100 )
-    Algorithms.UCBV( noOfArms )
+    Algorithms.UCBV( noOfArms ),
+    Algorithms.UCBV( noOfArms, ζ = 1, c = 1),
+    Algorithms.UCBV( noOfArms, ζ = 2.0, c = 1)
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
