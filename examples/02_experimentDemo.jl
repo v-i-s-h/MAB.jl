@@ -40,8 +40,8 @@ testAlgs = [
     # Algorithms.EXP3( noOfArms, 0.05 ),
     # Algorithms.EXP3( noOfArms, 0.10 ),
     Algorithms.UCB1( noOfArms ),
-    # Algorithms.TS( noOfArms ),
-    # Algorithms.OTS( noOfArms ),
+    Algorithms.TS( noOfArms ),
+    Algorithms.OTS( noOfArms ),
     # Algorithms.DynamicTS( noOfArms, 10 ),
     # Algorithms.UCBNormal( noOfArms ),
     # Algorithms.EXP31( noOfArms ),
@@ -63,8 +63,9 @@ testAlgs = [
     # Algorithms.TSNormal( noOfArms, 10 ),
     # Algorithms.TSNormal( noOfArms, 100 )
     Algorithms.UCBV( noOfArms ),
-    Algorithms.UCBV( noOfArms, ζ = 1, c = 1),
-    Algorithms.UCBV( noOfArms, ζ = 2.0, c = 1)
+    # Algorithms.UCBV( noOfArms, ζ = 1, c = 1),
+    # Algorithms.UCBV( noOfArms, ζ = 2.0, c = 1),
+    Algorithms.BayesUCB( noOfArms )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )

@@ -8,12 +8,15 @@ This package provide a framework for developing and comparing various Bandit alg
 2. Upper Confidence Bound Policies
    1. UCB1
    2. UCB-Normal
-   3. Discounted-UCB
-   4. Sliding Window UCB
+   3. UCB-V
+   4. Bayes-UCB (For Bernoulli Rewards)
+   5. Discounted-UCB
+   6. Sliding Window UCB
 3. Thompson Sampling
    1. Thompson Sampling
    2. Dynamic Thompson Sampling
    3. Optimistic Thompson Sampling
+   4. TSNormal (Thompson Sampling for Gaussian distributed rewards)
 4. EXP3
    1. EXP3
    2. EXP3.1

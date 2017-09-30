@@ -427,3 +427,82 @@ function info_str( agent::UCBV, latex::Bool )
         return @sprintf( "UCB-V(ζ=%3.2f,c=%3.2f,b=%3.2f)", agent.ζ, agent.c, agent.b )
     end
 end
+
+
+
+"""
+    Bayes-UCB Implementation
+    Based on: Kaufmann, E., Cappé, O., & Garivier, A. (2012). On Bayesian upper confidence bounds for bandit problems. International Conference on Artificial Intelligence and Statistics, 592–600.
+    Using 1 - 1/t as quantile
+"""
+type BayesUCB <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    α0::Vector{Int64}
+    β0::Vector{Int64}
+    cummSuccess::Vector{Int64}
+    cummFailure::Vector{Int64}
+
+    samplingDist::Vector{Distributions.Beta}
+
+    function BayesUCB( noOfArms::Integer )
+        new( noOfArms,
+             0,
+             0,
+             ones(Int64,noOfArms),
+             ones(Int64,noOfArms),
+             zeros(Float64,noOfArms),
+             zeros(Float64,noOfArms),
+             fill(Distributions.Beta(1,1),noOfArms)
+        )
+    end
+
+    function BayesUCB( armParams::Array{Tuple{Int64,Int64},1} )
+        _noOfArms   = length( armParams )
+        _priorDist  = [ Distributions.Beta(armParams[idx][1],armParams[idx][2]) for idx=1:_noOfArms ]
+        new( _noOfArms,
+             0,
+             0,
+             [ armParams[idx][1] for idx=1:_noOfArms ],
+             [ armParams[idx][2] for idx=1:_noOfArms ],
+             zeros(Float64,_noOfArms),
+             zeros(Float64,_noOfArms),
+             _priorDist
+        )
+    end
+end
+
+function getArmIndex( agent::BayesUCB )
+    agent.lastPlayedArm = findmax(  map( dist->quantile(dist,1-1/agent.noOfSteps), agent.samplingDist) )[2]
+    return agent.lastPlayedArm
+end
+
+function updateReward!( agent::BayesUCB, r::Int64 )
+    # Update S and F
+    agent.cummSuccess[agent.lastPlayedArm] += (r==0?0:1)
+    agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
+
+    # Update Distributions
+    agent.samplingDist[agent.lastPlayedArm] = Distributions.Beta(
+                                                agent.cummSuccess[agent.lastPlayedArm]+agent.α0[agent.lastPlayedArm],
+                                                agent.cummFailure[agent.lastPlayedArm]+agent.β0[agent.lastPlayedArm]
+                                            )
+
+    # Update time steps
+    agent.noOfSteps += 1
+end
+
+function reset!( agent::BayesUCB )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.cummSuccess   = zeros( Float64, agent.noOfArms )
+    agent.cummFailure   = zeros( Float64, agent.noOfArms )
+    agent.samplingDist  = fill( Distributions.Beta(1,1), agent.noOfArms )
+end
+
+function info_str( agent::BayesUCB, latex::Bool )
+    return @sprintf( "Bayes UCB" )
+end
