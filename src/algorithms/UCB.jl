@@ -440,6 +440,7 @@ type BayesUCB <: BanditAlgorithmBase
     noOfSteps::Int64
     lastPlayedArm::Int64
 
+    count::Vector{Int64}
     α0::Vector{Int64}
     β0::Vector{Int64}
     cummSuccess::Vector{Int64}
@@ -451,6 +452,7 @@ type BayesUCB <: BanditAlgorithmBase
         new( noOfArms,
              0,
              0,
+             zeros(Int64,noOfArms),
              ones(Int64,noOfArms),
              ones(Int64,noOfArms),
              zeros(Float64,noOfArms),
@@ -465,6 +467,7 @@ type BayesUCB <: BanditAlgorithmBase
         new( _noOfArms,
              0,
              0,
+             zeros(Int64,noOfArms),
              [ armParams[idx][1] for idx=1:_noOfArms ],
              [ armParams[idx][2] for idx=1:_noOfArms ],
              zeros(Float64,_noOfArms),
@@ -475,7 +478,11 @@ type BayesUCB <: BanditAlgorithmBase
 end
 
 function getArmIndex( agent::BayesUCB )
-    agent.lastPlayedArm = findmax(  map( dist->quantile(dist,1-1/agent.noOfSteps), agent.samplingDist) )[2]
+    if any(agent.count.==0)
+        agent.lastPlayedArm =  rand( find(agent.count.==0) )
+    else
+        agent.lastPlayedArm = findmax(  map(dist->quantile(dist,1-1/agent.noOfSteps),agent.samplingDist) )[2]
+    end
     return agent.lastPlayedArm
 end
 
@@ -490,6 +497,9 @@ function updateReward!( agent::BayesUCB, r::Int64 )
                                                 agent.cummFailure[agent.lastPlayedArm]+agent.β0[agent.lastPlayedArm]
                                             )
 
+    # Update play count for arm
+    agent.count[agent.lastPlayedArm] += 1
+
     # Update time steps
     agent.noOfSteps += 1
 end
@@ -498,6 +508,7 @@ function reset!( agent::BayesUCB )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
+    agent.count         = zeros( Int64, agent.noOfArms )
     agent.cummSuccess   = zeros( Float64, agent.noOfArms )
     agent.cummFailure   = zeros( Float64, agent.noOfArms )
     agent.samplingDist  = fill( Distributions.Beta(1,1), agent.noOfArms )
