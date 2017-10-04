@@ -10,8 +10,9 @@ This package provide a framework for developing and comparing various Bandit alg
    2. UCB-Normal
    3. UCB-V
    4. Bayes-UCB (For Bernoulli Rewards)
-   5. Discounted-UCB
-   6. Sliding Window UCB
+   5. KL-UCB
+   6. Discounted-UCB
+   7. Sliding Window UCB
 3. Thompson Sampling
    1. Thompson Sampling
    2. Dynamic Thompson Sampling

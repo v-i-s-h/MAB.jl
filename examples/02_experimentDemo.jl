@@ -65,7 +65,8 @@ testAlgs = [
     Algorithms.UCBV( noOfArms ),
     # Algorithms.UCBV( noOfArms, ζ = 1, c = 1),
     # Algorithms.UCBV( noOfArms, ζ = 2.0, c = 1),
-    Algorithms.BayesUCB( noOfArms )
+    Algorithms.BayesUCB( noOfArms ),
+    Algorithms.KLUCB( noOfArms )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )

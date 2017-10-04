@@ -517,3 +517,106 @@ end
 function info_str( agent::BayesUCB, latex::Bool )
     return @sprintf( "Bayes UCB" )
 end
+
+"""
+    KL-UCB Implementation
+    Based on: Garivier, A., & Cappe, O. (2011). The KL-UCB Algorithm for Bounded Stochastic Bandits and Beyond. In CoLT (Vol. 24).
+"""
+type KLUCB <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    cummReward::Vector{Float64}
+    count::Vector{Int64}
+    ucbIndices::Vector{Float64}
+
+    function KLUCB( noOfArms::Int )
+        new( noOfArms,
+             0,
+             0,
+             zeros(Float64,noOfArms),
+             zeros(Int64,noOfArms),
+             zeros(Float64,noOfArms)
+        )
+    end
+end
+
+function getArmIndex( agent::KLUCB )
+    if any(agent.count.==0)
+        agent.lastPlayedArm =  rand( find(agent.count.==0) )
+    else
+        agent.lastPlayedArm = findmax(agent.ucbIndices)[2]
+    end
+
+    return agent.lastPlayedArm
+end
+
+function updateReward!( agent::KLUCB, r::Real )
+
+    # Update cummulative reward
+    agent.cummReward[agent.lastPlayedArm] += r
+
+    # Update play count for arm
+    agent.count[agent.lastPlayedArm] += 1
+
+    # Update number of steps played
+    agent.noOfSteps += 1
+
+    # Update UCB indices
+    agent.ucbIndices = find_q.( agent.cummReward, agent.count, agent.noOfSteps )
+
+    nothing
+end
+
+function reset!( agent::KLUCB )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.cummReward    = zeros( Float64, agent.noOfArms )
+    agent.count         = zeros( Int64, agent.noOfArms )
+    agent.ucbIndices    = zeros( Float64, agent.noOfArms )
+
+    nothing
+end
+
+function info_str( agent::KLUCB, latex::Bool )
+    return @sprintf( "KL-UCB" )
+end
+
+# Utility functions
+function kl_div( p::Float64, q::Float64 )
+    if p==q
+        return 0.00
+    elseif p == 0.0
+        return -log(1-q)
+    elseif p == 1.0
+        return -log(q)
+    else
+        return p*log(p/q) + (1-p)*log((1-p)/(1-q))
+    end
+end
+
+function kl_div( X1::Distributions.Bernoulli, X2::Distributions.Bernoulli )
+   kl_div( X1.p, X2.p )
+end
+
+function find_q( sa, na, t; ϵ = 1e-5 )
+    lQ = sa/na
+    uQ = 1 # min( 1, sa/na+√(log(t)/na/2))
+    q̄ = 1.0
+    q  = (lQ+uQ)/2
+    while abs(q̄-q) > ϵ
+        q̄  = q
+        # print( @sprintf( "lQ = %f, q = %f, uQ = %f", lQ, q, uQ ) )
+        klDiv = kl_div( sa/na, q )
+        # println( @sprintf( "    kl = %f, d = %f", klDiv, log(t)/na ))
+        if klDiv < (log(t)/na)
+            lQ = q
+        else
+            uQ = q
+        end
+        q  = (lQ+uQ)/2
+    end
+    return lQ
+end
