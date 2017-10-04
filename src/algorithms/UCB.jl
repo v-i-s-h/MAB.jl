@@ -8,14 +8,17 @@ type UCB1 <: BanditAlgorithmBase
     noOfSteps::Int64
     lastPlayedArm::Int64
 
+    c::Float64
+
     cummReward::Vector{Float64}
     count::Vector{Int64}
     ucbIndices::Vector{Float64}
 
-    function UCB1( noOfArms::Int )
+    function UCB1( noOfArms::Int, c::Real = √2 )
         new( noOfArms,
              0,
              0,
+             c,
              zeros(Float64,noOfArms),
              zeros(Int64,noOfArms),
              zeros(Float64,noOfArms)
@@ -46,7 +49,7 @@ function updateReward!( agent::UCB1, r::Real )
 
     # Update UCB indices
     agent.ucbIndices = agent.cummReward./agent.count +
-                        sqrt.(2*log(agent.noOfSteps)./agent.count)
+                        agent.c * sqrt.(log(agent.noOfSteps)./agent.count)
 end
 
 function reset!( agent::UCB1 )
@@ -59,7 +62,11 @@ function reset!( agent::UCB1 )
 end
 
 function info_str( agent::UCB1, latex::Bool )
-    return @sprintf( "UCB1" )
+    if agent.c == √2
+        return @sprintf( "UCB1" )
+    else
+        return @sprintf( "UCB1 (c=%3.2f)", agent.c )
+    end
 end
 
 """

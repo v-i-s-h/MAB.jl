@@ -4,10 +4,10 @@ using Bandits
 import PyPlot
 
 bandit  = [
-    Arms.Bernoulli( 0.20 ),
     Arms.Bernoulli( 0.90 ),
-    Arms.Bernoulli( 0.10 ),
-    Arms.Bernoulli( 0.15 )
+    Arms.Bernoulli( 0.85 ),
+    Arms.Bernoulli( 0.80 ),
+    Arms.Bernoulli( 0.75 )
     # Arms.Normal( 0.36, 1.00 ),
     # Arms.Normal( 0.20, 1.00 ),
     # Arms.Normal( 0.81, 1.00 ),
@@ -39,9 +39,15 @@ testAlgs = [
     # Algorithms.epsNGreedy( noOfArms ),
     # Algorithms.EXP3( noOfArms, 0.05 ),
     # Algorithms.EXP3( noOfArms, 0.10 ),
-    Algorithms.UCB1( noOfArms ),
-    Algorithms.TS( noOfArms ),
-    Algorithms.OTS( noOfArms ),
+    Algorithms.UCB1( noOfArms, 1/8 ),
+    Algorithms.UCB1( noOfArms, 1/4 ),
+    Algorithms.UCB1( noOfArms, 1/2 ),
+    Algorithms.UCB1( noOfArms, 1/√2 ),
+    Algorithms.UCB1( noOfArms, 1 ),
+    Algorithms.UCB1( noOfArms, √2 ),
+    Algorithms.UCB1( noOfArms, 2 ),
+    # Algorithms.TS( noOfArms ),
+    # Algorithms.OTS( noOfArms ),
     # Algorithms.DynamicTS( noOfArms, 10 ),
     # Algorithms.UCBNormal( noOfArms ),
     # Algorithms.EXP31( noOfArms ),
@@ -62,10 +68,10 @@ testAlgs = [
     # Algorithms.TSNormal( noOfArms, 1 ),
     # Algorithms.TSNormal( noOfArms, 10 ),
     # Algorithms.TSNormal( noOfArms, 100 )
-    Algorithms.UCBV( noOfArms ),
+    # Algorithms.UCBV( noOfArms ),
     # Algorithms.UCBV( noOfArms, ζ = 1, c = 1),
     # Algorithms.UCBV( noOfArms, ζ = 2.0, c = 1),
-    Algorithms.BayesUCB( noOfArms ),
+    # Algorithms.BayesUCB( noOfArms ),
     Algorithms.KLUCB( noOfArms )
 ]
 
