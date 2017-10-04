@@ -78,7 +78,7 @@ result = Experiments.run( exp1, noOfTimeSteps, noOfRounds )
 fig = PyPlot.figure()
 ## Plot avg rewards
 for alg in keys(result)
-    PyPlot.plot( 1:noOfTimeSteps, result[alg], label = alg )
+    PyPlot.plot( 1:noOfTimeSteps, cumsum(result[alg])./collect(1:noOfTimeSteps), label = alg )
 end
 
 PyPlot.xlabel( "Timesteps" )
