@@ -41,12 +41,12 @@ type TS <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::TS )
+function get_arm_index( agent::TS )
     agent.lastPlayedArm = findmax( [rand(armSample) for armSample in agent.samplingDist] )[2]
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::TS, r::Int64 )
+function update_reward!( agent::TS, r::Int64 )
     # Update S and F
     agent.cummSuccess[agent.lastPlayedArm] += (r==0?0:1)
     agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
@@ -61,7 +61,7 @@ function updateReward!( agent::TS, r::Int64 )
     agent.noOfSteps += 1
 end
 
-function updateReward!( agent::TS, r::Float64 )
+function update_reward!( agent::TS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
     updateReward!( agent, rTilde )
 end
@@ -108,12 +108,12 @@ type DynamicTS <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::DynamicTS )
+function get_arm_index( agent::DynamicTS )
     agent.lastPlayedArm = findmax( [rand(armSample) for armSample in agent.samplingDist] )[2]
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::DynamicTS, r::Integer )
+function update_reward!( agent::DynamicTS, r::Integer )
     # Update reward to arm played
     if agent.α[agent.lastPlayedArm]+agent.β[agent.lastPlayedArm] < agent.C
         agent.α[agent.lastPlayedArm]    += (r==0?0:1)
@@ -133,7 +133,7 @@ function updateReward!( agent::DynamicTS, r::Integer )
     agent.noOfSteps += 1
 end
 
-function updateReward!( agent::DynamicTS, r::AbstractFloat )
+function update_reward!( agent::DynamicTS, r::AbstractFloat )
     updateReward!( agent, rand(Distributions.Bernoulli(r)) )   # Do a Bernoulli Trial to update the posterior
 end
 
@@ -198,12 +198,12 @@ type OTS <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::OTS )
+function get_arm_index( agent::OTS )
     agent.lastPlayedArm = findmax( [ max(mean(armSample),rand(armSample)) for armSample in agent.samplingDist] )[2]
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::OTS, r::Int64 )
+function update_reward!( agent::OTS, r::Int64 )
     # Update S and F
     agent.cummSuccess[agent.lastPlayedArm] += (r==1?1:0)
     agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
@@ -217,7 +217,7 @@ function updateReward!( agent::OTS, r::Int64 )
     agent.noOfSteps += 1
 end
 
-function updateReward!( agent::OTS, r::Float64 )
+function update_reward!( agent::OTS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
     updateReward!( agent, rTilde )
 end
@@ -278,12 +278,12 @@ type TSNormal <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::TSNormal )
+function get_arm_index( agent::TSNormal )
     agent.lastPlayedArm = findmax( [ max(mean(armSample),rand(armSample)) for armSample in agent.samplingDist] )[2]
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::TSNormal, r::Float64 )
+function update_reward!( agent::TSNormal, r::Float64 )
 
     agent.μ[agent.lastPlayedArm] = ( agent.μ[agent.lastPlayedArm]/agent.σ[agent.lastPlayedArm]^2 + r/agent.η^2 ) /
                                         ( 1/agent.σ[agent.lastPlayedArm]^2 + 1/agent.η^2 )

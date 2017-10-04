@@ -1,11 +1,11 @@
 # Base for implementing all algorithms
 abstract type BanditAlgorithmBase end
 
-function getArmIndex( agent::BanditAlgorithmBase )
+function get_arm_index( agent::BanditAlgorithmBase )
     error( "No implementation of getArmIndex() for ", typeof(agent) );
 end
 
-function updateReward!( agent::BanditAlgorithmBase, r::Real )
+function update_reward!( agent::BanditAlgorithmBase, r::Real )
     error( "No implementation of updateReward() for ", typeof(agent) );
 end
 

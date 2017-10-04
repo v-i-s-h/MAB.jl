@@ -25,9 +25,9 @@ function run( experiment::Compare, noOfTimeSteps::Integer, noOfRounds::Integer )
                 Arms.reset!( arm )
             end
             for _n = 1:noOfTimeSteps
-                armToPull   = Algorithms.getArmIndex( alg )
+                armToPull   = Algorithms.get_arm_index( alg )
                 reward      = Arms.pull!( experiment.bandit[armToPull] )
-                Algorithms.updateReward!( alg, reward )
+                Algorithms.update_reward!( alg, reward )
                 observations[_n,_round] = reward
                 # Process tick() for all arms except the pulled arm
                 for arm in experiment.bandit

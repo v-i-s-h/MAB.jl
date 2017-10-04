@@ -27,12 +27,12 @@ type KLMANB <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::KLMANB )
+function get_arm_index( agent::KLMANB )
     agent.lastPlayedArm = findmax( [rand(armSample) for armSample in agent.samplingDist] )[2]
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::KLMANB, r::Real )
+function update_reward!( agent::KLMANB, r::Real )
     # Update mean and variance
     agent.μ[agent.lastPlayedArm] = (((agent.σ_sq[agent.lastPlayedArm] + agent.TrVar)*r) + (agent.ObsVar * agent.μ[agent.lastPlayedArm])) / (agent.σ_sq[agent.lastPlayedArm] + agent.TrVar + agent.ObsVar)
     agent.σ_sq[agent.lastPlayedArm] = ((agent.σ_sq[agent.lastPlayedArm] + agent.TrVar)* agent.ObsVar) / (agent.σ_sq[agent.lastPlayedArm] + agent.TrVar + agent.ObsVar)

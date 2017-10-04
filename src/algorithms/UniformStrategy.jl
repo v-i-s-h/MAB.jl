@@ -15,11 +15,11 @@ type UniformStrategy <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::UniformStrategy )
+function get_arm_index( agent::UniformStrategy )
     return rand( 1:agent.noOfArms )
 end
 
-function updateReward!( agent::UniformStrategy, r::Real )
+function update_reward!( agent::UniformStrategy, r::Real )
     # Do nothing
 end
 

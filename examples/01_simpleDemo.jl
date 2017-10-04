@@ -32,9 +32,9 @@ for _alg ∈ algorithms
     for _round = 1:noOfRounds
         Algorithms.reset!( _alg )    # Start by resetting the memory
         for _time = 1:noOfTimeSteps
-            armToPull = Algorithms.getArmIndex( _alg )
+            armToPull = Algorithms.get_arm_index( _alg )
             reward    = Arms.pull!( arms[armToPull] )
-            Algorithms.updateReward!( _alg, reward )
+            Algorithms.update_reward!( _alg, reward )
 
             # print( @sprintf("    [%03d:%03d]: arm = %2d, reward = %3.2f ",_round,_time,armToPull,reward) )
             # print( @sprintf( "    Arm Values: [") )

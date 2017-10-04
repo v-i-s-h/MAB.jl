@@ -24,7 +24,7 @@ type epsGreedy <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::epsGreedy )
+function get_arm_index( agent::epsGreedy )
     if any(agent.count.==0)
         agent.lastPlayedArm = rand( find(agent.count.==0) )
     else
@@ -37,7 +37,7 @@ function getArmIndex( agent::epsGreedy )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::epsGreedy, r::Real )
+function update_reward!( agent::epsGreedy, r::Real )
     agent.cummReward[agent.lastPlayedArm] += r
     agent.count[agent.lastPlayedArm] += 1
     agent.noOfSteps += 1
@@ -109,7 +109,7 @@ type epsNGreedy <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::epsNGreedy )
+function get_arm_index( agent::epsNGreedy )
     if any(agent.count.==0)
         agent.lastPlayedArm = rand( find(agent.count.==0) )
     else
@@ -122,7 +122,7 @@ function getArmIndex( agent::epsNGreedy )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::epsNGreedy, r::Real )
+function update_reward!( agent::epsNGreedy, r::Real )
     # Book keeping
     agent.cummReward[agent.lastPlayedArm] += r
     agent.count[agent.lastPlayedArm] += 1

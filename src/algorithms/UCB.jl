@@ -26,7 +26,7 @@ type UCB1 <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::UCB1 )
+function get_arm_index( agent::UCB1 )
     if any(agent.count.==0)
         agent.lastPlayedArm =  rand( find(agent.count.==0) )
     else
@@ -36,7 +36,7 @@ function getArmIndex( agent::UCB1 )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::UCB1, r::Real )
+function update_reward!( agent::UCB1, r::Real )
 
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
@@ -129,7 +129,7 @@ type UCBNormal <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::UCBNormal )
+function get_arm_index( agent::UCBNormal )
     tmp_lb      = ceil( 8 * log(agent.noOfSteps) )  # Quantity for comparison
     tmp_lbArms  = find( agent.count .< tmp_lb )     # Find index of under played arms
     if( size(tmp_lbArms,1) > 0 )    # if any machine is played less than ceil(8 log n), play that arm
@@ -140,7 +140,7 @@ function getArmIndex( agent::UCBNormal )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::UCBNormal, r::Real )
+function update_reward!( agent::UCBNormal, r::Real )
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
     # Update squared cummulative reward
@@ -203,7 +203,7 @@ type DUCB <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::DUCB )
+function get_arm_index( agent::DUCB )
     if any(agent.count.==0)
         agent.lastPlayedArm =  rand( find(agent.count.==0) )
     else
@@ -213,7 +213,7 @@ function getArmIndex( agent::DUCB )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::DUCB, r::Real )
+function update_reward!( agent::DUCB, r::Real )
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
     # Update play count for arm
@@ -287,7 +287,7 @@ type SWUCB <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::SWUCB )
+function get_arm_index( agent::SWUCB )
     if any(agent.swCount.==0)
         agent.lastPlayedArm =  rand( find(agent.swCount.==0) )
     else
@@ -296,7 +296,7 @@ function getArmIndex( agent::SWUCB )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::SWUCB, r::Real )
+function update_reward!( agent::SWUCB, r::Real )
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
     # Update play count for arm
@@ -379,7 +379,7 @@ type UCBV <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::UCBV )
+function get_arm_index( agent::UCBV )
     if any(agent.count.==0)
         agent.lastPlayedArm =  rand( find(agent.count.==0) )
     else
@@ -389,7 +389,7 @@ function getArmIndex( agent::UCBV )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::UCBV, r::Real )
+function update_reward!( agent::UCBV, r::Real )
 
     # Save old mean
     μ = agent.empiricalMean[agent.lastPlayedArm]
@@ -484,7 +484,7 @@ type BayesUCB <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::BayesUCB )
+function get_arm_index( agent::BayesUCB )
     if any(agent.count.==0)
         agent.lastPlayedArm =  rand( find(agent.count.==0) )
     else
@@ -493,7 +493,7 @@ function getArmIndex( agent::BayesUCB )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::BayesUCB, r::Int64 )
+function update_reward!( agent::BayesUCB, r::Int64 )
     # Update S and F
     agent.cummSuccess[agent.lastPlayedArm] += (r==0?0:1)
     agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
@@ -549,7 +549,7 @@ type KLUCB <: BanditAlgorithmBase
     end
 end
 
-function getArmIndex( agent::KLUCB )
+function get_arm_index( agent::KLUCB )
     if any(agent.count.==0)
         agent.lastPlayedArm =  rand( find(agent.count.==0) )
     else
@@ -559,7 +559,7 @@ function getArmIndex( agent::KLUCB )
     return agent.lastPlayedArm
 end
 
-function updateReward!( agent::KLUCB, r::Real )
+function update_reward!( agent::KLUCB, r::Real )
 
     # Update cummulative reward
     agent.cummReward[agent.lastPlayedArm] += r
