@@ -41,7 +41,7 @@ testAlgs = [
     # Algorithms.EXP3( noOfArms, 0.10 ),
     Algorithms.UCB1( noOfArms ),
     Algorithms.TS( noOfArms ),
-    # Algorithms.OTS( noOfArms ),
+    Algorithms.OTS( noOfArms ),
     # Algorithms.DynamicTS( noOfArms, 10 ),
     # Algorithms.UCBNormal( noOfArms ),
     # Algorithms.EXP31( noOfArms ),

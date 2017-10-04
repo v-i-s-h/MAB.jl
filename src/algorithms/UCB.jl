@@ -603,7 +603,7 @@ end
 
 function find_q( sa, na, t; ϵ = 1e-5 )
     lQ = sa/na
-    uQ = 1 # min( 1, sa/na+√(log(t)/na/2))
+    uQ = min( 1, sa/na+√(log(t)/na/2))      # Applying Pinkser's Inequality
     q̄ = 1.0
     q  = (lQ+uQ)/2
     while abs(q̄-q) > ϵ
