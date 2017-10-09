@@ -40,6 +40,8 @@ function update_reward!( agent::EXP3, r::Real )
 
     # Make it a distrubution
     agent.pDist = Categorical( p )
+
+    nothing
 end
 
 function reset!( agent::EXP3 )
@@ -47,6 +49,8 @@ function reset!( agent::EXP3 )
     agent.lastPlayedArm = 0
     agent.wVec          = ones( agent.noOfArms )
     agent.pDist         = Categorical( 1/agent.noOfArms*ones(agent.noOfArms) )
+
+    nothing
 end
 
 function info_str( agent::EXP3, latex::Bool )
@@ -102,12 +106,16 @@ function update_reward!( agent::EXP31, r::Real )
         # Update reward to EXP3
         update_reward!( agent._EXP3, r )
     end
+
+    nothing
 end
 
 function reset!( agent::EXP31 )
     reset!( agent._EXP3 )
     agent.G_hat = zeros( agent._EXP3.noOfArms)
     agent.r     = 0
+
+    nothing
 end
 
 function info_str( agent::EXP31, latex::Bool )
@@ -151,12 +159,16 @@ function update_reward!( agent::REXP3, r::Real )
         reset!( agent._EXP3 );
         agent.j = agent.j + 1;
     end
+
+    nothing
 end
 
 function reset!( agent::REXP3 )
     reset!( agent._EXP3 )
     agent.noOfSteps     = 0;
     agent.j             = 1;
+
+    nothing
 end
 
 function info_str( agent::REXP3, latex::Bool )
@@ -216,6 +228,8 @@ function update_reward!( agent::EXP3IX, r::Real )
 
     # Make it a distrubution
     agent.pDist = Categorical( p )
+
+    nothing
 end
 
 function reset!( agent::EXP3IX )
@@ -223,6 +237,8 @@ function reset!( agent::EXP3IX )
     agent.lastPlayedArm = 0
     agent.wVec          = ones( agent.noOfArms )
     agent.pDist         = Categorical( 1/agent.noOfArms*ones(agent.noOfArms) )
+
+    nothing
 end
 
 function info_str( agent::EXP3IX, latex::Bool )

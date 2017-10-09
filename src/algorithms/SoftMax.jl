@@ -33,6 +33,8 @@ function update_reward!( agent::SoftMax, r::Real )
     agent.avgValue[agent.lastPlayedArm] = (agent.count[agent.lastPlayedArm]*agent.avgValue[agent.lastPlayedArm] + r) / (agent.count[agent.lastPlayedArm]+1)
     agent.count[agent.lastPlayedArm] += 1
     agent.noOfSteps += 1
+
+    nothing
 end
 
 function reset!( agent::SoftMax )
@@ -41,6 +43,8 @@ function reset!( agent::SoftMax )
 
     agent.count         = zeros( Int64, agent.noOfArms )
     agent.avgValue      = zeros( Float64, agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::SoftMax, latex::Bool )

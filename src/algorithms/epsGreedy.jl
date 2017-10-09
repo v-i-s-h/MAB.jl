@@ -44,6 +44,8 @@ function update_reward!( agent::epsGreedy, r::Real )
 
     agent.avgValue[agent.lastPlayedArm] = agent.cummReward[agent.lastPlayedArm] ./
                                             agent.count[agent.lastPlayedArm]
+
+    nothing
 end
 
 function reset!( agent::epsGreedy )
@@ -53,6 +55,8 @@ function reset!( agent::epsGreedy )
     agent.cummReward    = zeros( Float64, agent.noOfArms )
     agent.count         = zeros( Int64, agent.noOfArms )
     agent.avgValue      = zeros( Float64, agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::epsGreedy, latex::Bool )
@@ -134,6 +138,8 @@ function update_reward!( agent::epsNGreedy, r::Real )
 
     # Also change the exploration rate
     agent.ϵ     = min( 1, (agent.param_c*agent.noOfArms)/(agent.param_d*agent.noOfSteps) )
+
+    nothing
 end
 
 function reset!( agent::epsNGreedy )
@@ -144,6 +150,8 @@ function reset!( agent::epsNGreedy )
     agent.cummReward    = zeros( Float64, agent.noOfArms )
     agent.count         = zeros( Int64, agent.noOfArms )
     agent.avgValue      = zeros( Float64, agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::epsNGreedy, latex::Bool )

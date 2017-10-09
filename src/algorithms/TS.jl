@@ -59,11 +59,15 @@ function update_reward!( agent::TS, r::Int64 )
 
     # Update time steps
     agent.noOfSteps += 1
+
+    nothing
 end
 
 function update_reward!( agent::TS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
     updateReward!( agent, rTilde )
+
+    nothing
 end
 
 function reset!( agent::TS )
@@ -73,6 +77,8 @@ function reset!( agent::TS )
     agent.cummSuccess   = zeros( Float64, agent.noOfArms )
     agent.cummFailure   = zeros( Float64, agent.noOfArms )
     agent.samplingDist  = fill( Distributions.Beta(1,1), agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::TS, latex::Bool )
@@ -131,10 +137,14 @@ function update_reward!( agent::DynamicTS, r::Integer )
 
     # Update time steps
     agent.noOfSteps += 1
+
+    nothing
 end
 
 function update_reward!( agent::DynamicTS, r::AbstractFloat )
     updateReward!( agent, rand(Distributions.Bernoulli(r)) )   # Do a Bernoulli Trial to update the posterior
+
+    nothing
 end
 
 function reset!( agent::DynamicTS )
@@ -144,6 +154,8 @@ function reset!( agent::DynamicTS )
     agent.α             = 2 * ones( Float64, agent.noOfArms )
     agent.β             = 2 * ones( Float64, agent.noOfArms )
     agent.samplingDist  = fill( Distributions.Beta(2,2), agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::DynamicTS, latex::Bool )
@@ -215,11 +227,15 @@ function update_reward!( agent::OTS, r::Int64 )
                                             )
     # Update time steps
     agent.noOfSteps += 1
+
+    nothing
 end
 
 function update_reward!( agent::OTS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
     updateReward!( agent, rTilde )
+
+    nothing
 end
 
 function reset!( agent::OTS )
@@ -229,6 +245,8 @@ function reset!( agent::OTS )
     agent.cummSuccess   = zeros( Float64, agent.noOfArms )
     agent.cummFailure   = zeros( Float64, agent.noOfArms )
     agent.samplingDist  = fill( Distributions.Beta(1,1), agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::OTS, latex::Bool )
@@ -296,6 +314,8 @@ function update_reward!( agent::TSNormal, r::Float64 )
                                             )
 
     agent.noOfSteps += 1
+
+    nothing
 end
 
 function reset!( agent::TSNormal )
@@ -305,6 +325,8 @@ function reset!( agent::TSNormal )
     agent.μ   = zeros( Float64, agent.noOfArms )
     agent.σ   = 100*ones(Float64,agent.noOfArms)
     agent.samplingDist  = [ Distributions.Normal(agent.μ[i],agent.σ[i]) for i = 1:agent.noOfArms ]
+
+    nothing
 end
 
 function info_str( agent::TSNormal, latex::Bool )

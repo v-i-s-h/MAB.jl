@@ -50,6 +50,8 @@ function update_reward!( agent::UCB1, r::Real )
     # Update UCB indices
     agent.ucbIndices = agent.cummReward./agent.count +
                         agent.c * sqrt.(log(agent.noOfSteps)./agent.count)
+
+    nothing
 end
 
 function reset!( agent::UCB1 )
@@ -59,6 +61,8 @@ function reset!( agent::UCB1 )
     agent.cummReward    = zeros( Float64, agent.noOfArms )
     agent.count         = zeros( Int64, agent.noOfArms )
     agent.ucbIndices    = zeros( Float64, agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::UCB1, latex::Bool )
@@ -69,29 +73,29 @@ function info_str( agent::UCB1, latex::Bool )
     end
 end
 
-"""
-    UCB2 Implementation
-    Based on: Figure-2, Auer, P., Bianchi, N. C., & Fischer, P. (2002). Finite time analysis of the multiarmed bandit problem. Machine Learning, 47, 235–256.
-"""
-type UCB2 <: BanditAlgorithmBase
-    noOfArms::Int64
-    noOfSteps::Int64
-    lastPlayedArm::Int64
-    α::Float64
-
-    cummReward::Vector{Float64}
-    count::Vector{Int64}
-
-    function UCB2( noOfArms::Int, α::Float64 )
-        new( noOfArms,
-             0,
-             0,
-             α,
-             zeros(Float64,noOfArms),
-             zeros(Int64,noOfArms)
-        )
-    end
-end
+# """
+#     UCB2 Implementation
+#     Based on: Figure-2, Auer, P., Bianchi, N. C., & Fischer, P. (2002). Finite time analysis of the multiarmed bandit problem. Machine Learning, 47, 235–256.
+# """
+# type UCB2 <: BanditAlgorithmBase
+#     noOfArms::Int64
+#     noOfSteps::Int64
+#     lastPlayedArm::Int64
+#     α::Float64
+#
+#     cummReward::Vector{Float64}
+#     count::Vector{Int64}
+#
+#     function UCB2( noOfArms::Int, α::Float64 )
+#         new( noOfArms,
+#              0,
+#              0,
+#              α,
+#              zeros(Float64,noOfArms),
+#              zeros(Int64,noOfArms)
+#         )
+#     end
+# end
 
 # function getArmIndex( agent::UCB2 )
 #
@@ -154,6 +158,8 @@ function update_reward!( agent::UCBNormal, r::Real )
                             sqrt.(16 *
                                 (agent.cummSqReward-((agent.cummReward).^2)./agent.count) ./ (agent.count-1) *
                                 log(agent.noOfSteps-1)./agent.count )
+
+    nothing
 end
 
 function reset!( agent::UCBNormal )
@@ -164,6 +170,8 @@ function reset!( agent::UCBNormal )
     agent.count         = zeros( Int64, agent.noOfArms )
     agent.cummSqReward  = zeros( Float64, agent.noOfArms )
     agent.ucbIndices    = zeros( Float64, agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::UCBNormal, latex::Bool )
@@ -229,6 +237,8 @@ function update_reward!( agent::DUCB, r::Real )
     # Update UCB indices
     agent.indices   = agent.discCumReward./agent.discCount +
                         2*sqrt.(agent.ξ*log(sum(agent.discCount))./agent.discCount)
+
+    nothing
 end
 
 function reset!( agent::DUCB )
@@ -240,6 +250,8 @@ function reset!( agent::DUCB )
     agent.count         = zeros( Int64, agent.noOfArms );
     agent.discCount     = zeros( Float64, agent.noOfArms );
     agent.indices       = zeros( Float64, agent.noOfArms );
+
+    nothing
 end
 
 function info_str( agent::DUCB, latex::Bool )
@@ -322,6 +334,8 @@ function update_reward!( agent::SWUCB, r::Real )
     # Update UCB indices
     agent.indices = agent.swCumRew./agent.swCount +
                         sqrt.(agent.ξ*log(min(agent.noOfSteps,agent.τ))./agent.swCount)
+
+    nothing
 end
 
 function reset!( agent::SWUCB )
@@ -333,6 +347,8 @@ function reset!( agent::SWUCB )
     agent.armsInWindow      = Vector{Int64}()
     agent.rewardsInWindow   = Vector{Int64}()
     agent.indices           = zeros(Float64,agent.noOfArms)
+
+    nothing
 end
 
 function info_str( agent::SWUCB, latex::Bool )
@@ -425,6 +441,8 @@ function reset!( agent::UCBV )
     agent.empiricalVariance = zeros( Float64, agent.noOfArms )
     agent.count             = zeros( Int64, agent.noOfArms )
     agent.ucbIndices        = zeros( Float64, agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::UCBV, latex::Bool )
@@ -509,6 +527,8 @@ function update_reward!( agent::BayesUCB, r::Int64 )
 
     # Update time steps
     agent.noOfSteps += 1
+
+    nothing
 end
 
 function reset!( agent::BayesUCB )
@@ -519,6 +539,8 @@ function reset!( agent::BayesUCB )
     agent.cummSuccess   = zeros( Float64, agent.noOfArms )
     agent.cummFailure   = zeros( Float64, agent.noOfArms )
     agent.samplingDist  = fill( Distributions.Beta(1,1), agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::BayesUCB, latex::Bool )

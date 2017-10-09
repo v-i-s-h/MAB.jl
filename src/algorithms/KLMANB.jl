@@ -44,6 +44,8 @@ function update_reward!( agent::KLMANB, r::Real )
                                               )
     # Update time steps
     agent.noOfSteps += 1
+
+    nothing
 end
 
 function reset!( agent::KLMANB )
@@ -53,6 +55,8 @@ function reset!( agent::KLMANB )
     agent.μ      = zeros( Float64, agent.noOfArms )
     agent.σ_sq   = 10000 * ones( Float64, agent.noOfArms )
     agent.samplingDist  = fill( Distributions.Normal(0,10000), agent.noOfArms )
+
+    nothing
 end
 
 function info_str( agent::KLMANB )

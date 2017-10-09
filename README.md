@@ -2,6 +2,7 @@
 This package provide a framework for developing and comparing various Bandit algorithms
 
 ## Available Algorithms
+0. Uniform Strategy (Randomly picking some arm)
 1. ϵ-greedy
    1. ϵ-greedy
    2. ϵ_n greedy

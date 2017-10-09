@@ -1,5 +1,5 @@
 """
-    An Uniform playing strategy for Bandits
+    An Uniform playing strategy for Bandits: Can be used as benchmark
 """
 
 type UniformStrategy <: BanditAlgorithmBase
@@ -21,10 +21,14 @@ end
 
 function update_reward!( agent::UniformStrategy, r::Real )
     # Do nothing
+
+    nothing
 end
 
 function reset!( agent::UniformStrategy )
     # Do nothing
+
+    nothing
 end
 
 function info_str( agent::UniformStrategy, latex::Bool )
