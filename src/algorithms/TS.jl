@@ -340,7 +340,7 @@ end
 
 """-----------------------------------------------------------------------------
     Discounted Thompson Sampling
-    Based on:
+    Based on: Vishnu Raj, Sheetal Kalyani (2017). Taming Non-stationary Bandits: A Bayesian Approach. https://arxiv.org/abs/1707.09727
 """
 
 type dTS <: BanditAlgorithmBase
@@ -430,7 +430,7 @@ end
 
 """
     Discounted Optimistic Thompson Sampling
-    Based on:
+    Based on: Vishnu Raj, Sheetal Kalyani (2017). Taming Non-stationary Bandits: A Bayesian Approach. https://arxiv.org/abs/1707.09727
 """
 type dOTS <: BanditAlgorithmBase
     _dTS::dTS
