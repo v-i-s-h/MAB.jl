@@ -65,7 +65,7 @@ end
 
 function update_reward!( agent::TS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
-    updateReward!( agent, rTilde )
+    update_reward!( agent, rTilde )
 
     nothing
 end
@@ -142,7 +142,7 @@ function update_reward!( agent::DynamicTS, r::Integer )
 end
 
 function update_reward!( agent::DynamicTS, r::AbstractFloat )
-    updateReward!( agent, rand(Distributions.Bernoulli(r)) )   # Do a Bernoulli Trial to update the posterior
+    update_reward!( agent, rand(Distributions.Bernoulli(r)) )   # Do a Bernoulli Trial to update the posterior
 
     nothing
 end
@@ -233,7 +233,7 @@ end
 
 function update_reward!( agent::OTS, r::Float64 )
     rTilde = rand( Distributions.Bernoulli(r) )
-    updateReward!( agent, rTilde )
+    update_reward!( agent, rTilde )
 
     nothing
 end
@@ -334,5 +334,140 @@ function info_str( agent::TSNormal, latex::Bool )
         return @sprintf( "TS-Normal(\$\\eta=%3.2f\$)", agent.η )
     else
         return @sprintf( "TS-Normal(η=%3.2f)", agent.η )
+    end
+end
+
+
+"""-----------------------------------------------------------------------------
+    Discounted Thompson Sampling
+    Based on:
+"""
+
+type dTS <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    γ::Float64                      # Discounting factor
+    αₒ::Vector{Float64}             # Initial α value
+    βₒ::Vector{Float64}             # Initial β value
+    cummSuccess::Vector{Float64}    # Cummulative success
+    cummFailure::Vector{Float64}    # Cummulative failure
+
+    samplingDist::Vector{Distributions.Beta}    # Internal Distributions
+
+    function dTS( noOfArms, γ::Float64 = 1.00,
+                    αₒ::Float64 = 1.00, βₒ::Float64 = 1.00 )
+        new( noOfArms,
+             0,
+             0,
+             γ,
+             αₒ * ones(Float64,noOfArms),
+             βₒ * ones(Float64,noOfArms),
+             αₒ * ones(Float64,noOfArms),
+             βₒ * ones(Float64,noOfArms),
+             fill(Distributions.Beta(αₒ,βₒ),noOfArms)
+        )
+    end
+
+    function dTS( noOfArms, γ::Float64 ,
+                    α₀::Vector{Float64}, β₀::Vector{Float64} )
+        new( noOfArms,
+             0,
+             0,
+             γ,
+             α₀,
+             β₀,
+             α₀,
+             β₀,
+             Distributions.Beta.(α₀,β₀)
+        )
+    end
+end
+
+function get_arm_index( agent::dTS )
+    agent.lastPlayedArm = findmax( [rand(armSample) for armSample in agent.samplingDist] )[2]
+    return agent.lastPlayedArm
+end
+
+function update_reward!( agent::dTS, r::Int64 )
+    # Update S and F
+    agent.cummSuccess[agent.lastPlayedArm] = agent.γ*agent.cummSuccess[agent.lastPlayedArm] + (r==0?0:1)
+    agent.cummFailure[agent.lastPlayedArm] = agent.γ*agent.cummFailure[agent.lastPlayedArm] + (r==0?1:0)
+
+    # Update Distributions
+    agent.samplingDist[agent.lastPlayedArm] = Distributions.Beta(
+                                                agent.cummSuccess[agent.lastPlayedArm] + agent.αₒ[agent.lastPlayedArm],
+                                                agent.cummFailure[agent.lastPlayedArm] + agent.βₒ[agent.lastPlayedArm]
+                                            )
+
+    # Update time steps
+    agent.noOfSteps += 1
+end
+
+function update_reward!( agent::dTS, r::Float64 )
+    rTilde = rand( Distributions.Bernoulli(r) )
+    update_reward!( agent, rTilde )
+end
+
+
+function reset!( agent::dTS )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.cummSuccess   = copy( agent.αₒ )
+    agent.cummFailure   = copy( agent.βₒ )
+    agent.samplingDist  = Distributions.Beta.(agent.αₒ,agent.βₒ)
+end
+
+function info_str( agent::dTS, latex::Bool )
+    if latex
+        return @sprintf( "dTS(\$\\gamma = %3.2f\$)", agent.γ )
+    else
+        return @sprintf( "dTS(γ = %4.3f)", agent.γ )
+    end
+end
+
+"""
+    Discounted Optimistic Thompson Sampling
+    Based on:
+"""
+type dOTS <: BanditAlgorithmBase
+    _dTS::dTS
+
+    function dOTS( noOfArms, γ::Float64 = 1.00,
+                    αₒ::Float64 = 1.00, βₒ::Float64 = 1.00 )
+        new(
+             dTS( noOfArms, γ, αₒ, βₒ )
+        )
+    end
+end
+
+function get_arm_index( agent::dOTS )
+    agent._dTS.lastPlayedArm = findmax( [max(rand(armSample),mean(armSample)) for armSample in agent._dTS.samplingDist] )[2]
+    return agent._dTS.lastPlayedArm
+end
+
+function update_reward!( agent::dOTS, r::Int64 )
+    update_reward!( agent._dTS, r )
+    nothing
+end
+
+function update_reward!( agent::dOTS, r::Float64 )
+    update_reward!( agent._dTS, r )
+    nothing
+end
+
+
+function reset!( agent::dOTS )
+    reset!( agent._dTS )
+    nothing
+end
+
+function info_str( agent::dOTS, latex::Bool )
+    if latex
+        return @sprintf( "dOTS(\$\\gamma = %3.2f\$)", agent._dTS.γ )
+    else
+        return @sprintf( "dOTS(γ = %4.3f)", agent._dTS.γ )
     end
 end

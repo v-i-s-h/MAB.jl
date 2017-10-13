@@ -4,10 +4,10 @@ using Bandits
 import PyPlot
 
 bandit  = [
-    Arms.Bernoulli( 0.90 ),
-    Arms.Bernoulli( 0.85 ),
-    Arms.Bernoulli( 0.80 ),
-    Arms.Bernoulli( 0.75 )
+    # Arms.Bernoulli( 0.90 ),
+    # Arms.Bernoulli( 0.85 ),
+    # Arms.Bernoulli( 0.80 ),
+    # Arms.Bernoulli( 0.75 )
     # Arms.Normal( 0.36, 1.00 ),
     # Arms.Normal( 0.20, 1.00 ),
     # Arms.Normal( 0.81, 1.00 ),
@@ -17,10 +17,10 @@ bandit  = [
     # Arms.Exponential( 3.4 ),
     # Arms.Exponential( 4.5 )
     # Arms.Beta( 0.60, 0.40 ),
-    # Arms.Sinusoidal( 800, 0 ),
-    # Arms.Sinusoidal( 800, π ),
-    # Arms.Sinusoidal( 800, π/2 ),
-    # Arms.Sinusoidal( 800, 3*π/4 )
+    Arms.Sinusoidal( 800, 0 ),
+    Arms.Sinusoidal( 800, π ),
+    Arms.Sinusoidal( 800, π/2 ),
+    Arms.Sinusoidal( 800, 3*π/4 )
     # Arms.Pulse( 1000, 820, 100 ),
     # Arms.Pulse( 1000, 700, 100 ),
     # Arms.Pulse( 1000, 520, 100 )
@@ -39,13 +39,13 @@ testAlgs = [
     # Algorithms.epsNGreedy( noOfArms ),
     # Algorithms.EXP3( noOfArms, 0.05 ),
     # Algorithms.EXP3( noOfArms, 0.10 ),
-    Algorithms.UCB1( noOfArms, 1/8 ),
-    Algorithms.UCB1( noOfArms, 1/4 ),
-    Algorithms.UCB1( noOfArms, 1/2 ),
-    Algorithms.UCB1( noOfArms, 1/√2 ),
-    Algorithms.UCB1( noOfArms, 1 ),
-    Algorithms.UCB1( noOfArms, √2 ),
-    Algorithms.UCB1( noOfArms, 2 ),
+    # Algorithms.UCB1( noOfArms, 1/8 ),
+    # Algorithms.UCB1( noOfArms, 1/4 ),
+    # Algorithms.UCB1( noOfArms, 1/2 ),
+    # Algorithms.UCB1( noOfArms, 1/√2 ),
+    # Algorithms.UCB1( noOfArms, 1 ),
+    # Algorithms.UCB1( noOfArms, √2 ),
+    # Algorithms.UCB1( noOfArms, 2 ),
     # Algorithms.TS( noOfArms ),
     # Algorithms.OTS( noOfArms ),
     # Algorithms.DynamicTS( noOfArms, 10 ),
@@ -72,7 +72,13 @@ testAlgs = [
     # Algorithms.UCBV( noOfArms, ζ = 1, c = 1),
     # Algorithms.UCBV( noOfArms, ζ = 2.0, c = 1),
     # Algorithms.BayesUCB( noOfArms ),
-    Algorithms.KLUCB( noOfArms )
+    # Algorithms.KLUCB( noOfArms )
+    Algorithms.TS( noOfArms ),
+    Algorithms.OTS( noOfArms ),
+    Algorithms.dTS( noOfArms ),
+    Algorithms.dOTS( noOfArms ),
+    Algorithms.dTS( noOfArms, 0.90 ),
+    Algorithms.dOTS( noOfArms, 0.90 )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )
