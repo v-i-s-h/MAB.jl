@@ -175,7 +175,7 @@ function info_str( agent::REXP3, latex::Bool )
     if latex
         return @sprintf( "REXP3 (\$\\gamma = %4.3f, \\Delta = %d\$)", agent._EXP3.γ, agent.Δ )
     else
-        return @sprintf( "REXP3 (γ = %4.3f)", agent.γ )
+        return @sprintf( "REXP3 (γ = %4.3f, Δ = %d)", agent._EXP3.γ, agent.Δ )
     end
 end
 
@@ -245,6 +245,6 @@ function info_str( agent::EXP3IX, latex::Bool )
     if latex
         return @sprintf( "EXP3-IX (\$\\eta = %4.3f, \\gamma = %4.3f\$)", agent.η, agent.γ )
     else
-        return @sprintf( "EXP3-IX (η = %4.3f, γ = %4.3f)", agent.η, gent.γ )
+        return @sprintf( "EXP3-IX (η = %4.3f, γ = %4.3f)", agent.η, agent.γ )
     end
 end

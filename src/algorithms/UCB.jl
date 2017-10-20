@@ -256,9 +256,9 @@ end
 
 function info_str( agent::DUCB, latex::Bool )
     if latex
-        return @sprintf( "Discounted-UCB\$(\\gamma = %3.2f,\\xi = %3.2f)\$", agent.γ, agent.ξ );
+        return @sprintf( "Discounted-UCB\$(\\gamma = %4.3f,\\xi = %4.3f)\$", agent.γ, agent.ξ );
     else
-        return @sprintf( "Discounted-UCB(γ = %3.2f, ξ = %3.2f)", agent.γ, agent.ξ );
+        return @sprintf( "Discounted-UCB(γ = %4.3f, ξ = %4.3f)", agent.γ, agent.ξ );
     end
 end
 
