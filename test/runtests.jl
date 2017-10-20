@@ -1,4 +1,4 @@
-using Bandits
+using MAB
 using Base.Test
 
 macro test_nothrow(ex)

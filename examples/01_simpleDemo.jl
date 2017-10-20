@@ -1,6 +1,6 @@
 # This examples show how to run a simple test
 
-using Bandits
+using MAB
 import PyPlot
 
 # Create 5 Bernoulli arms

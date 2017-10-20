@@ -1,6 +1,6 @@
 # Tests for Sinusoidal arms
 
-using Bandits
+using MAB
 import PyPlot
 
 # Create different Sinusoidal arms

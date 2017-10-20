@@ -1,4 +1,4 @@
-# Bandits
+# MAB.jl - A Package Bandit Experiments
 This package provide a framework for developing and comparing various Bandit algorithms
 
 ## Available Algorithms

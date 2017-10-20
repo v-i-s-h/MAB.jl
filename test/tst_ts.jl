@@ -2,7 +2,7 @@
 
 # Bernouli Arm Case
 
-using Bandits
+using MAB
 
 ts1 = Algorithms.TS( 4 )
 

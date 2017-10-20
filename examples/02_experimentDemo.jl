@@ -1,6 +1,6 @@
 # Example for using Experiments
 
-using Bandits
+using MAB
 import PyPlot
 
 bandit  = [

@@ -1,4 +1,4 @@
-using Bandits
+using MAB
 
 alg = Algorithms.SWUCB( 3, 5 )
 

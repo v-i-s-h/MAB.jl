@@ -1,6 +1,6 @@
 # To test Square Arm model
 
-using Bandits
+using MAB
 import PyPlot
 using Distributions
 

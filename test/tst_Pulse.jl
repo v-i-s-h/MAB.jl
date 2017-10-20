@@ -1,6 +1,6 @@
 # Test for Pulse arm
 
-using Bandits
+using MAB
 import PyPlot
 
 # Create different Sinusoidal arms

@@ -1,4 +1,4 @@
-module Bandits
+module MAB
 
 module Algorithms
     using Distributions
@@ -29,8 +29,8 @@ end
 
 module Experiments
     using Distributions
-    import Bandits.Arms
-    import Bandits.Algorithms
+    import MAB.Arms
+    import MAB.Algorithms
     # include( "algorithms/BanditAlgorithmBase.jl" )
     # include( "armModels/BanditArmBase.jl" )
     #--------------------------- Import Experiments Here --------------------------#
