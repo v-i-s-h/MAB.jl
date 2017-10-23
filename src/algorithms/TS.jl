@@ -428,7 +428,7 @@ function info_str( agent::dTS, latex::Bool )
     end
 end
 
-"""
+""" ----------------------------------------------------------------------------
     Discounted Optimistic Thompson Sampling
     Based on: Vishnu Raj, Sheetal Kalyani (2017). Taming Non-stationary Bandits: A Bayesian Approach. https://arxiv.org/abs/1707.09727
 """
@@ -469,5 +469,53 @@ function info_str( agent::dOTS, latex::Bool )
         return @sprintf( "dOTS(\$\\gamma = %3.2f\$)", agent._dTS.γ )
     else
         return @sprintf( "dOTS(γ = %4.3f)", agent._dTS.γ )
+    end
+end
+
+
+""" ----------------------------------------------------------------------------
+    Restarting Thompson Sampling
+    Based on:
+"""
+
+type RestartTS <: BanditAlgorithmBase
+    _TS::TS
+    Δ::Int64
+
+    function RestartTS( noOfArms::Int, Δ )
+        new( TS(noOfArms), Δ )
+    end
+end
+
+function get_arm_index( agent::RestartTS )
+    return get_arm_index( agent._TS )
+end
+
+function update_reward!( agent::RestartTS, r::Int64 )
+    update_reward!( agent._TS, r )
+    if agent._TS.noOfSteps >= agent.Δ
+        reset!( agent._TS )
+    end
+    nothing
+end
+
+function update_reward!( agent::RestartTS, r::Float64 )
+    update_reward!( agent._TS, r )
+    if agent._TS.noOfSteps >= agent.Δ
+        reset!( agent._TS )
+    end
+    nothing
+end
+
+function reset!( agent::RestartTS )
+    reset!( agent._TS )
+    nothing
+end
+
+function info_str( agent::RestartTS, latex::Bool )
+    if latex
+        return @sprintf( "Restarting TS(\$\\Delta = %d)", agent.Δ )
+    else
+        return @sprintf( "Restarting TS(Δ = %d)", agent.Δ )
     end
 end
