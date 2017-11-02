@@ -422,7 +422,7 @@ end
 
 function info_str( agent::dTS, latex::Bool )
     if latex
-        return @sprintf( "dTS(\$\\gamma = %3.2f\$)", agent.γ )
+        return @sprintf( "dTS(\$\\gamma = %4.3f\$)", agent.γ )
     else
         return @sprintf( "dTS(γ = %4.3f)", agent.γ )
     end
@@ -466,7 +466,7 @@ end
 
 function info_str( agent::dOTS, latex::Bool )
     if latex
-        return @sprintf( "dOTS(\$\\gamma = %3.2f\$)", agent._dTS.γ )
+        return @sprintf( "dOTS(\$\\gamma = %4.3f\$)", agent._dTS.γ )
     else
         return @sprintf( "dOTS(γ = %4.3f)", agent._dTS.γ )
     end
@@ -514,7 +514,7 @@ end
 
 function info_str( agent::RestartTS, latex::Bool )
     if latex
-        return @sprintf( "Restarting TS(\$\\Delta = %d)", agent.Δ )
+        return @sprintf( "Restarting TS(\$\\Delta = %d\$)", agent.Δ )
     else
         return @sprintf( "Restarting TS(Δ = %d)", agent.Δ )
     end
