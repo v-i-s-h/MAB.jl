@@ -12,11 +12,11 @@ end
 
 # Initiate eps Greedy algorithms
 noOfArms = size( armRewards, 1 )
-alg11 = Algorithms.epsGreedy( noOfArms, 0.05 )
-alg12 = Algorithms.epsGreedy( noOfArms, 0.25 )
-alg13 = Algorithms.epsGreedy( noOfArms, 0.50 )
-alg14 = Algorithms.epsGreedy( noOfArms, 0.65 )
-alg2 = Algorithms.UCB1( noOfArms )
+alg11 = epsGreedy( noOfArms, 0.05 )
+alg12 = epsGreedy( noOfArms, 0.25 )
+alg13 = epsGreedy( noOfArms, 0.50 )
+alg14 = epsGreedy( noOfArms, 0.65 )
+alg2  = UCB1( noOfArms )
 
 algorithms = [ alg11 alg12 alg13 alg14 alg2 ]
 
@@ -32,9 +32,9 @@ for _alg ∈ algorithms
     for _round = 1:noOfRounds
         Algorithms.reset!( _alg )    # Start by resetting the memory
         for _time = 1:noOfTimeSteps
-            armToPull = Algorithms.get_arm_index( _alg )
+            armToPull = get_arm_index( _alg )
             reward    = Arms.pull!( arms[armToPull] )
-            Algorithms.update_reward!( _alg, reward )
+            update_reward!( _alg, reward )
 
             # print( @sprintf("    [%03d:%03d]: arm = %2d, reward = %3.2f ",_round,_time,armToPull,reward) )
             # print( @sprintf( "    Arm Values: [") )

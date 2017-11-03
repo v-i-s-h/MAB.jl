@@ -11,6 +11,19 @@ module Algorithms
     include( "Algorithms/TS.jl" )
     include( "Algorithms/KLMANB.jl" )
     include( "Algorithms/SoftMax.jl" )
+
+    export
+        # Methods
+        get_arm_index, update_reward!, reset!, info_str, show,
+        # Agents
+        BanditAlgorithmBase,
+        epsGreedy, epsNGreedy,
+        EXP3, EXP31, REXP3, EXP3IX,
+        KLMANB,
+        SoftMax,
+        TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS,
+        UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB,
+        UniformStrategy
 end
 
 module Arms
@@ -29,26 +42,31 @@ end
 
 module Experiments
     using Distributions
-    import MAB.Arms
-    import MAB.Algorithms
-    # include( "algorithms/BanditAlgorithmBase.jl" )
-    # include( "armModels/BanditArmBase.jl" )
+    using ..Algorithms
+    using ..Arms
+    # import
     #--------------------------- Import Experiments Here --------------------------#
     include( "Experiments/BanditExpBase.jl" )
     include( "Experiments/Compare.jl" )
 end
 
-export
-    # Export algorithms
-    Algorithms,
-    # Algorithms - functions
-    BanditAlgorithmBase,
-    get_arm_index, update_reward!, reset!,
-    info_str, show,
-    # Algorithms - Agents
-    UniformStrategy, 
-    # Export Arm models
-    Arms,
-    # Export Experiments
-    Experiments
+    using .Algorithms
+    export
+        # Export algorithms
+        Algorithms,
+        # Methods
+        get_arm_index, update_reward!, reset!, info_str, show,
+        # Agents
+        BanditAlgorithmBase,
+        epsGreedy, epsNGreedy,
+        EXP3, EXP31, REXP3, EXP3IX,
+        KLMANB,
+        SoftMax,
+        TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS,
+        UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB,
+        UniformStrategy,
+        # Export Arm models
+        Arms,
+        # Export Experiments
+        Experiments
 end # module
