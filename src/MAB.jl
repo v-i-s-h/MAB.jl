@@ -3,28 +3,28 @@ module MAB
 module Algorithms
     using Distributions
     #--------------------------- Import Algorithms Here ---------------------------#
-    include( "algorithms/BanditAlgorithmBase.jl" )
-    include( "algorithms/UniformStrategy.jl" )
-    include( "algorithms/UCB.jl" )
-    include( "algorithms/epsGreedy.jl" )
-    include( "algorithms/EXP.jl" )
-    include( "algorithms/TS.jl" )
-    include( "algorithms/KLMANB.jl" )
-    include( "algorithms/SoftMax.jl" )
+    include( "Algorithms/BanditAlgorithmBase.jl" )
+    include( "Algorithms/UniformStrategy.jl" )
+    include( "Algorithms/UCB.jl" )
+    include( "Algorithms/epsGreedy.jl" )
+    include( "Algorithms/EXP.jl" )
+    include( "Algorithms/TS.jl" )
+    include( "Algorithms/KLMANB.jl" )
+    include( "Algorithms/SoftMax.jl" )
 end
 
 module Arms
     using Distributions
     #--------------------------- Import Arm Models Here ---------------------------#
-    include( "armModels/BanditArmBase.jl" )
-    include( "armModels/Bernoulli.jl" )
-    include( "armModels/Exponential.jl" )
-    include( "armModels/Normal.jl" )
-    include( "armModels/Beta.jl" )
-    include( "armModels/Sinusoidal.jl" )
-    include( "armModels/Pulse.jl" )
-    include( "armModels/Square.jl" )
-    include( "armModels/Variational.jl" )
+    include( "ArmModels/BanditArmBase.jl" )
+    include( "ArmModels/Bernoulli.jl" )
+    include( "ArmModels/Exponential.jl" )
+    include( "ArmModels/Normal.jl" )
+    include( "ArmModels/Beta.jl" )
+    include( "ArmModels/Sinusoidal.jl" )
+    include( "ArmModels/Pulse.jl" )
+    include( "ArmModels/Square.jl" )
+    include( "ArmModels/Variational.jl" )
 end
 
 module Experiments
@@ -34,13 +34,19 @@ module Experiments
     # include( "algorithms/BanditAlgorithmBase.jl" )
     # include( "armModels/BanditArmBase.jl" )
     #--------------------------- Import Experiments Here --------------------------#
-    include( "experiments/BanditExpBase.jl" )
-    include( "experiments/Compare.jl" )
+    include( "Experiments/BanditExpBase.jl" )
+    include( "Experiments/Compare.jl" )
 end
 
 export
     # Export algorithms
     Algorithms,
+    # Algorithms - functions
+    BanditAlgorithmBase,
+    get_arm_index, update_reward!, reset!,
+    info_str, show,
+    # Algorithms - Agents
+    UniformStrategy, 
     # Export Arm models
     Arms,
     # Export Experiments
