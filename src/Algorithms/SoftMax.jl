@@ -9,7 +9,7 @@ type SoftMax <: BanditAlgorithmBase
     lastPlayedArm::Int64
 
     τ::Float64              # temparature parameter
-    count::Vector{Int64}    # Number of times each arm is played
+    play_count::Vector{Int64}    # Number of times each arm is played
     avgValue::Vector{Float64}   # Average value of each arm
 
     function SoftMax( noOfArms::Integer, τ::AbstractFloat )
@@ -30,8 +30,8 @@ function get_arm_index( agent::SoftMax )
 end
 
 function update_reward!( agent::SoftMax, r::Real )
-    agent.avgValue[agent.lastPlayedArm] = (agent.count[agent.lastPlayedArm]*agent.avgValue[agent.lastPlayedArm] + r) / (agent.count[agent.lastPlayedArm]+1)
-    agent.count[agent.lastPlayedArm] += 1
+    agent.avgValue[agent.lastPlayedArm] = (agent.play_count[agent.lastPlayedArm]*agent.avgValue[agent.lastPlayedArm] + r) / (agent.play_count[agent.lastPlayedArm]+1)
+    agent.play_count[agent.lastPlayedArm] += 1
     agent.noOfSteps += 1
 
     nothing
@@ -41,7 +41,7 @@ function reset!( agent::SoftMax )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
-    agent.count         = zeros( Int64, agent.noOfArms )
+    agent.play_count    = zeros( Int64, agent.noOfArms )
     agent.avgValue      = zeros( Float64, agent.noOfArms )
 
     nothing
