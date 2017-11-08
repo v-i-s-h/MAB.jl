@@ -26,6 +26,7 @@ This package provide a framework for developing and comparing various Bandit alg
    3. EXP3-IX
 5. SoftMax
 6. REXP3
+7. Gradient Bandit
 
 ## Available Arm Models
 1. Bernoulli
