@@ -392,13 +392,15 @@ end
 
 function update_reward!( agent::dTS, r::Int64 )
     # Update S and F
-    agent.cummSuccess[agent.lastPlayedArm] = agent.γ*agent.cummSuccess[agent.lastPlayedArm] + (r==0?0:1)
-    agent.cummFailure[agent.lastPlayedArm] = agent.γ*agent.cummFailure[agent.lastPlayedArm] + (r==0?1:0)
+    agent.cummSuccess *= agent.γ
+    agent.cummFailure *= agent.γ
+    agent.cummSuccess[agent.lastPlayedArm] += (r==0?0:1)
+    agent.cummFailure[agent.lastPlayedArm] += (r==0?1:0)
 
     # Update Distributions
-    agent.samplingDist[agent.lastPlayedArm] = Distributions.Beta(
-                                                agent.cummSuccess[agent.lastPlayedArm] + agent.αₒ[agent.lastPlayedArm],
-                                                agent.cummFailure[agent.lastPlayedArm] + agent.βₒ[agent.lastPlayedArm]
+    agent.samplingDist  = Distributions.Beta.(
+                                                agent.cummSuccess + agent.αₒ,
+                                                agent.cummFailure + agent.βₒ
                                             )
 
     # Update time steps
