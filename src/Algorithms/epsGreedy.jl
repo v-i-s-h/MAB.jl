@@ -25,15 +25,15 @@ type epsGreedy <: BanditAlgorithmBase
 end
 
 function get_arm_index( agent::epsGreedy )
-    if any(agent.count.==0)
-        agent.lastPlayedArm = rand( find(agent.count.==0) )
-    else
+    # if any(agent.count.==0)
+    #     agent.lastPlayedArm = rand( find(agent.count.==0) )
+    # else
         if rand() > agent.ϵ
             agent.lastPlayedArm = findmax(agent.avgValue)[2]
         else
             agent.lastPlayedArm = rand(1:agent.noOfArms)
         end
-    end
+    # end
     return agent.lastPlayedArm
 end
 
@@ -114,15 +114,15 @@ type epsNGreedy <: BanditAlgorithmBase
 end
 
 function get_arm_index( agent::epsNGreedy )
-    if any(agent.count.==0)
-        agent.lastPlayedArm = rand( find(agent.count.==0) )
-    else
+    # if any(agent.count.==0)
+    #     agent.lastPlayedArm = rand( find(agent.count.==0) )
+    # else
         if rand() > agent.ϵ
             agent.lastPlayedArm = findmax(agent.avgValue)[2]
         else
             agent.lastPlayedArm = rand(1:agent.noOfArms)
         end
-    end
+    # end
     return agent.lastPlayedArm
 end
 
