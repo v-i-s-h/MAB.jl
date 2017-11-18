@@ -14,7 +14,8 @@ module Algorithms
 
     export
         # Methods
-        get_arm_index, update_reward!, reset!, info_str, show,
+        get_arm_index, update_reward!, reset!, info_str, 
+        show,
         # Agents
         BanditAlgorithmBase,
         epsGreedy, epsNGreedy,
@@ -42,15 +43,30 @@ end
 
 module Experiments
     using Distributions
+    using Requires
+    import Base: run
+    # using Plots
+    @require Plots using Plots
+    # info( "Some functionalities of MAB.Experiments will not be available until you load Plots.jl",
+    #         prefix = "MAB: " )
     using ..Algorithms
+    using ..Algorithms: make_agents_with_k  # Util for making agents inside Experiments
     using ..Arms
     # import
     #--------------------------- Import Experiments Here --------------------------#
     include( "Experiments/BanditExpBase.jl" )
     include( "Experiments/Compare.jl" )
+    include( "Experiments/Sutton2017.jl" )
+
+    export
+        # Methods
+        run,
+        # Experiments
+        Sutton2017
 end
 
     using .Algorithms
+    using .Experiments
     export
         # Export algorithms
         Algorithms,
@@ -68,5 +84,9 @@ end
         # Export Arm models
         Arms,
         # Export Experiments
-        Experiments
+        Experiments,
+        # Methods
+        run,
+        # Experiments
+        Sutton2017
 end # module

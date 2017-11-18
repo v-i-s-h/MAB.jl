@@ -24,3 +24,20 @@ function Base.show( io::IO, ::MIME"text/plain", agent::BanditAlgorithmBase )
         print( @sprintf("\n    %-16s: ",param), getfield(agent,param) )
     end
 end
+
+# Functions to make instances of types
+function call( ::Type{T}, params... ) where T <: BanditAlgorithmBase
+    return T( params... )
+end
+
+function make_agents_with_k( K::Int64, agent_list::Vector{} )
+    agents = Vector{BanditAlgorithmBase}()
+    for (agent,params) ∈ agent_list
+        if params != nothing
+            push!( agents, agent(K,params...) )
+        else
+            push!( agents, agent(K) )
+        end
+    end
+    return agents
+end
