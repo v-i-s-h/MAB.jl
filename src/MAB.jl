@@ -44,7 +44,7 @@ end
 module Experiments
     using Distributions
     using Requires
-    import Base: run
+    # import Base: run
     # using Plots
     @require Plots using Plots
     # info( "Some functionalities of MAB.Experiments will not be available until you load Plots.jl",
@@ -55,14 +55,15 @@ module Experiments
     # import
     #--------------------------- Import Experiments Here --------------------------#
     include( "Experiments/BanditExpBase.jl" )
+    # include( "Experiments/utils.jl" )
     include( "Experiments/Compare.jl" )
-    include( "Experiments/Sutton2017.jl" )
+    include( "Experiments/Sutton2017/Sutton2017.jl" )
 
     export
         # Methods
         run,
         # Experiments
-        Sutton2017
+        Sutton2017, run
 end
 
     using .Algorithms

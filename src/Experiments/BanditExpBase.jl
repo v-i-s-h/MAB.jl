@@ -1,5 +1,5 @@
 # Base type for all experiments
-
+import Base: run
 abstract type BanditExpBase end
 
 function run( experiment::BanditExpBase,
