@@ -20,6 +20,7 @@ This package provide a framework for developing and comparing various Bandit alg
    3. Optimistic Thompson Sampling
    4. TSNormal (Thompson Sampling for Gaussian distributed rewards)
    5. Restarting Thompson Sampling
+   6. TS With Gaussian Prior
 4. EXP3
    1. EXP3
    2. EXP3.1

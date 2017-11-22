@@ -22,7 +22,7 @@ module Algorithms
         EXP3, EXP31, REXP3, EXP3IX,
         KLMANB,
         SoftMax,
-        TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS,
+        TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS, TSGaussPrior,
         UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB,
         UniformStrategy
 end
@@ -79,7 +79,7 @@ end
         EXP3, EXP31, REXP3, EXP3IX,
         KLMANB,
         SoftMax,
-        TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS,
+        TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS, TSGaussPrior,
         UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB,
         UniformStrategy,
         # Export Arm models

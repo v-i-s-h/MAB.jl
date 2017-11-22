@@ -4,10 +4,10 @@ using MAB
 import PyPlot
 
 bandit  = [
-    # Arms.Bernoulli( 0.90 ),
-    # Arms.Bernoulli( 0.85 ),
-    # Arms.Bernoulli( 0.80 ),
-    # Arms.Bernoulli( 0.75 )
+    Arms.Bernoulli( 0.90 ),
+    Arms.Bernoulli( 0.85 ),
+    Arms.Bernoulli( 0.80 ),
+    Arms.Bernoulli( 0.75 )
     # Arms.Normal( 0.36, 1.00 ),
     # Arms.Normal( 0.20, 1.00 ),
     # Arms.Normal( 0.81, 1.00 ),
@@ -17,10 +17,10 @@ bandit  = [
     # Arms.Exponential( 3.4 ),
     # Arms.Exponential( 4.5 )
     # Arms.Beta( 0.60, 0.40 ),
-    Arms.Sinusoidal( 800, 0 ),
-    Arms.Sinusoidal( 800, π ),
-    Arms.Sinusoidal( 800, π/2 ),
-    Arms.Sinusoidal( 800, 3*π/4 )
+    # Arms.Sinusoidal( 800, 0 ),
+    # Arms.Sinusoidal( 800, π ),
+    # Arms.Sinusoidal( 800, π/2 ),
+    # Arms.Sinusoidal( 800, 3*π/4 )
     # Arms.Pulse( 1000, 820, 100 ),
     # Arms.Pulse( 1000, 700, 100 ),
     # Arms.Pulse( 1000, 520, 100 )
@@ -74,11 +74,12 @@ testAlgs = [
     # BayesUCB( noOfArms ),
     # KLUCB( noOfArms )
     TS( noOfArms ),
-    OTS( noOfArms ),
-    dTS( noOfArms ),
-    dOTS( noOfArms ),
-    dTS( noOfArms, 0.90 ),
-    dOTS( noOfArms, 0.90 )
+    # OTS( noOfArms ),
+    # dTS( noOfArms ),
+    # dOTS( noOfArms ),
+    # dTS( noOfArms, 0.90 ),
+    # dOTS( noOfArms, 0.90 ),
+    TSGaussPrior( noOfArms )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )

@@ -521,3 +521,67 @@ function info_str( agent::RestartTS, latex::Bool )
         return @sprintf( "Restarting TS(Δ = %d)", agent.Δ )
     end
 end
+
+""" ----------------------------------------------------------------------------------------
+    Thompson Sampling with Gaussian Priors
+    Based on: Algorithm 2, S. Agrawal and N. Goyal, “Near-Optimal Regret Bounds for Thompson Sampling,” J. ACM, vol. 64, no. 5, 2017.
+"""
+type TSGaussPrior <: BanditAlgorithmBase
+    noOfArms::Integer
+    noOfSteps::Integer
+    lastPlayedArm::Integer
+
+    # Algorithm specific parameters
+    μ::Vector{Float64}
+    noOfPulls::Vector{Float64} # Even though an integer, keeping this as Float for performance
+
+    samplingDist::Vector{Distributions.Normal}
+
+    function TSGaussPrior( noOfArms::Integer )
+        new(
+            noOfArms,
+            0,
+            0,
+            zeros( Float64, noOfArms),
+            zeros( Float64, noOfArms ),
+            fill( Distributions.Normal(0,1), noOfArms )
+        )
+    end
+end
+
+function get_arm_index( agent::TSGaussPrior )
+    agent.lastPlayedArm = findmax( [rand(armSample) for armSample in agent.samplingDist] )[2]
+    return agent.lastPlayedArm
+end
+
+function  update_reward!( agent::TSGaussPrior, r::Real )
+    # Update observation
+    agent.μ[agent.lastPlayedArm] = (agent.μ[agent.lastPlayedArm]*agent.noOfPulls[agent.lastPlayedArm]+r) / 
+                                        (agent.noOfPulls[agent.lastPlayedArm]+1)
+    agent.noOfPulls[agent.lastPlayedArm] += 1
+
+    # Update distribution
+    agent.samplingDist[agent.lastPlayedArm] = Distributions.Normal(
+                                                        agent.μ[agent.lastPlayedArm],
+                                                        1.0/(agent.noOfPulls[agent.lastPlayedArm]+1)
+                                                )
+
+    # Update time steps
+    agent.noOfSteps += 1
+    
+    nothing
+end
+
+function  reset!( agent::TSGaussPrior )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+
+    agent.μ             = zeros( Float64, agent.noOfArms )
+    agent.noOfPulls     = zeros( Float64, agent.noOfArms )
+
+    agent.samplingDist  = fill( Distributions.Normal(0,1), agent.noOfArms )
+end
+
+function  info_str( agent::TSGaussPrior, latex::Bool )
+    return @sprintf( "TS Gauss Prior" )
+end
