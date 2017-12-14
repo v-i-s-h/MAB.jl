@@ -41,3 +41,18 @@ function make_agents_with_k( K::Int64, agent_list::Vector{} )
     end
     return agents
 end
+
+import Base: ==
+function ==( agent1::BanditAlgorithmBase, agent2::BanditAlgorithmBase )
+    if typeof(agent1) != typeof(agent2)
+        return false
+    else
+        for param in fieldnames(agent1)
+            if getfield(agent1,param) != getfield(agent2,param)
+                return false
+            end
+        end
+        return true
+    end
+    false
+end
