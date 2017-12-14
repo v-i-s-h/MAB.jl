@@ -19,15 +19,17 @@ macro test_nothrow(ex)
 end
 
 tests = [
-    "UCB"
+    "sanity_check"
 ];
 
-if length(ARGS) > 0
-    tests = ARGS
-end
+# if length(ARGS) > 0
+#     tests = ARGS
+# end
 
-for t in tests
-    fp = joinpath( dirname(@__FILE__), "$t.jl" );
-    println( "Testing : ", t );
+for test_script in tests
+    fp = joinpath( dirname(@__FILE__), "$(test_script).jl" );
+    println( "Testing : ", test_script );
     @time include( fp );
 end
+
+nothing
