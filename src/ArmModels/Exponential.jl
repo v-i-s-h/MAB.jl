@@ -12,6 +12,12 @@ function pull!( arm::Exponential )
     return Distributions.rand( arm.armDist )
 end
 
+function tick!( arm::Exponential )
+    # Do nothing
+    nothing
+end
+
 function reset!( arm::Exponential )
     # Do nothing
+    nothing
 end

@@ -41,8 +41,10 @@ function tick!( arm::Square )
             arm.step = 1
         end
     end
+    nothing
 end
 
 function reset!( arm::Square )
     arm.step    = 0
+    nothing
 end

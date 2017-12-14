@@ -12,6 +12,12 @@ function pull!( arm::Beta )
     return Distributions.rand( arm.armDist )
 end
 
+function tick!( arm::Beta )
+    # Do nothing
+    nothing
+end
+
 function reset!( arm::Beta )
     # Do nothing
+    nothing
 end

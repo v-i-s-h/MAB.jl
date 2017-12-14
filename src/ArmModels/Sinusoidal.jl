@@ -52,8 +52,10 @@ function tick!( arm::Sinusoidal )
     if arm.isRestless
         arm.step = arm.step + 1
     end
+    nothing
 end
 
 function reset!( arm::Sinusoidal )
     arm.step = 0
+    nothing
 end

@@ -12,6 +12,12 @@ function pull!( arm::Bernoulli )
     return Distributions.rand(arm.armDist)
 end
 
+function tick!( arm::Bernoulli )
+    # Do nothing
+    nothing
+end
+
 function reset!( arm::Bernoulli )
     # Do nothing
+    nothing
 end

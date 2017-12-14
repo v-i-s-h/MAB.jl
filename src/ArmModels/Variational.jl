@@ -58,8 +58,10 @@ function tick!( arm::Variational )
     if arm.isRestless
         arm.step = arm.step + 1
     end
+    nothing
 end
 
 function reset!( arm::Variational )
     arm.step = 0
+    nothing
 end

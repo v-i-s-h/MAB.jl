@@ -34,8 +34,10 @@ function tick!( arm::Pulse )
             arm.step = 1
         end
     end
+    nothing
 end
 
 function reset!( arm::Pulse )
     arm.step    = 0
+    nothing
 end
