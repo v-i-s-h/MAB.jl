@@ -19,17 +19,24 @@ macro test_nothrow(ex)
 end
 
 tests = [
-    "sanity_check"
+    "sanity_check",
+    # Agent specific tests
+    "Algorithms/epsGreedy",
+    # Arm specific tests
+    # Experiment specific tests
 ];
 
 # if length(ARGS) > 0
 #     tests = ARGS
 # end
 
+@testset "MAB Tests" begin
 for test_script in tests
-    fp = joinpath( dirname(@__FILE__), "$(test_script).jl" );
-    println( "Testing : ", test_script );
-    @time include( fp );
+    fp = joinpath( dirname(@__FILE__), "$(test_script).jl" )
+    # println( "Testing : ", test_script )
+    # @time include( fp )
+    include( fp )
+end
 end
 
 nothing
