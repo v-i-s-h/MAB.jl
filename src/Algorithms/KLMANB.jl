@@ -59,6 +59,6 @@ function reset!( agent::KLMANB )
     nothing
 end
 
-function info_str( agent::KLMANB )
+function info_str( agent::KLMANB, latex::Bool )
     return @sprintf( "KLMANB" )
 end
