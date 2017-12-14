@@ -39,6 +39,10 @@ module Arms
     include( "ArmModels/Pulse.jl" )
     include( "ArmModels/Square.jl" )
     include( "ArmModels/Variational.jl" )
+
+    # export
+        # Export only methods, not Arm types to avoid collision with Distributions
+        # pull!, tick!, reset!
 end
 
 module Experiments
@@ -67,6 +71,7 @@ module Experiments
 end
 
     using .Algorithms
+    using .Arms
     using .Experiments
     export
         # Export algorithms
@@ -84,6 +89,8 @@ end
         UniformStrategy,
         # Export Arm models
         Arms,
+        # Methods 
+        # pull!, tick!, reset!,  # Causes ambiguation with Algorithms.reset!
         # Export Experiments
         Experiments,
         # Methods
