@@ -156,8 +156,8 @@ end
 
 function info_str( agent::epsNGreedy, latex::Bool )
     if latex
-        return @sprintf( "\$\\epsilon_N\$ - Greedy (\$c = %4.3f, d = %4.3f\$)", agent.param_c, agent.param_d )
+        return @sprintf( "\$\\epsilon_n\$-Greedy (\$c = %4.3f, d = %4.3f\$)", agent.param_c, agent.param_d )
     else
-        return @sprintf( "ϵ_N - Greedy (c = %4.3f, d = %4.3f)", agent.param_c, agent.param_d )
+        return @sprintf( "ϵₙ-Greedy (c = %4.3f, d = %4.3f)", agent.param_c, agent.param_d )
     end
 end
