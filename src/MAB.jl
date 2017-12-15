@@ -11,6 +11,7 @@ module Algorithms
     include( "Algorithms/TS.jl" )
     include( "Algorithms/KLMANB.jl" )
     include( "Algorithms/SoftMax.jl" )
+    include( "Algorithms/GradientBandits.jl" )
 
     export
         # Methods
@@ -20,6 +21,7 @@ module Algorithms
         BanditAlgorithmBase,
         epsGreedy, epsNGreedy,
         EXP3, EXP31, REXP3, EXP3IX,
+        GradientBandit,
         KLMANB,
         SoftMax,
         TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS, TSGaussPrior,
@@ -82,6 +84,7 @@ end
         BanditAlgorithmBase,
         epsGreedy, epsNGreedy,
         EXP3, EXP31, REXP3, EXP3IX,
+        GradientBandit,
         KLMANB,
         SoftMax,
         TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS, TSGaussPrior,

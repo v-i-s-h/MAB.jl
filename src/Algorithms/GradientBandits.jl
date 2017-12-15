@@ -10,8 +10,7 @@ type GradientBandit <: BanditAlgorithmBase
     lastPlayedArm::Int64
 
     α::Float64
-    avgValue::Vector{Float64}
-    playCount::Vector{Int64}
+    avgValue::Float64
     preference::Vector{Float64}
     pDist::Categorical
 
@@ -20,8 +19,7 @@ type GradientBandit <: BanditAlgorithmBase
              0,
              0,
              α,
-             zeros( Int64, noOfArms ),
-             zeros( Float64, noOfArms ),
+             0,
              zeros( Float64, noOfArms ),
              Categorical( 1/noOfArms*ones(noOfArms) ) )
     end
@@ -33,17 +31,15 @@ function get_arm_index( agent::GradientBandit )
 end
 
 function update_reward!( agent::GradientBandit, r::Real )
-    agent.avgValue[agent.lastPlayedArm] = (agent.avgValue[agent.lastPlayedArm]*agent.playCount[agent.lastPlayedArm]+r)/(agent.playCount[agent.lastPlayedArm]+1)
-    agent.playCount[agent.lastPlayedArm] += 1
+    agent.avgValue = (agent.avgValue*agent.noOfSteps+r)/(agent.noOfSteps+1)
+    agent.noOfSteps += 1
 
     # Update for all arms
     agent.preference -= (agent.α*(r-agent.avgValue).*agent.pDist.p)
     # Perform update for selected arm
-    agent.preference[agent.lastPlayedArm] += (agent.α*(r-agent.avgValue[agent.lastPlayedArm])*agent.pDist.p[agent.lastPlayedArm])
+    agent.preference[agent.lastPlayedArm] += agent.α*(r-agent.avgValue)
 
     agent.pDist = Categorical( exp.(agent.preference)/sum(exp.(agent.preference)) )
-
-    agent.noOfSteps += 1
 
     nothing
 end
@@ -52,8 +48,7 @@ function reset!( agent::GradientBandit )
     agent.noOfSteps     = 0
     agent.lastPlayedArm = 0
 
-    agent.avgValue      = zeros( Float64, agent.noOfArms )
-    agent.playCount     = zeros( Int64, agent.noOfArms )
+    agent.avgValue      = 0
     agent.preference    = zeros( Float64, agent.noOfArms )
     agent.pDist         = Categorical( 1/agent.noOfArms*ones(agent.noOfArms) )
 
@@ -62,8 +57,8 @@ end
 
 function info_str( agent::GradientBandit, latex::Bool )
     if latex
-        return @sprintf( "GradientBandit (\$\\alpha=%3.2f\$)", agent.α )
+        return @sprintf( "GradientBandit (\$\\alpha=%4.3f\$)", agent.α )
     else
-        return @sprintf( "GradientBandit (α=%3.2f)", agent.α )
+        return @sprintf( "GradientBandit (α=%4.3f)", agent.α )
     end
 end

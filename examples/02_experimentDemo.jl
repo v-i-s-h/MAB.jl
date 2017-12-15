@@ -79,7 +79,8 @@ testAlgs = [
     # dOTS( noOfArms ),
     # dTS( noOfArms, 0.90 ),
     # dOTS( noOfArms, 0.90 ),
-    TSGaussPrior( noOfArms )
+    # TSGaussPrior( noOfArms )
+    GradientBandit( noOfArms, 0.1 )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )

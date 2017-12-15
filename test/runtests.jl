@@ -27,9 +27,17 @@ tests = [
     # Experiment specific tests
 ];
 
-# if length(ARGS) > 0
-#     tests = ARGS
-# end
+
+#=
+Use 
+    ARGS = [ "sanity_check" ]; include( joinpath(Pkg.dir("MAB"),"test","runtests.jl") )
+or
+    ARGS = [ "Algorithms/epsGreedy" ]; include( joinpath(Pkg.dir("MAB"),"test","runtests.jl") )
+from REPL.
+=#
+if length(ARGS) > 0
+    tests = ARGS
+end
 
 @testset "MAB Tests" begin
 for test_script in tests
