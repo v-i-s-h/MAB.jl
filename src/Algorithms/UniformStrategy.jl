@@ -16,16 +16,20 @@ type UniformStrategy <: BanditAlgorithmBase
 end
 
 function get_arm_index( agent::UniformStrategy )
-    return rand( 1:agent.noOfArms )
+    agent.lastPlayedArm = rand( 1:agent.noOfArms )
+    return agent.lastPlayedArm
 end
 
 function update_reward!( agent::UniformStrategy, r::Real )
+    agent.noOfSteps += 1
     # Do nothing
 
     nothing
 end
 
 function reset!( agent::UniformStrategy )
+    agent.lastPlayedArm = 0
+    agent.noOfSteps = 0
     # Do nothing
 
     nothing

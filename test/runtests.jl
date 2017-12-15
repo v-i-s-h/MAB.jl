@@ -26,6 +26,7 @@ tests = [
     "Algorithms/GradientBandits",
     "Algorithms/KLMANB",
     "Algorithms/SoftMax",
+    "Algorithms/UniformStrategy",
     # Arm specific tests
     # Experiment specific tests
 ];
