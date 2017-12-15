@@ -76,7 +76,7 @@ function reset!( agent::TS )
 
     agent.cummSuccess   = zeros( Float64, agent.noOfArms )
     agent.cummFailure   = zeros( Float64, agent.noOfArms )
-    agent.samplingDist  = fill( Distributions.Beta(1,1), agent.noOfArms )
+    agent.samplingDist  = [ Distributions.Beta(agent.α0[idx],agent.β0[idx]) for idx=1:agent.noOfArms ]
 
     nothing
 end
