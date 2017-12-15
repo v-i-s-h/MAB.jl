@@ -73,14 +73,15 @@ testAlgs = [
     # UCBV( noOfArms, ζ = 2.0, c = 1),
     # BayesUCB( noOfArms ),
     # KLUCB( noOfArms )
-    TS( noOfArms ),
+    # TS( noOfArms ),
     # OTS( noOfArms ),
     # dTS( noOfArms ),
     # dOTS( noOfArms ),
     # dTS( noOfArms, 0.90 ),
     # dOTS( noOfArms, 0.90 ),
     # TSGaussPrior( noOfArms )
-    GradientBandit( noOfArms, 0.1 )
+    GradientBandit( noOfArms, 0.1 ),
+    KLMANB( noOfArms, 2.0, 0.0 )
 ]
 
 exp1 = Experiments.Compare( bandit, testAlgs )

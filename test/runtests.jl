@@ -24,6 +24,7 @@ tests = [
     "Algorithms/epsGreedy",
     "Algorithms/EXP",
     "Algorithms/GradientBandits",
+    "Algorithms/KLMANB",
     # Arm specific tests
     # Experiment specific tests
 ];
