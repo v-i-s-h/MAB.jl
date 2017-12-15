@@ -49,6 +49,7 @@ function ==( agent1::BanditAlgorithmBase, agent2::BanditAlgorithmBase )
     else
         for param in fieldnames(agent1)
             if getfield(agent1,param) != getfield(agent2,param)
+                # info( "Failed at ", param )
                 return false
             end
         end

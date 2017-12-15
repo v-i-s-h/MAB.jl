@@ -22,6 +22,7 @@ tests = [
     "sanity_check",
     # Agent specific tests
     "Algorithms/epsGreedy",
+    "Algorithms/EXP"
     # Arm specific tests
     # Experiment specific tests
 ];

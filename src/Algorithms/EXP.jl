@@ -119,11 +119,7 @@ function reset!( agent::EXP31 )
 end
 
 function info_str( agent::EXP31, latex::Bool )
-    if latex
-        return @sprintf( "EXP31 (\$\\gamma = %4.3f\$)", agent._EXP3.γ )
-    else
-        return @sprintf( "EXP31 (γ = %4.3f)", agent._EXP3.γ )
-    end
+    return @sprintf( "EXP3.1" )
 end
 
 """
@@ -221,7 +217,7 @@ function update_reward!( agent::EXP3IX, r::Real )
     l_est = l/(agent.pDist.p[agent.lastPlayedArm]+agent.γ)
 
     # Update weight of arm
-    agent.wVec[agent.lastPlayedArm] = agent.wVec[agent.lastPlayedArm] * exp(-agent.η*l_est/agent.noOfArms)
+    agent.wVec[agent.lastPlayedArm] = agent.wVec[agent.lastPlayedArm] * exp(-agent.η*l_est)
 
     # Calculate new probabilties
     p = agent.wVec/sum(agent.wVec)
