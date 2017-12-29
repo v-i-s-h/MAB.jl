@@ -100,4 +100,17 @@ end
         run,
         # Experiments
         Sutton2017
+
+"""
+MAB.jl is a package for experimenting with multi arm bandit algorithms. This package comes
+with different MAB algorithms, various arm models and a module to reproduce/evaluate your
+own algorithms in different scenarios/experiments which are already available in literature.
+
+This package is divied into three main modules
+- Algorithms
+- ArmModels
+- Experiments
+"""
+MAB
+
 end # module
