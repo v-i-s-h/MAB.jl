@@ -5,7 +5,7 @@ os:
   - osx
 julia:
   - release
-  # - nightly  # Dependencies fail to build -- not testable
+  - nightly  # Dependencies fail to build -- not testable
 notifications:
   email: false
 # uncomment the following lines to override the default test script
