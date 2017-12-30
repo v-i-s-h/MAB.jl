@@ -29,4 +29,5 @@ makedocs(
 
 deploydocs(
     repo    = "github.com/v-i-s-h/MAB.jl.git",
+    julia   = "v0.6"
 )
