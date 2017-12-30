@@ -29,5 +29,8 @@ makedocs(
 
 deploydocs(
     repo    = "github.com/v-i-s-h/MAB.jl.git",
-    julia   = "v0.6"
+    osname  = "linux",
+    julia   = "release",
+    deps    = nothing,
+    make    = nothing
 )
