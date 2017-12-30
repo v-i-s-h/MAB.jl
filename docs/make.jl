@@ -17,10 +17,13 @@ makedocs(
             "manual/ack.md"
         ],
         "Library" => Any[
-            "library/common_api.md",
-            "library/algorithms.md",
-            "library/arm_models.md",
-            "library/experiments.md"
+            "Algorithms" => Any[
+                "library/Algorithms/index.md",
+                "library/Algorithms/list.md",
+                hide( "library/Algorithms/epsGreedy.md" )
+            ],
+            "library/ArmModels/index.md",
+            "library/Experiments/index.md"
         ]
     ],
     # Use clean URLs, unless built as a "local" build

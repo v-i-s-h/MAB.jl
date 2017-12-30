@@ -22,9 +22,8 @@ Pages = [
 ## Package Outline
 ```@contents
 Pages = [
-            "library/common_api.md",
-            "library/algorithms.md",
-            "library/arm_models.md",
-            "library/experiments.md"
+            "library/Algorithms/index.md",
+            "library/ArmModels/index.md",
+            "library/Experiments/index.md"
 ]
 ```

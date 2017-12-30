@@ -1,5 +1,21 @@
 module MAB
 
+"""
+MAB.jl is a package for experimenting with multi arm bandit algorithms. This package comes
+with different MAB algorithms, various arm models and a module to reproduce/evaluate your
+own algorithms in different scenarios/experiments which are already available in literature.
+
+This package is divied into three main modules
+- [Algorithms](@ref)
+- [Arm Models](@ref)
+- [Experiments](@ref)
+"""
+MAB
+
+"""
+MAB.Algorithms module provides implementations of various multi-arm bandit algorithm and an
+unified API to access those algorithms.
+"""
 module Algorithms
     using Distributions
     #--------------------------- Import Algorithms Here ---------------------------#
@@ -29,6 +45,10 @@ module Algorithms
         UniformStrategy
 end
 
+"""
+MAB.Arms module provides models for simulating various arms (reward sturctures) as well a
+unified API to access them.
+"""
 module Arms
     using Distributions
     #--------------------------- Import Arm Models Here ---------------------------#
@@ -47,6 +67,11 @@ module Arms
         # pull!, tick!, reset!
 end
 
+"""
+MAB.Experiments provides a way to reproduce results from publish/preprint articles well known
+in MAB community. You will be able to find implementations of experiments from popular papers
+and a way to evaluate your algorithms in those environments.
+"""
 module Experiments
     using Distributions
     using Requires
@@ -69,7 +94,7 @@ module Experiments
         # Methods
         run,
         # Experiments
-        Sutton2017, run
+        Sutton2017
 end
 
     using .Algorithms
@@ -100,17 +125,5 @@ end
         run,
         # Experiments
         Sutton2017
-
-"""
-MAB.jl is a package for experimenting with multi arm bandit algorithms. This package comes
-with different MAB algorithms, various arm models and a module to reproduce/evaluate your
-own algorithms in different scenarios/experiments which are already available in literature.
-
-This package is divied into three main modules
-- Algorithms
-- ArmModels
-- Experiments
-"""
-MAB
 
 end # module
