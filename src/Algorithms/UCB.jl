@@ -649,3 +649,96 @@ function find_q( sa, na, t; ϵ = 1e-5 )
     end
     return lQ
 end
+
+"""
+    M-UCB
+    Based on: Cao, Y., Zheng, W., Kveton, B., & Xie, Y. (2018). Nearly Optimal Adaptive Procedure for Piecewise-Stationary Bandit: a Change-Point Detection Approach. Retrieved from http://arxiv.org/abs/1802.03692
+"""
+
+type MUCB <: BanditAlgorithmBase
+    noOfArms::Int64
+    noOfSteps::Int64
+    lastPlayedArm::Int64
+
+    # Algorithm params
+    w::Int              # Test window length - Should be a even number
+    b::Float64          # Test threshold
+    γ::Float64          # Expoloration parameter
+
+    # Internal
+    τ::Int              # Last detected change point
+    _ucb::UCB1          # UCB agent to run
+    rew::Vector{Vector{Float64}}    # Past rewards from each arm
+
+    function MUCB( noOfArms::Int, w::Int, b::Float64, γ::Float64 )
+        new(
+            noOfArms,
+            0,
+            0,
+            w,
+            b,
+            γ,
+            0,
+            UCB1(noOfArms),
+            [ Vector{Float64}() for k = 1:noOfArms ]
+        )
+    end
+end
+
+function get_arm_index( agent::MUCB )
+    A = (agent.noOfSteps-agent.τ) % floor(agent.noOfArms/agent.γ)
+    if A < agent.noOfArms   # Uniform Exploration
+        agent.lastPlayedArm = A+1
+        agent._ucb.lastPlayedArm = agent.lastPlayedArm
+    else
+        agent.lastPlayedArm = get_arm_index( agent._ucb )
+    end
+    return agent.lastPlayedArm
+end
+
+function update_reward!( agent::MUCB, r::Real )
+    agent.noOfSteps += 1
+    push!( agent.rew[agent.lastPlayedArm], r )
+    update_reward!( agent._ucb, r )
+    if length(agent.rew[agent.lastPlayedArm]) > agent.w # If the window length is reached
+        # Then discard the oldest reward
+        shift!( agent.rew[agent.lastPlayedArm] )
+        # Also do the test
+        if mucb_cd( agent.rew[agent.lastPlayedArm], agent.b )   # If test detects a change
+            # Reset UCB1
+            reset!( agent._ucb )
+            # Update last detection point
+            agent.τ = agent.noOfSteps
+            agent.rew = [ Vector{Float64}() for k = 1:agent.noOfArms ]
+        end
+    end
+    nothing
+end
+
+function reset!( agent::MUCB )
+    agent.noOfSteps     = 0
+    agent.lastPlayedArm = 0
+    agent.τ             = 0
+    agent.rew           = [ Vector{Float64}() for k = 1:agent.noOfArms ]
+
+    reset!( agent._ucb )    # Reset internal UCB1 agent also
+end
+
+function info_str( agent::MUCB, latex::Bool )
+    if latex
+        return @sprintf( "M-UCB( w = %d, b = %4.3f, \$\\gamma\$ = %4.3f )", agent.w, agent.b, agent.γ )
+    else
+        return @sprintf( "M-UCB( w = %d, b = %4.3f, γ = %4.3f )", agent.w, agent.b, agent.γ )
+    end
+end
+
+#=
+    Change Detection algorithm for M-UCB
+        b - detection threshold
+        rew - list of rewards; must be of length 'w' an even number
+=#
+function mucb_cd( rew::Vector{Float64}, b::Float64 )
+    l = length( rew )
+    assert( l%2 == 0 )
+    return abs( sum(rew[1:Int(l/2)])-sum(rew[Int(l/2)+1:end]) ) > b
+end

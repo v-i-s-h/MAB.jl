@@ -27,13 +27,14 @@ tests = [
     "Algorithms/KLMANB",
     "Algorithms/SoftMax",
     "Algorithms/UniformStrategy",
+    "Algorithms/UCB"
     # Arm specific tests
     # Experiment specific tests
 ];
 
 
 #=
-Use 
+Use
     ARGS = [ "sanity_check" ]; include( joinpath(Pkg.dir("MAB"),"test","runtests.jl") )
 or
     ARGS = [ "Algorithms/epsGreedy" ]; include( joinpath(Pkg.dir("MAB"),"test","runtests.jl") )

@@ -31,7 +31,7 @@ module Algorithms
 
     export
         # Methods
-        get_arm_index, update_reward!, reset!, info_str, 
+        get_arm_index, update_reward!, reset!, info_str,
         show,
         # Agents
         BanditAlgorithmBase,
@@ -41,7 +41,7 @@ module Algorithms
         KLMANB,
         SoftMax,
         TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS, TSGaussPrior,
-        UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB,
+        UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB, MUCB,
         UniformStrategy
 end
 
@@ -113,11 +113,11 @@ end
         KLMANB,
         SoftMax,
         TS, DynamicTS, OTS, TSNormal, dTS, dOTS, RestartTS, TSGaussPrior,
-        UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB,
+        UCB1, UCBNormal, DUCB, SWUCB, UCBV, BayesUCB, KLUCB, MUCB,
         UniformStrategy,
         # Export Arm models
         Arms,
-        # Methods 
+        # Methods
         # pull!, tick!, reset!,  # Causes ambiguation with Algorithms.reset!
         # Export Experiments
         Experiments,
