@@ -45,14 +45,17 @@ end
     @test info_str( agent, true ) == "M-UCB( w = 8, b = 0.500, \$\\gamma\$ = 0.250 )"
 
     for t = 1:50
-        get_arm_index( agent )
+        i = get_arm_index( agent )
+        if t <= noOfArms        # Should do uniform sampling
+            @test i == t
+        end
         update_reward!( agent, 0.10*rand() )    # All r ∈ [0,0.10]
     end
     @test agent.noOfSteps   == 50       # Should be played 50 steps
     @test agent.τ   == 0                # Shouldn't detect a change
     @test agent._ucb.noOfSteps  == 50   # Internal UCB1
     for t = 51:100
-        get_arm_index( agent )
+        i = get_arm_index( agent )
         update_reward!( agent, 0.50 + 0.10*rand() ) # All r ∈ [0.50,0.60]
     end
     @test agent.noOfSteps   == 100
